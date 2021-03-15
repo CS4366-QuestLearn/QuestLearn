@@ -1,14 +1,18 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable } from "rxjs";
-import { map } from "rxjs/operators";
 
 @Injectable({ providedIn: "root" })
-export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<any>;
+export class AuthService {
+  public currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
-  constructor(private http: HttpClient) {
+  public gapiSetup: boolean = false; // marks if the gapi library has been loaded
+  public authInstance: gapi.auth2.GoogleAuth;
+  public error: string;
+  public user: gapi.auth2.GoogleUser;
+  public data: any = {response: "No data yet"};
+
+  constructor() {
     this.currentUserSubject = new BehaviorSubject<any>(
       JSON.parse(localStorage.getItem("currentUser"))
     );
@@ -19,11 +23,71 @@ export class AuthenticationService {
     return this.currentUserSubject.value;
   }
 
-  login(username, password) {}
+  async checkUser() {
+    if (await this.checkIfUserAuthenticated()) {
+      this.user = this.authInstance.currentUser.get();
+      const option = new gapi.auth2.SigninOptionsBuilder();
+    } else {
+      this.logout();
+    }
+  }
+
+  async initGoogleAuth(): Promise<void> {
+    //  Create a new Promise where the resolve function is the callback
+    // passed to gapi.load
+    const pload = new Promise((resolve) => {
+      gapi.load('auth2', resolve);
+    });
+
+    // When the first promise resolves, it means we have gapi loaded
+    // and that we can call gapi.init
+    return pload.then(async () => {
+      await gapi.auth2
+        .init({
+          client_id: '358049124735-nh8u2f4n8i0uu1183vugsgd5lcm2unh3.apps.googleusercontent.com', 
+          scope: 'https://www.googleapis.com/auth/classroom.courses.readonly'
+        }).then(auth => {
+          this.gapiSetup = true;
+          this.authInstance = auth;
+          console.log(this.user)
+        });
+    });
+    
+  }
+
+  async authenticate(): Promise<gapi.auth2.GoogleUser> {
+    // Initialize gapi if not done yet
+    if (!this.gapiSetup) {
+      await this.initGoogleAuth();
+    }
+
+    // Resolve or reject signin Promise
+    return new Promise(async () => {
+      await this.authInstance.signIn().then(
+        user => this.user = user,
+        error => this.error = error
+        );
+
+        console.log(this.user);
+
+        this.currentUserSubject.next(this.user);
+        localStorage.setItem('currentUser', JSON.stringify(this.user));
+    });
+  }
+
+  async checkIfUserAuthenticated(): Promise<boolean> {
+    // Initialize gapi if not done yet
+    if (!this.gapiSetup) {
+      await this.initGoogleAuth();
+    }
+
+    return this.authInstance.isSignedIn.get();
+  }
 
   logout() {
     // remove user from local storage and set current user to null
     localStorage.removeItem("currentUser");
     this.currentUserSubject.next(null);
+    this.authInstance.signOut();
   }
 }
