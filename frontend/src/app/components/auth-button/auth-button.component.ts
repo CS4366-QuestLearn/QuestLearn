@@ -25,7 +25,7 @@ export class AuthButtonComponent implements OnInit {
       // console.log(option)
       //option.setScope('email https://www.googleapis.com/auth/classroom.courses.readonly');
       //this.user.grant(option)
-      console.log(this.user)
+     // console.log(this.user)
       // gapi.auth2.authorize({client_id: '358049124735-nh8u2f4n8i0uu1183vugsgd5lcm2unh3.apps.googleusercontent.com', response_type: 'id_token permission', scope: 'email profile openid',}, function(response) {
       // 
       //
@@ -50,7 +50,7 @@ export class AuthButtonComponent implements OnInit {
         }).then(auth => {
           this.gapiSetup = true;
           this.authInstance = auth;
-          console.log(this.user)
+          // console.log(this.user);
         });
     });
   }
@@ -84,6 +84,7 @@ export class AuthButtonComponent implements OnInit {
       await this.authInstance.signIn().then(
         user => this.user = user,
         error => this.error = error);
+        localStorage.setItem('currentUser', JSON.stringify(this.user))
     });
   }
 
