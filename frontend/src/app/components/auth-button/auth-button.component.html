@@ -1,0 +1,13 @@
+<p>auth-button works!</p>
+<button (click)=authenticate() class="auth">authenticate</button>
+
+
+<br>
+
+Is gapi loaded and ready? {{gapiSetup}}
+<br>
+
+Error: {{error|json}}
+<br>
+
+<strong>User:</strong> {{user?.getBasicProfile().getEmail() | json}}, {{user?.getBasicProfile().getId() | json}}
