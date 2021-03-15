@@ -8,6 +8,8 @@ import { LandingPageComponent } from './modules/landing-page/landing-page.compon
 import { AuthButtonComponent } from './components/auth-button/auth-button.component';
 import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.component';
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
+import { StudentHomeComponent } from './modules/student-home/student-home.component';
+import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { NickComponentComponent } from './components/nick-component/nick-compone
     LandingPageComponent,
     AuthButtonComponent,
     TeacherHomeComponent,
-    NickComponentComponent
+    NickComponentComponent,
+    StudentHomeComponent,
+    TylerComponentComponent
   ],
   imports: [
     BrowserModule,
