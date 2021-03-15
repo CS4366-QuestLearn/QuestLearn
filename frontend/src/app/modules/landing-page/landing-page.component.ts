@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/utils/auth.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  async logout() {
+    this.authService.logout();
+    this.router.navigate(['login']);
   }
 
 }

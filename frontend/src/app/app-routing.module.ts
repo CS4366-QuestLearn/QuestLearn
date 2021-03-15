@@ -8,10 +8,17 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 
 const routes: Routes = [
-  // { path: '', component: LandingPageComponent, canActivate: [AuthGuard] },
+  { 
+    path: '', component: AppComponent,
+    canActivate: [AuthGuard],
+    children: [
+      { path: '', component: LandingPageComponent, },
+      { path: 'teacher-home', component: TeacherHomeComponent },
+      { path: 'student-home', component: StudentHomeComponent },
+    ]
+  },
   { path: 'login', component: LoginComponent },
-  { path: 'teacher-home', component: TeacherHomeComponent },
-  { path: 'student-home', component: StudentHomeComponent },
+  { path: '**', redirectTo: '' } // otherwise redirect to home
 ];
 
 @NgModule({
