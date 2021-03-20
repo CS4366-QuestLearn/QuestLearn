@@ -8,7 +8,7 @@ var app = express()
 // var mongoose = require('mongoose')
 
 
-app.get('/', (req, res) => res.send('something something sometihing'));
+app.get('/', (req, res) => res.send('Hello world'));
 app.use(cors())
 app.use('/api', require('./example/foobar'))
 // app.use('/api', require('./utils/auth'))
