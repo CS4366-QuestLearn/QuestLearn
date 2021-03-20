@@ -55,7 +55,7 @@ async function subPull(req, res) {
 
 function getFoo (req, res) {
     console.log('a')
-    res.json({"a" : "a"} )
+    res.json({"a" : "aa"} )
 }
 
 router.get('/foobar', getFoo)
