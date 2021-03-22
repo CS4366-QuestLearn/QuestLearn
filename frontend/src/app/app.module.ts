@@ -10,6 +10,7 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TylerComponentComponent } from './components/tyler-component/tyler-comp
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
