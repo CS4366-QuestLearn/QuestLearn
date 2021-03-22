@@ -20,7 +20,7 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    this.landingPageService.subToTopic()
+    this.landingPageService.subToPull()
       .subscribe(response => {
         console.log(response);
       });
