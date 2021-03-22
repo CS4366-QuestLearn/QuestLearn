@@ -47,11 +47,15 @@ async function pushTopic(req, res) {
       pushEndpoint: `https://questlearn-server.herokuapp.com/api/google/push`,
     },
   };
-
+  try {
   await pubSubClient
     .topic("my-topic")
-    .createSubscription('my-topic-sub-push', options);
+    .createSubscription('my-topic-heroku-push', options);
   console.log(`Subscription created.`);
+  }
+  catch {
+    console.log('already exists homie')
+  }
   res.status(200).send()
 }
 
