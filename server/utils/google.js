@@ -57,7 +57,7 @@ async function pushTopic(req, res) {
   res.status(200).send()
   }
   catch {
-    console.log('already exists homie')
+    console.log('already exists')
     res.status(200).send()
   }
   res.status(200).send()
