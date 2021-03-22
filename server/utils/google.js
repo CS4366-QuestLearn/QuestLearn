@@ -64,7 +64,7 @@ async function pushTopic(req, res) {
 }
 
 async function pushMethod(req, res) {
-  console.log("awwwooooooga")
+  console.log(Buffer.from(req.body.message.data, 'base64').toString());
   res.status(200).send()
 }
 
