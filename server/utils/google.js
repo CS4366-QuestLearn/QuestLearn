@@ -70,6 +70,6 @@ async function pushMethod(req, res) {
 
 router.get('/classrooms', getClassrooms)
 router.get('/createpush', pushTopic)
-router.get('/push', pushMethod)
+router.post('/push', pushMethod)
 
 module.exports = router;
