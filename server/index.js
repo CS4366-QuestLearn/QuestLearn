@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 mongoose.connect(`mongodb+srv://${config.mongodb.credentials}@${config.mongodb.url}`, 
 {useNewUrlParser: true}, { useUnifiedTopology: true })
 
-app.get('/', (req, res) => res.send('Hello World!'));
+
+app.get('/', (req, res) => res.send('Hello world'));
 app.use(cors())
 app.use('/api/example', require('./example/foobar'))
 app.use('/api/google', require('./utils/google'))
