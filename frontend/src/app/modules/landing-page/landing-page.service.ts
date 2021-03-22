@@ -27,7 +27,7 @@ export class LandingPageService {
     return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
   }
   subToPull() {
-    return this.http.get(`${this.serverUrl}/api/google/createpush`)
+    return this.http.get(`${this.serverUrl}api/google/createpush`)
   }
 
 }

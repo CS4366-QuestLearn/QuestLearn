@@ -5,7 +5,9 @@ const classroom = google.classroom("v1")
 var config = require('../config')
 
 // Imports the Google Cloud client library
-//const {PubSub} = require('@google-cloud/pubsub');
+const {PubSub} = require('@google-cloud/pubsub');
+// Creates a client; cache this for further use
+const pubSubClient = new PubSub();
 
 async function getClassrooms(req, res) {
   console.log('hello i am unda da wata')
