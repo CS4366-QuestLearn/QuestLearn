@@ -6,9 +6,11 @@ import { LandingPageService } from './landing-page.service';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styles: []
+  styles: [],
+  // providers: [AuthService]
 })
 export class LandingPageComponent implements OnInit {
+  public user;
 
   constructor(
     private authService: AuthService,
@@ -17,6 +19,8 @@ export class LandingPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.user = this.authService.currentUserValue;
+    console.log('dj', this.user.getBasicProfile().getEmail());
   }
 
   async logout() {
@@ -43,6 +47,13 @@ export class LandingPageComponent implements OnInit {
       .subscribe(response => {
         console.log(response);
       });
+  }
+
+  getClassrooms() {
+    this.landingPageService.getClassrooms(this.user)
+      .subscribe(response => {
+        console.log(response)
+      })
   }
 
 }

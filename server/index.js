@@ -11,5 +11,6 @@ var app = express()
 app.get('/', (req, res) => res.send('Hello world'));
 app.use(cors())
 app.use('/api', require('./example/foobar'))
+app.use('/api/google', require('./utils/google'))
 // app.use('/api', require('./utils/auth'))
 app.listen(process.env.PORT || port, () => console.log(`Example app listening at http://localhost:${port}`));
