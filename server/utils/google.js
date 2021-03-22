@@ -35,6 +35,33 @@ async function getClassrooms(req, res) {
   )
 }
 
+async function pushTopic(req, res) {
+  
+  subscription = pubSubClient.subscription("my-topic-sub");
+  res.status(200).send()
+
+  const options = {
+    pushConfig: {
+      // Set to an HTTPS endpoint of your choice. If necessary, register
+      // (authorize) the domain on which the server is hosted.
+      pushEndpoint: `https://questlearn-server.herokuapp.com/api/google/push`,
+    },
+  };
+
+  await pubSubClient
+    .topic("my-topic")
+    .createSubscription('my-topic-sub-push', options);
+  console.log(`Subscription created.`);
+  res.status(200).send()
+}
+
+async function pushMethod(req, res) {
+  console.log("awwwooooooga")
+  res.status(200).send()
+}
+
 router.get('/classrooms', getClassrooms)
+router.get('/createpush', pushTopic)
+router.get('/push', pushMethod)
 
 module.exports = router;

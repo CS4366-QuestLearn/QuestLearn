@@ -1,4 +1,5 @@
 var router = require("express").Router();
+var example = require('./example-model')
 const {PubSub} = require('@google-cloud/pubsub');
 
 const pubSubClient = new PubSub();
@@ -58,8 +59,19 @@ function getFoo (req, res) {
     res.json({"a" : "aaaaa"} )
 }
 
+function getExampleDB (req, res) {
+  example.find((err, result) =>
+  {
+    if(err) {console.log(error)}
+    else { res.json(result)}
+
+  })
+
+}
+
 router.get('/foobar', getFoo)
 router.get('/sub', subPull)
 router.get('/pull', pullTopic)
+router.get('/db', getExampleDB)
 
 module.exports = router;

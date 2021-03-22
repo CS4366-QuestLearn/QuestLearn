@@ -24,7 +24,7 @@ export class LandingPageService {
   }
   getClassrooms(user: gapi.auth2.GoogleUser) {
     console.log(user.getBasicProfile().getId())
-    return this.http.get(`${this.serverUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
+    return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
   }
 
 }

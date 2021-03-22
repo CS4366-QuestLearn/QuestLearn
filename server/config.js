@@ -8,8 +8,8 @@ config.express = {
 }
 
 config.mongodb = {
-  port: process.env.MONGODB_PORT || 27017,
-  host: process.env.MONGODB_HOST || 'localhost'
+  credentials: process.env.MONGODB_LOGIN,
+  url: process.env.MONGODB_URL
 }
 if (PRODUCTION) {
   // for example
