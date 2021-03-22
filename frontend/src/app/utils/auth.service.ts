@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
-  public currentUserSubject: BehaviorSubject<any>;
+  public currentUserSubject: BehaviorSubject<gapi.auth2.GoogleUser>;
   public currentUser: Observable<any>;
 
   public gapiSetup: boolean = false; // marks if the gapi library has been loaded
@@ -26,6 +26,7 @@ export class AuthService {
   async checkUser() {
     if (await this.checkIfUserAuthenticated()) {
       this.user = this.authInstance.currentUser.get();
+      this.currentUserSubject.next(this.user);
       const option = new gapi.auth2.SigninOptionsBuilder();
     } else {
       this.logout();
