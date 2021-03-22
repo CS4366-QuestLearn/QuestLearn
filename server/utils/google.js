@@ -54,9 +54,11 @@ async function pushTopic(req, res) {
     .topic("my-topic")
     .createSubscription('my-topic-heroku-push', options);
   console.log(`Subscription created.`);
+  res.status(200).send()
   }
   catch {
     console.log('already exists homie')
+    res.status(200).send()
   }
   res.status(200).send()
 }
