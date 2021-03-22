@@ -6,6 +6,11 @@ var cors = require('cors')
 var app = express()
 var mongoose = require('mongoose')
 var config = require('./config')
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
 mongoose.connect(`mongodb+srv://${config.mongodb.credentials}@${config.mongodb.url}`, 
 {useNewUrlParser: true}, { useUnifiedTopology: true })
 
