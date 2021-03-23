@@ -11,11 +11,21 @@ export class AuthService {
   public error: string;
   public user: gapi.auth2.GoogleUser;
   public data: any = {response: "No data yet"};
+  public initialized = false;
 
   constructor() {
-    this.currentUserSubject = new BehaviorSubject<any>(
-      JSON.parse(localStorage.getItem("currentUser"))
-    );
+    try {
+      this.currentUserSubject = new BehaviorSubject<any>(
+        JSON.parse(localStorage.getItem("currentUser"))
+      );
+    }
+    catch (e) {
+      console.log(e);
+      console.log("Unexpected token - Resetting currentUser...");
+      localStorage.removeItem("currentUser");
+      this.currentUserSubject = new BehaviorSubject<any>(null);
+    }
+
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -26,8 +36,10 @@ export class AuthService {
   async checkUser() {
     if (await this.checkIfUserAuthenticated()) {
       this.user = this.authInstance.currentUser.get();
-      this.currentUserSubject.next(this.user);
-      const option = new gapi.auth2.SigninOptionsBuilder();
+      if (!this.initialized) {
+        this.currentUserSubject.next(this.user);
+        this.initialized = true;
+      }
     } else {
       this.logout();
     }
@@ -50,7 +62,6 @@ export class AuthService {
         }).then(auth => {
           this.gapiSetup = true;
           this.authInstance = auth;
-          console.log(this.user)
         });
     });
     
