@@ -26,7 +26,7 @@ export class LandingPageService {
     console.log(user.getBasicProfile().getId())
     return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
   }
-  subToPull() {
+  subToPush() {
     return this.http.get(`${this.serverUrl}api/google/createpush`)
   }
 
