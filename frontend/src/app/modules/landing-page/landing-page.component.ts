@@ -20,11 +20,12 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    this.landingPageService.subToPull()
-      .subscribe(response => {
-        console.log(response);
+    this.landingPageService.subToPush()
+      .subscribe(() => {
+        console.log('Subscribed to push endpoint.');
       });
-    console.log('dj', this.user.getBasicProfile().getEmail());
+
+    console.log('Email:', this.user.getBasicProfile().getEmail());
   }
 
   async logout() {
