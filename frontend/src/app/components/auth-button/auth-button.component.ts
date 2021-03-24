@@ -5,12 +5,12 @@ import { AuthService } from 'src/app/utils/auth.service';
 @Component({
   selector: 'app-auth-button',
   templateUrl: './auth-button.component.html',
-  styleUrls: []
+  styleUrls: ['./auth-button.component.scss']
 })
 export class AuthButtonComponent implements OnInit {
 
-  
   returnUrl: string;
+  isClicking = false;
 
   constructor(
     private authService: AuthService,
@@ -26,7 +26,6 @@ export class AuthButtonComponent implements OnInit {
 
   }
 
-
   async authenticate() {
     this.authService.currentUserSubject.subscribe(x => {
       if (x) {
@@ -36,7 +35,11 @@ export class AuthButtonComponent implements OnInit {
     })
     this.authService.authenticate();
   }
-  
+
+  test() {
+    this.isClicking = !this.isClicking;
+    console.log('isClicking', this.isClicking);
+  }
 
 }
 
