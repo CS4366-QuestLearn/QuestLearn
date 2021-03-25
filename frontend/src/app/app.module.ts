@@ -12,7 +12,6 @@ import { StudentHomeComponent } from './modules/student-home/student-home.compon
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
 import { FormsModule } from '@angular/forms';

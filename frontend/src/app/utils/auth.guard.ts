@@ -18,8 +18,8 @@ export class AuthGuard implements CanActivate {
     await this.authService.checkUser();
     const currentUser = this.authService.currentUserValue;
     if (currentUser) {
-      // authorised so return true
-      console.log('verified');
+      // Authorized so return true
+      console.log('User is authenticated.');
       return true;
     }
 
