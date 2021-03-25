@@ -1,4 +1,4 @@
-<div id="gSignInWrapper" (click)="authenticate()" (window:mouseup)="test()" (window:mousedown)="test()">
+<div id="gSignInWrapper" (click)="authenticate()" (window:mouseup)="setClickingOff()" (mousedown)="setClickingOn()">
   <div id="gButton" [ngClass]="{'customGPlusSignIn': true, 'isClicking': isClicking}">
 
     <div class="abcRioButtonIcon">
