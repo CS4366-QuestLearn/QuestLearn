@@ -28,7 +28,6 @@ export class SignUpComponent implements OnInit {
 
   signUp(type) {
     this.authService.userMongoWrite(this.user, type).subscribe(x => {
-      console.log('account created', x);
     });
 
     this.zone.run(() => { 

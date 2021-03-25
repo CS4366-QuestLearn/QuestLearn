@@ -5,18 +5,13 @@ var router = require('express').Router()
 
 
 function createUser (req, res) {
-  console.log(req.body.user)
-  console.log(req.body.user_type)
   user.findOne({google_id: req.body.user}, (err, result) =>
   {
     if (err) {console.log(error)}
     else{ 
-      // console.log(`this is the result ${result}`)
-      // check = result
       if(!result)
       {
-        console.log('making new')
-        // user.findOne
+        console.log('No user found associated with this account: saving to database')
         let newEntry = new user({
           google_id: req.body.user,
         })
@@ -25,8 +20,7 @@ function createUser (req, res) {
           else 
           {
             res.status(201).send()
-            // just nice to have
-            console.log("entry saved!")
+            console.log("User entry saved!")
           }
         })
       
@@ -40,14 +34,13 @@ function createUser (req, res) {
           else 
           {
             res.status(201).send()
-            // just nice to have
-            console.log("entry saved!")
+            console.log("User Type entry saved!")
           }
         })
       }
       else {
-        console.log('already exists')
-        res.status(409).send("Already exists")
+        console.log('Tried to create but account already exists')
+        res.status(409).send("An account with associated with this Google Account already exists.")
       }
     }
   })
@@ -62,7 +55,7 @@ function getUser (req, res) {
   user.findOne({google_id: req.query.google_id}, (err, result) =>
   {
     if(err || !result) {
-      console.log("sdkjsdfh")
+      console.log("No user found with getUser.")
       res.json(JSON.stringify({exists: false}))
     }
     else { 
@@ -84,7 +77,7 @@ function createExample (req, res) {
       an_int: 2
     })
     newEntry.save((err, result) => {
-      if (err) {console.log("oops")}
+      if (err) {console.log("Cannot be saved")}
       else 
       {
         res.status(201).send()
