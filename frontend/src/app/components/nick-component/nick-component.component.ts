@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nick-component.component.scss']
 })
 export class NickComponentComponent implements OnInit {
-
+  opened = false;
   constructor() { }
 
   ngOnInit(): void {

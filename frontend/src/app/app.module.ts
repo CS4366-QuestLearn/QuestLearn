@@ -11,9 +11,17 @@ import { NickComponentComponent } from './components/nick-component/nick-compone
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
 import { HttpClientModule } from '@angular/common/http'; 
-import { MatButtonModule } from '@angular/material/button'
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatButtonModule } from '@angular/material/button'
+import { FormsModule } from '@angular/forms';
+import { TopNavigationBarComponent } from './components/top-navigation-bar/top-navigation-bar.component';
+
+const material = {
+  MatSidenavModule,
+  MatButtonModule,
+};
 
 @NgModule({
   declarations: [
@@ -26,13 +34,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StudentHomeComponent,
     TylerComponentComponent,
     SignUpComponent,
+    TopNavigationBarComponent,
   ],
+  exports: [MatSidenavModule],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule, 
     MatButtonModule,
+    MatSidenavModule,
+    MatButtonModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
