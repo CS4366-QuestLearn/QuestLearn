@@ -7,7 +7,7 @@ var router = require('express').Router()
 function createUser (req, res) {
   console.log(req.body.user)
   console.log(req.body.user_type)
-  user.findOne({google_id: "107965676074857006502"}, (err, result) =>
+  user.findOne({google_id: req.body.user}, (err, result) =>
   {
     if (err) {console.log(error)}
     else{ 
@@ -59,7 +59,7 @@ function getUser (req, res) {
 
   // user_type = usertype.find( {user_id: google_user._id})
 
-  user.findOne({google_id: "iugiug"}, (err, result) =>
+  user.findOne({google_id: req.query.google_id}, (err, result) =>
   {
     if(err || !result) {
       console.log("sdkjsdfh")
