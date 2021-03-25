@@ -10,7 +10,8 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http'; 
+import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
@@ -32,6 +33,7 @@ const material = {
     NickComponentComponent,
     StudentHomeComponent,
     TylerComponentComponent,
+    SignUpComponent,
     TopNavigationBarComponent,
   ],
   exports: [MatSidenavModule],
@@ -39,7 +41,8 @@ const material = {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule,
+    BrowserAnimationsModule, 
+    MatButtonModule,
     MatSidenavModule,
     MatButtonModule,
     FormsModule,

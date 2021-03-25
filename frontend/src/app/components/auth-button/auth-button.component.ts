@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, NgZone, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/utils/auth.service';
+import { mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-auth-button',
@@ -8,14 +10,17 @@ import { AuthService } from 'src/app/utils/auth.service';
   styleUrls: ['./auth-button.component.scss']
 })
 export class AuthButtonComponent implements OnInit {
+  @Output() toSignUp = new EventEmitter<boolean>();
 
   returnUrl: string;
   isClicking = false;
+  user: gapi.auth2.GoogleUser;
 
   constructor(
     private authService: AuthService,
     private route: ActivatedRoute,
     private router: Router,
+    private zone: NgZone,
   ) {
 
   }
@@ -27,18 +32,34 @@ export class AuthButtonComponent implements OnInit {
   }
 
   async authenticate() {
-    this.authService.currentUserSubject.subscribe(x => {
-      if (x) {
-        console.log('subject', x);
-        this.router.navigate([this.returnUrl]);
+    this.authService.currentUserSubject.pipe(
+      mergeMap(user => {
+        if (user) {
+          this.user = user;
+          return this.authService.userMongoRead(this.user);
+        }
+        return of(0);
+      }),
+    ).subscribe((res:any) => {
+      let response = JSON.parse(res);
+      if (response) {
+        if (response.exists) {
+          this.zone.run(() => { this.router.navigate([this.returnUrl]); });
+        } else {
+          this.toSignUp.emit(true);
+        }
       }
     })
+
     this.authService.authenticate();
   }
 
-  test() {
-    this.isClicking = !this.isClicking;
-    console.log('isClicking', this.isClicking);
+  setClickingOn() {
+    this.isClicking = true;
+  }
+
+  setClickingOff() {
+    this.isClicking = false;
   }
 
 }

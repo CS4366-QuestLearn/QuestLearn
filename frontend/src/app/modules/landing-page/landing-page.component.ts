@@ -20,10 +20,11 @@ export class LandingPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    this.landingPageService.subToPush()
-      .subscribe(() => {
-        console.log('Subscribed to push endpoint.');
-      });
+    // TODO: re-integrate pub sub for push notifs
+    // this.landingPageService.subToPush()
+    //   .subscribe(() => {
+    //     console.log('Subscribed to push endpoint.');
+    //   });
 
     console.log('Email:', this.user.getBasicProfile().getEmail());
   }
