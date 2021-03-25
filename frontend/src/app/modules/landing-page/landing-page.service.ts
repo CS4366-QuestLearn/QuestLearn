@@ -17,10 +17,10 @@ export class LandingPageService {
     return this.http.get(`${this.localUrl}api/foobar`)
   }
   subToTopic() {
-    return this.http.get(`${this.serverUrl}api/sub`)
+    return this.http.get(`${this.localUrl}api/sub`)
   }
   pullTopic() {
-    return this.http.get(`${this.serverUrl}api/pull`)
+    return this.http.get(`${this.localUrl}api/pull`)
   }
   getClassrooms(user: gapi.auth2.GoogleUser) {
     console.log(user.getBasicProfile().getId())
@@ -29,5 +29,4 @@ export class LandingPageService {
   subToPush() {
     return this.http.get(`${this.serverUrl}api/google/createpush`)
   }
-
 }
