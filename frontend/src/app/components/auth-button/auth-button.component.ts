@@ -1,20 +1,21 @@
-import { Component, EventEmitter, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/app/utils/auth.service';
 import { mergeMap } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-auth-button',
   templateUrl: './auth-button.component.html',
   styleUrls: ['./auth-button.component.scss']
 })
-export class AuthButtonComponent implements OnInit {
+export class AuthButtonComponent implements OnInit, OnDestroy {
   @Output() toSignUp = new EventEmitter<boolean>();
 
   returnUrl: string;
   isClicking = false;
   user: gapi.auth2.GoogleUser;
+  subscription: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -28,11 +29,15 @@ export class AuthButtonComponent implements OnInit {
   async ngOnInit() {
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+  }
 
+  
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   async authenticate() {
-    this.authService.currentUserSubject.pipe(
+    this.subscription = this.authService.currentUserSubject.pipe(
       mergeMap(user => {
         if (user) {
           this.user = user;
