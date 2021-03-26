@@ -10,13 +10,20 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
-import { HttpClientModule } from '@angular/common/http'; 
+import { HttpClientModule } from '@angular/common/http';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
-import { FormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRadioModule } from '@angular/material/radio';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TopNavigationBarComponent } from './components/top-navigation-bar/top-navigation-bar.component';
+import { AddQuestDialogComponent } from './components/add-quest-dialog/add-quest-dialog.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 const material = {
   MatSidenavModule,
@@ -35,19 +42,29 @@ const material = {
     TylerComponentComponent,
     SignUpComponent,
     TopNavigationBarComponent,
+    AddQuestDialogComponent,
   ],
   exports: [MatSidenavModule],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     MatButtonModule,
     MatSidenavModule,
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     FormsModule,
+    ReactiveFormsModule,
+    MatDialogModule,
   ],
-  providers: [],
+  providers: [
+    MatDatepickerModule
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
