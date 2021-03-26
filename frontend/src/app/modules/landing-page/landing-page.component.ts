@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { UserRoute } from 'src/app/shared/models/user-type.enum';
 import { AuthService } from 'src/app/utils/auth.service';
 import { LandingPageService } from './landing-page.service';
 
@@ -15,7 +16,7 @@ export class LandingPageComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private landingPageService: LandingPageService
+    private landingPageService: LandingPageService,
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +28,14 @@ export class LandingPageComponent implements OnInit {
     //   });
 
     console.log('Email:', this.user.getBasicProfile().getEmail());
+
+    if (this.router.url === '/' || this.router.url === '') {
+      // Navigate user if trying to access home
+      this.authService.userMongoRead(this.user).subscribe((x: any) => {
+        const response = JSON.parse(x);
+        this.router.navigate([`/${Object.values(UserRoute)[response.user_type - 1]}`]);
+      })
+    }
   }
 
   async logout() {

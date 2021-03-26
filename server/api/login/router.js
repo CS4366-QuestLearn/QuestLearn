@@ -62,7 +62,8 @@ function getUser (req, res) {
       usertype.findOne({user_id: result._id}, (err, result) =>
       {
         if (err) {console.log(error)}
-        else{ res.json(JSON.stringify({exists: true}))
+        else {
+          res.json(JSON.stringify({exists: true, user_type: result.user_type}))
         }
       }
       
