@@ -1,0 +1,11 @@
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}
+
+.radio-wrapper {
+  min-height: 39px;
+  display: flex;
+  >mat-radio-group {
+      align-self: center;
+  }
+}

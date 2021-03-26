@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { AddQuestDialogComponent } from '../add-quest-dialog/add-quest-dialog.component';
 
 @Component({
   selector: 'app-nick-component',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NickComponentComponent implements OnInit {
   opened = false;
-  constructor() { }
+  constructor(
+    public dialog: MatDialog,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  openQuestDialog() {
+    const dialogRef = this.dialog.open(AddQuestDialogComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
   }
 
 }
