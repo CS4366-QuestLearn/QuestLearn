@@ -29,4 +29,7 @@ export class LandingPageService {
   subToPush() {
     return this.http.get(`${this.serverUrl}api/google/createpush`)
   }
+  importClassroomCoursework(user: gapi.auth2.GoogleUser) {
+    return this.http.get(`${this.localUrl}api/quests/import?access_token=${user.getAuthResponse().access_token}`)
+  }
 }

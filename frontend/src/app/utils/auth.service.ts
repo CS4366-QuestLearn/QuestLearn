@@ -7,6 +7,11 @@ import { UserType } from "../shared/models/user-type.enum";
 export class AuthService {
   public currentUserSubject: BehaviorSubject<gapi.auth2.GoogleUser>;
   public currentUser: Observable<any>;
+  public permissions = [
+    'https://www.googleapis.com/auth/classroom.courses.readonly',
+    'https://www.googleapis.com/auth/classroom.coursework.me',
+    'https://www.googleapis.com/auth/classroom.coursework.students'
+  ];
 
   public gapiSetup: boolean = false; // marks if the gapi library has been loaded
   public authInstance: gapi.auth2.GoogleAuth;
@@ -65,7 +70,7 @@ export class AuthService {
       await gapi.auth2
         .init({
           client_id: '358049124735-nh8u2f4n8i0uu1183vugsgd5lcm2unh3.apps.googleusercontent.com', 
-          scope: 'https://www.googleapis.com/auth/classroom.courses.readonly'
+          scope: this.permissions.join(' ')
         }).then(auth => {
           this.gapiSetup = true;
           this.authInstance = auth;
