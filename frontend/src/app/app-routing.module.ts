@@ -24,6 +24,7 @@ const routes: Routes = [
     ]
   },
   { path: 'login', component: LoginComponent },
+  { path: 'tyler', component: StudentHomeComponent },
   { path: '**', redirectTo: '' } // otherwise redirect to home
 ];
 

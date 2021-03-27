@@ -1,0 +1,82 @@
+#parent {
+  height: 600px;
+  width: 900px;
+  background-color: green;
+  display: flex;
+  flex-direction: column;
+}
+
+// Top bar style
+
+#top {
+  display: flex;
+  border-style: solid;
+  border-width: 3px;
+  height: 30%;
+  width: 100%;
+  background-color: #65EB91;
+}
+
+#portrait {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+#profile {
+  height: 100%;
+  width: 20%;
+  background-color: white;
+}
+
+#pfp {
+  border-style: solid;
+  width: auto;
+  height: auto;
+  border-radius: 15px;
+  border-width: 5px;
+}
+
+// Welcome text
+
+#welcome {
+  display: flex;
+  padding-left: 5%;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#top_text {
+  font-size: 32px;
+}
+
+#bottom_text {
+  font-size: 20px;
+}
+
+#bottom {
+  border-style: solid;
+  border-width: 3px;
+  display: flex;
+  flex-direction: row;
+  height: 80%;
+  text-align: center;
+  width: 100%;
+  background-color: #5AB87A;
+}
+
+// Bottom content
+
+#upcoming {
+  width: 50%;
+  height: 100%;
+  background-color: #5AB87A;
+}
+#class_table {
+  width: 50%;
+  height: 100%;
+  background-color: gray;
+}
+
+
