@@ -70,4 +70,11 @@ export class LandingPageComponent implements OnInit {
         console.log(response)
       })
   }
+
+  getCoursework() {
+    this.landingPageService.importClassroomCoursework(this.user)
+      .subscribe(response => {
+        console.log(response)
+      })
+  }
 }

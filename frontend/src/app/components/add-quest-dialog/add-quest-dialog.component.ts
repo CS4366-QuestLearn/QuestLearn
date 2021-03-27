@@ -24,11 +24,11 @@ export class AddQuestDialogComponent implements OnInit {
 
   createForm() {
     this.formGroup = this.formBuilder.group({
+      'classroom_id': [0, [Validators.required]], // TODO: insert classroom ID
       'name': [null, [Validators.required]],
-      'dueDate': [null, [Validators.required]],
-      'rewardAmount': [null, [Validators.required]],
+      'due_date': [null, [Validators.required]],
+      'reward_amount': [null, [Validators.required]],
       'type': [null, [Validators.required]],
-      'classroom': [0, [Validators.required]], // TODO: insert classroom ID
     });
   }
 

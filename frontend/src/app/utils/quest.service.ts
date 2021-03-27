@@ -14,6 +14,6 @@ export class QuestService {
 
   
   addQuest(data) {
-    return this.http.post(`${this.localUrl}api/quest`, data)
+    return this.http.post(`${this.localUrl}api/quests/quest`, data)
   }
 }

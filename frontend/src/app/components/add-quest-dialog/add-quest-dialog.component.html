@@ -12,7 +12,7 @@
       <div>
         <mat-form-field>
           <mat-label>Due Date</mat-label>
-          <input matInput [matDatepicker]="duePicker" formControlName="dueDate">
+          <input matInput [matDatepicker]="duePicker" formControlName="due_date">
           <mat-datepicker-toggle matSuffix [for]="duePicker"></mat-datepicker-toggle>
           <mat-datepicker #duePicker></mat-datepicker>
         </mat-form-field>
@@ -20,7 +20,7 @@
 
       <div>  
         <mat-form-field>
-          <input matInput placeholder="Reward Amount" type="number" formControlName="rewardAmount">
+          <input matInput placeholder="Reward Amount" type="number" formControlName="reward_amount">
         </mat-form-field>
       </div>
 

@@ -33,7 +33,9 @@ export class AuthButtonComponent implements OnInit, OnDestroy {
 
   
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   async authenticate() {
