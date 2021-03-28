@@ -10,11 +10,13 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
+import { TeacherHomeTableComponent } from './components/teacher-home-table/teacher-home-table.component'
 import { HttpClientModule } from '@angular/common/http';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
+import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -28,6 +30,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 const material = {
   MatSidenavModule,
   MatButtonModule,
+  MatTableModule,
 };
 
 @NgModule({
@@ -42,9 +45,13 @@ const material = {
     TylerComponentComponent,
     SignUpComponent,
     TopNavigationBarComponent,
+    TeacherHomeTableComponent,
     AddQuestDialogComponent,
   ],
-  exports: [MatSidenavModule],
+  exports: [MatSidenavModule,
+    MatButtonModule,
+    MatTableModule,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -53,6 +60,7 @@ const material = {
     MatButtonModule,
     MatSidenavModule,
     MatButtonModule,
+    MatTableModule,
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
