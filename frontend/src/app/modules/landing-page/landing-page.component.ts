@@ -11,12 +11,11 @@ import { LandingPageService } from './landing-page.service';
   // providers: [AuthService]
 })
 export class LandingPageComponent implements OnInit {
-  public user;
+  public user: gapi.auth2.GoogleUser;
 
   constructor(
     private authService: AuthService,
     private router: Router,
-    private landingPageService: LandingPageService,
   ) { }
 
   ngOnInit(): void {
@@ -36,45 +35,5 @@ export class LandingPageComponent implements OnInit {
         this.router.navigate([`/${Object.values(UserRoute)[response.user_type - 1]}`]);
       })
     }
-  }
-
-  async logout() {
-    this.authService.logout();
-    this.router.navigate(['login']);
-  }
-
-  request() {
-    this.landingPageService.fooHttp()
-      .subscribe(response => {
-        console.log(response);
-      });
-  }
-
-  sub() {
-    this.landingPageService.subToTopic()
-      .subscribe(response => {
-        console.log(response);
-      });
-  }
-
-  pull() {
-    this.landingPageService.pullTopic()
-      .subscribe(response => {
-        console.log(response);
-      });
-  }
-
-  getClassrooms() {
-    this.landingPageService.getClassrooms(this.user)
-      .subscribe(response => {
-        console.log(response)
-      })
-  }
-
-  getCoursework() {
-    this.landingPageService.importClassroomCoursework(this.user)
-      .subscribe(response => {
-        console.log(response)
-      })
   }
 }
