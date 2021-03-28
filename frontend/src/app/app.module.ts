@@ -24,6 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TopNavigationBarComponent } from './components/top-navigation-bar/top-navigation-bar.component';
 import { AddQuestDialogComponent } from './components/add-quest-dialog/add-quest-dialog.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { UpcomingAssignmentComponent } from './components/upcoming-assignment/upcoming-assignment.component';
 
 const material = {
   MatSidenavModule,
@@ -43,6 +44,7 @@ const material = {
     SignUpComponent,
     TopNavigationBarComponent,
     AddQuestDialogComponent,
+    UpcomingAssignmentComponent,
   ],
   exports: [MatSidenavModule],
   imports: [
