@@ -9,12 +9,18 @@ import { StudentHomeComponent } from './modules/student-home/student-home.compon
 
 const routes: Routes = [
   { 
-    path: '', component: AppComponent,
-    canActivate: [AuthGuard],
+    path: '',
+    component: AppComponent,
+    canActivateChild: [AuthGuard],
     children: [
-      { path: '', component: LandingPageComponent, },
-      { path: 'teacher-home', component: TeacherHomeComponent },
-      { path: 'student-home', component: StudentHomeComponent },
+      { 
+        path: '',
+        component: LandingPageComponent,
+        children: [
+          { path: 'teacher-home', component: TeacherHomeComponent },
+          { path: 'student-home', component: StudentHomeComponent },
+        ]
+      },
     ]
   },
   { path: 'login', component: LoginComponent },
