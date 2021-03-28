@@ -1,8 +1,5 @@
-var user = require('./login-model')
-var usertype = require ('./usertype-model')
+var user = require('./user-model')
 var router = require('express').Router()
-
-
 
 function createUser (req, res) {
   user.findOne({google_id: req.body.user}, (err, result) =>
@@ -14,6 +11,8 @@ function createUser (req, res) {
         console.log('No user found associated with this account: saving to database')
         let newEntry = new user({
           google_id: req.body.user,
+          user_type: parseInt(req.body.user_type),
+          balance: 0,
         })
         newEntry.save((err, result) => {
           if (err) {console.log("oops")}
@@ -21,20 +20,6 @@ function createUser (req, res) {
           {
             res.status(201).send()
             console.log("User entry saved!")
-          }
-        })
-      
-        let typeEntry = new usertype({
-          user_id: newEntry._id,
-          user_type: parseInt(req.body.user_type)
-      
-        })
-        typeEntry.save((err, result) => {
-          if (err) {console.log(err)}
-          else 
-          {
-            res.status(201).send()
-            console.log("User Type entry saved!")
           }
         })
       }
@@ -59,33 +44,10 @@ function getUser (req, res) {
       res.json(JSON.stringify({exists: false}))
     }
     else { 
-      usertype.findOne({user_id: result._id}, (err, result) =>
-      {
-        if (err) {console.log(error)}
-        else {
-          res.json(JSON.stringify({exists: true, user_type: result.user_type}))
-        }
-      }
-      
-      )}
+          res.json(JSON.stringify({exists: true, user_type: result.user_type}))   
+    }
 
   })
-}
-
-function createExample (req, res) {
-  let newEntry = new example({
-      a_string: "abcd",
-      an_int: 2
-    })
-    newEntry.save((err, result) => {
-      if (err) {console.log("Cannot be saved")}
-      else 
-      {
-        res.status(201).send()
-        // just nice to have
-        console.log("entry saved!")
-      }
-    })
 }
 
 router.post('/user', createUser)

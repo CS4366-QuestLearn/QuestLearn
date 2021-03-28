@@ -8,12 +8,13 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var LoginSchema = new Schema({
-  user_id: String,
-  user_type: Number
+  google_id: String,
+  user_type: Number,
+  balance: Number
 });
 
 // Compile model from schema
-let LoginModel = mongoose.model('usertype', LoginSchema );
+let LoginModel = mongoose.model('user', LoginSchema );
 
   
  module.exports = LoginModel
