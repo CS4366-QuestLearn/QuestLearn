@@ -10,17 +10,19 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
+import { TopNavigationBarComponent } from './components/top-navigation-bar/top-navigation-bar.component';
+import { TeacherHomeTableComponent } from './components/teacher-home-table/teacher-home-table.component'
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
 import { FormsModule } from '@angular/forms';
-import { TopNavigationBarComponent } from './components/top-navigation-bar/top-navigation-bar.component';
+import { MatTableModule } from '@angular/material/table';
 
 const material = {
   MatSidenavModule,
   MatButtonModule,
+  MatTableModule,
 };
 
 @NgModule({
@@ -34,8 +36,12 @@ const material = {
     StudentHomeComponent,
     TylerComponentComponent,
     TopNavigationBarComponent,
+    TeacherHomeTableComponent,
   ],
-  exports: [MatSidenavModule],
+  exports: [MatSidenavModule,
+    MatButtonModule,
+    MatTableModule,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -43,6 +49,7 @@ const material = {
     BrowserAnimationsModule,
     MatSidenavModule,
     MatButtonModule,
+    MatTableModule,
     FormsModule,
   ],
   providers: [],

@@ -1,0 +1,25 @@
+.page-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
+    width: 100%;
+    background-color: #7C81EB;
+}
+
+.table-container {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    width: 90%;
+    height: 70%;
+}
+
+.edit-button {
+    margin-top: 2%;
+    margin-left: 80%;
+    margin-right: 5%;
+    background-color: #5AB87A;
+    border: 4px solid black;
+    color: black;
+}

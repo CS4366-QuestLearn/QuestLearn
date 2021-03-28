@@ -10,7 +10,15 @@
 	justify-content: space-between;
 }
 
-.flexbox-subcontainer {
+.flexbox-subcontainer-left {
+	height: 90%;
+	width: 45%;
+	display: flex;
+	align-items: center;
+  justify-content: center;
+}
+
+.flexbox-subcontainer-right {
 	height: 90%;
 	width: 45%;
 	display: flex;
@@ -19,23 +27,15 @@
 }
 
 .nav-button {
-  font-size: 36px;
+  font-size: 200%;
 	color: black;
 	height: 70%;
 	width: 30%;
 }
 
-.circle-button {
-  background-color: #EBCE59;
-  color: white;
-  font-size: 32px;
-  text-align: center;
-  font-family: "Roboto", "Helvetica Neue", sans-serif;
-  font-weight: 500;
-}
 
 .name-class-text {
-  font-size: 36px;
+  font-size: 250%;
   text-align: center;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-weight: 500;
