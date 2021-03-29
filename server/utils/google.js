@@ -13,7 +13,7 @@ async function getClassrooms(req, res) {
   console.log('hello i am unda da wata')
   token = req.query.access_token
   console.log(token)
-  res.status(200).send()
+  //res.status(200).send()
 
   // locally, replace these env variables with references to config.js
 
@@ -29,11 +29,14 @@ async function getClassrooms(req, res) {
   });
 
 
-  room = classroom.courses.get(
+  classroom.courses.get(
     {
       id: '274852630327'
-    }, (err, res) => 
-    { console.log(res.data)}
+    }, (err, result) => 
+    { 
+      console.log(result.data)
+      res.json(result.data)
+    }
   )
 }
 

@@ -9,7 +9,7 @@ import { TestingService } from './testing.service';
   styleUrls: ['./testing.component.scss']
 })
 export class TestingComponent implements OnInit {
-  public user: gapi.auth2.GoogleUser;
+  public user;
 
   constructor(
     private authService: AuthService,
@@ -17,7 +17,7 @@ export class TestingComponent implements OnInit {
     private testingService: TestingService,
   ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.user = this.authService.currentUserValue;
   }
 
@@ -48,6 +48,8 @@ export class TestingComponent implements OnInit {
   }
 
   getClassrooms() {
+    console.log(this.user as gapi.auth2.GoogleUser)
+    // console.log(typeof(this.user))
     this.testingService.getClassrooms(this.user)
       .subscribe(response => {
         console.log(response)

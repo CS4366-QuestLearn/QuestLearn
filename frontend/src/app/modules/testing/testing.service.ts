@@ -22,7 +22,6 @@ export class TestingService {
     return this.http.get(`${this.localUrl}api/pull`)
   }
   getClassrooms(user: gapi.auth2.GoogleUser) {
-    console.log(user.getBasicProfile().getId())
     return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
   }
   subToPush() {
