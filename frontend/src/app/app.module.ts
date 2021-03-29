@@ -27,6 +27,7 @@ import { TopNavigationBarComponent } from './components/top-navigation-bar/top-n
 import { AddQuestDialogComponent } from './components/add-quest-dialog/add-quest-dialog.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UpcomingAssignmentComponent } from './components/upcoming-assignment/upcoming-assignment.component';
+import { TestingComponent } from './modules/testing/testing.component';
 
 const material = {
   MatSidenavModule,
@@ -49,6 +50,7 @@ const material = {
     TeacherHomeTableComponent,
     AddQuestDialogComponent,
     UpcomingAssignmentComponent,
+    TestingComponent,
   ],
   exports: [MatSidenavModule,
     MatButtonModule,
