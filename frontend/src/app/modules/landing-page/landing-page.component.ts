@@ -7,7 +7,7 @@ import { LandingPageService } from './landing-page.service';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styles: [],
+  styleUrls: ['./landing-page.component.scss']
   // providers: [AuthService]
 })
 export class LandingPageComponent implements OnInit {
