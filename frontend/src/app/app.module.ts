@@ -7,12 +7,9 @@ import { LoginComponent } from './modules/login/login.component';
 import { LandingPageComponent } from './modules/landing-page/landing-page.component';
 import { AuthButtonComponent } from './components/auth-button/auth-button.component';
 import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.component';
-import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TeacherClassroomComponent } from './modules/teacher-classroom/teacher-classroom.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
-import { TeacherHomeTableComponent } from './components/teacher-home-table/teacher-home-table.component';
-import { TeacherClassroomTableComponent } from './components/teacher-classroom-table/teacher-classroom-table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,6 +27,8 @@ import { AddQuestDialogComponent } from './components/add-quest-dialog/add-quest
 import { MatNativeDateModule } from '@angular/material/core';
 import { UpcomingAssignmentComponent } from './components/upcoming-assignment/upcoming-assignment.component';
 import { TestingComponent } from './modules/testing/testing.component';
+import { TableComponent } from './components/table/table.component';
+import { SideNavComponent } from './components/sidenav/sidenav.component';
 import { TeacherComponent } from './modules/teacher/teacher.component';
 import { StudentComponent } from './modules/student/student.component';
 
@@ -40,17 +39,16 @@ import { StudentComponent } from './modules/student/student.component';
     LandingPageComponent,
     AuthButtonComponent,
     TeacherHomeComponent,
-    NickComponentComponent,
+    SideNavComponent,
     StudentHomeComponent,
     TylerComponentComponent,
     SignUpComponent,
     TopNavigationBarComponent,
-    TeacherHomeTableComponent,
-    TeacherClassroomTableComponent,
     TeacherClassroomComponent,
     AddQuestDialogComponent,
     UpcomingAssignmentComponent,
     TestingComponent,
+    TableComponent,
     TeacherComponent,
     StudentComponent,
   ],

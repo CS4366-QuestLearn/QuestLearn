@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { AddQuestDialogComponent } from '../add-quest-dialog/add-quest-dialog.component';
 
 @Component({
-  selector: 'app-nick-component',
-  templateUrl: './nick-component.component.html',
-  styleUrls: ['./nick-component.component.scss']
+  selector: 'questlearn-sidenav',
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss']
 })
-export class NickComponentComponent implements OnInit {
+export class SideNavComponent implements OnInit {
   opened = false;
   constructor(
     public dialog: MatDialog,

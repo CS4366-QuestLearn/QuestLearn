@@ -1,0 +1,36 @@
+<div class='scrollable-table'>
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    
+      <!-- Open button column -->
+      <ng-container *ngIf="hasOpen" matColumnDef="open">
+        <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+        <mat-cell *matCellDef="let element"><button mat-raised-button class="open-button"
+            (click)="openEvent(element)">Open</button></mat-cell>
+      </ng-container>
+
+      <!-- Count column -->
+      <ng-container *ngIf="hasCount" matColumnDef="count">
+        <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+        <mat-cell *matCellDef="let element; let i = index"> {{i + 1}} </mat-cell>
+      </ng-container>
+
+    <ng-container *ngFor="let cell of columns">
+
+      <!-- Date Column -->
+      <ng-container *ngIf="cell.type == 'date'" matColumnDef="{{cell.propName}}">
+        <mat-header-cell *matHeaderCellDef> {{cell.header}} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element[cell.propName + '_date'] | date: 'dd/MM/yyyy' }} </mat-cell>
+      </ng-container>
+
+      <!-- Text Column -->
+      <ng-container *ngIf="cell.type == 'text'" matColumnDef="{{cell.propName}}">
+        <mat-header-cell *matHeaderCellDef> {{cell.header}} </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element[cell.propName]}} </mat-cell>
+      </ng-container>
+
+    </ng-container>
+
+    <mat-header-row [ngClass]="{'hasBorder': hasBorder}" *matHeaderRowDef="matHeaderRowDef"></mat-header-row>
+    <mat-row [ngClass]="{'color-change': true, 'hasBorder': hasBorder}" *matRowDef="let row; columns: matHeaderRowDef;"></mat-row>
+  </mat-table>
+</div>

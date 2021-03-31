@@ -1,5 +1,5 @@
 <div class="page-layout">
-  <app-teacher-home-table></app-teacher-home-table>
+  <questlearn-table [dataSource]="dataSource" [columns]="displayedColumns" (open)="getRecord($event)" [hasCount]="true"></questlearn-table>
 
   <div>
     <button mat-raised-button class="edit-button">Edit</button>
