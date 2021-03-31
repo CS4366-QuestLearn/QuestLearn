@@ -8,9 +8,9 @@
   </ng-container>
 
   <!-- ID Column -->
-  <ng-container matColumnDef="ID">
+  <ng-container matColumnDef="No.">
     <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.ID}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element['No.']}} </mat-cell>
   </ng-container>
 
   <!-- Name Column -->
@@ -28,7 +28,7 @@
   <!-- Class Status Column -->
   <ng-container matColumnDef="class_status">
     <mat-header-cell *matHeaderCellDef> Class Status </mat-header-cell>
-    <mat-cell *matCellDef="let element"> {{element.class_status}} </mat-cell>
+    <mat-cell *matCellDef="let element"> {{element.courseState}} </mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
