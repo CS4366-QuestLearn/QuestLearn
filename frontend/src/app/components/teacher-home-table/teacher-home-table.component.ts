@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/utils/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { GoogleService } from 'src/app/utils/google.service';
 
 export interface ClassElement {
@@ -34,6 +34,7 @@ export class TeacherHomeTableComponent implements OnInit {
     private authService: AuthService,
     private googleService: GoogleService,
     private router: Router,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -49,10 +50,10 @@ export class TeacherHomeTableComponent implements OnInit {
     
   }
 
-  getRecord(name)
+  getRecord(record)
   {
     // TODO: redirect to teacher-home/id
-    console.log(name.id);
+    this.router.navigate([`../class/${record.id}`], {relativeTo: this.route});
   }
 
 }

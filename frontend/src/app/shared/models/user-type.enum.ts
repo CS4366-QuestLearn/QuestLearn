@@ -4,6 +4,6 @@ export enum UserType {
 }
 
 export enum UserRoute {
-  Teacher = 'teacher-home',
-  Student = 'student-home',
+  Teacher = 'teacher/home',
+  Student = 'student/home',
 }
