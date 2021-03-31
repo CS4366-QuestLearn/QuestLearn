@@ -9,8 +9,10 @@ import { AuthButtonComponent } from './components/auth-button/auth-button.compon
 import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.component';
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
+import { TeacherClassroomComponent } from './modules/teacher-classroom/teacher-classroom.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
-import { TeacherHomeTableComponent } from './components/teacher-home-table/teacher-home-table.component'
+import { TeacherHomeTableComponent } from './components/teacher-home-table/teacher-home-table.component';
+import { TeacherClassroomTableComponent } from './components/teacher-classroom-table/teacher-classroom-table.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,12 +31,6 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { UpcomingAssignmentComponent } from './components/upcoming-assignment/upcoming-assignment.component';
 import { TestingComponent } from './modules/testing/testing.component';
 
-const material = {
-  MatSidenavModule,
-  MatButtonModule,
-  MatTableModule,
-};
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,14 +44,13 @@ const material = {
     SignUpComponent,
     TopNavigationBarComponent,
     TeacherHomeTableComponent,
+    TeacherClassroomTableComponent,
+    TeacherClassroomComponent,
     AddQuestDialogComponent,
     UpcomingAssignmentComponent,
     TestingComponent,
   ],
-  exports: [MatSidenavModule,
-    MatButtonModule,
-    MatTableModule,
-  ],
+  exports: [],
   imports: [
     BrowserModule,
     AppRoutingModule,

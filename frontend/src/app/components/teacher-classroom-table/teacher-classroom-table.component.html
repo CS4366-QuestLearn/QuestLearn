@@ -1,0 +1,31 @@
+<div class='scrollable-table'>
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      
+      <!-- Quest Name Column -->
+      <ng-container matColumnDef="quest_name">
+        <mat-header-cell *matHeaderCellDef> Quest </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.quest_name}} </mat-cell>
+      </ng-container>
+    
+      <!-- Students Completed Column -->
+      <ng-container matColumnDef="students_completed">
+        <mat-header-cell *matHeaderCellDef> Students Completed </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.students_completed}} </mat-cell>
+      </ng-container>
+    
+      <!-- Due Date Column -->
+      <ng-container matColumnDef="due_date">
+        <mat-header-cell *matHeaderCellDef> Due Date </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.due_date}} </mat-cell>
+      </ng-container>
+    
+      <!-- Reward Column -->
+      <ng-container matColumnDef="reward">
+        <mat-header-cell *matHeaderCellDef> Reward </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.reward}} </mat-cell>
+      </ng-container>
+    
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row class="color-change" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    </div>
