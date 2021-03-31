@@ -47,10 +47,10 @@ export class TestingComponent implements OnInit {
       });
   }
 
-  getClassrooms() {
+  getClassroom() {
     console.log(this.user as gapi.auth2.GoogleUser)
     // console.log(typeof(this.user))
-    this.testingService.getClassrooms(this.user)
+    this.testingService.getClassroom(this.user)
       .subscribe(response => {
         console.log(response)
       })
@@ -58,6 +58,15 @@ export class TestingComponent implements OnInit {
 
   getCoursework() {
     this.testingService.importClassroomCoursework(this.user)
+      .subscribe(response => {
+        console.log(response)
+      })
+  }
+
+  getClassrooms() {
+    console.log(this.user as gapi.auth2.GoogleUser)
+    // console.log(typeof(this.user))
+    this.testingService.getClassrooms(this.user)
       .subscribe(response => {
         console.log(response)
       })

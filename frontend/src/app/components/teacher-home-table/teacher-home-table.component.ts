@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/utils/auth.service';
+import { Router } from '@angular/router';
+import { GoogleService } from 'src/app/utils/google.service';
 
 export interface ClassElement {
   ID: number;
@@ -24,16 +27,32 @@ const ELEMENT_DATA: ClassElement[] = [
 
 export class TeacherHomeTableComponent implements OnInit {
   
-  displayedColumns: string[] = ['Open', 'ID', 'name', 'last_updated', 'class_status'];
-  dataSource = ELEMENT_DATA;
-  constructor() { }
+  displayedColumns: string[] = ['Open', 'No.', 'name', 'last_updated', 'class_status'];
+  public dataSource;
+  public user;
+  constructor(
+    private authService: AuthService,
+    private googleService: GoogleService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+    this.user = this.authService.currentUserValue;
+    this.googleService.getClassrooms(this.user)
+      .subscribe((response: Array<any>) => {
+        response.forEach((element, i) => {
+          element['No.'] = i + 1
+          element.last_updated = new Date(element.updateTime).toLocaleDateString('en-US')
+        });
+        this.dataSource = response
+      })
+    
   }
 
   getRecord(name)
   {
-    console.log(name);
+    // TODO: redirect to teacher-home/id
+    console.log(name.id);
   }
 
 }

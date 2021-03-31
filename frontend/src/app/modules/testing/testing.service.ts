@@ -21,13 +21,19 @@ export class TestingService {
   pullTopic() {
     return this.http.get(`${this.localUrl}api/pull`)
   }
-  getClassrooms(user: gapi.auth2.GoogleUser) {
-    return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
+  getClassroom(user: gapi.auth2.GoogleUser) {
+    return this.http.get(`${this.localUrl}api/google/classroom?access_token=${user.getAuthResponse().access_token}`)
   }
   subToPush() {
     return this.http.get(`${this.serverUrl}api/google/createpush`)
   }
   importClassroomCoursework(user: gapi.auth2.GoogleUser) {
     return this.http.get(`${this.localUrl}api/quests/import?access_token=${user.getAuthResponse().access_token}`)
+  }
+
+  // Teacher testing functions:
+  // get the list of classrooms that the teacher has
+  getClassrooms(user) {
+    return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
   }
 }

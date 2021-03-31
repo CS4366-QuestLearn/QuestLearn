@@ -9,7 +9,7 @@ const {PubSub} = require('@google-cloud/pubsub');
 // Creates a client; cache this for further use
 const pubSubClient = new PubSub();
 
-async function getClassrooms(req, res) {
+async function getClassroom(req, res) {
   console.log('hello i am unda da wata')
   token = req.query.access_token
   console.log(token)
@@ -37,6 +37,36 @@ async function getClassrooms(req, res) {
       console.log(result.data)
       res.json(result.data)
     }
+  )
+}
+
+async function getClassrooms(req, res) {
+  token = req.query.access_token
+
+  // TODO attach this oath client thing to the login so we are logged in without
+  // needing to do it every time
+
+  const oauth2Client = new google.auth.OAuth2(
+    config.google.client,
+    config.google.secret
+  );
+
+  oauth2Client.credentials = {access_token: token}
+
+  google.options({
+    auth: oauth2Client
+  });
+
+  classroom.courses.list(
+    {
+      teacherId: 'me'
+    }, (err, result) => 
+    {
+      if(err) {
+        console.log('Problem finding courses')
+        res.status(404).send('Error finding teacher course list.')
+      }
+      res.json(result.data.courses)}
   )
 }
 
@@ -71,8 +101,10 @@ async function pushMethod(req, res) {
   res.status(200).send()
 }
 
-router.get('/classrooms', getClassrooms)
+router.get('/classroom', getClassroom)
 router.get('/createpush', pushTopic)
 router.post('/push', pushMethod)
+
+router.get('/classrooms', getClassrooms)
 
 module.exports = router;
