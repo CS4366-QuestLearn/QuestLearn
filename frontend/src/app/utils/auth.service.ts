@@ -41,7 +41,7 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue() {
+  public get currentUserValue(): gapi.auth2.GoogleUser {
     return this.currentUserSubject.value;
   }
 

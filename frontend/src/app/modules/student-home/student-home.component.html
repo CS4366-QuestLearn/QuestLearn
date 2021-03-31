@@ -19,7 +19,7 @@
 
   <div id="bottom">
     <div id="class-table">
-      
+      <questlearn-table [dataSource]="dataSource" [columns]="displayedColumns" [hasCount]="true" [hasBorder]="false" (open)="getRecord($event)"></questlearn-table>
     </div>
     
     <div id="right-column">
