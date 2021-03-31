@@ -30,6 +30,8 @@ import { AddQuestDialogComponent } from './components/add-quest-dialog/add-quest
 import { MatNativeDateModule } from '@angular/material/core';
 import { UpcomingAssignmentComponent } from './components/upcoming-assignment/upcoming-assignment.component';
 import { TestingComponent } from './modules/testing/testing.component';
+import { TeacherComponent } from './modules/teacher/teacher.component';
+import { StudentComponent } from './modules/student/student.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { TestingComponent } from './modules/testing/testing.component';
     AddQuestDialogComponent,
     UpcomingAssignmentComponent,
     TestingComponent,
+    TeacherComponent,
+    StudentComponent,
   ],
   exports: [],
   imports: [

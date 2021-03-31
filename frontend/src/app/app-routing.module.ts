@@ -13,6 +13,8 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { TeacherClassroomComponent } from './modules/teacher-classroom/teacher-classroom.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TestingComponent } from './modules/testing/testing.component';
+import { TeacherComponent } from './modules/teacher/teacher.component';
+import { StudentComponent } from './modules/student/student.component';
 
 const routes: Routes = [
   { 
@@ -24,9 +26,21 @@ const routes: Routes = [
         path: '',
         component: LandingPageComponent,
         children: [
-          { path: 'teacher-home', component: TeacherHomeComponent },
-          { path: 'student-home', component: StudentHomeComponent },
-          { path: 'teacher-classroom', component: TeacherClassroomComponent },
+          { 
+            path: 'teacher',
+            component: TeacherComponent,
+            children: [
+              { path: 'home', component: TeacherHomeComponent },
+              { path: 'class/:id', component: TeacherClassroomComponent },
+            ]
+          },
+          { 
+            path: 'student',
+            component: StudentComponent,
+            children: [
+              { path: 'home', component: StudentHomeComponent },
+            ]
+          },
         ]
       },
     ]
