@@ -7,6 +7,7 @@ import { LandingPageComponent } from './modules/landing-page/landing-page.compon
 import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TeacherClassroomComponent } from './modules/teacher-classroom/teacher-classroom.component';
+import { ClassShopComponent } from './modules/class-shop/class-shop.component';
 
 const routes: Routes = [
   { 
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: 'teacher-home', component: TeacherHomeComponent },
       { path: 'student-home', component: StudentHomeComponent },
       { path: 'teacher-classroom', component: TeacherClassroomComponent },
+      { path: 'shop', component: ClassShopComponent },
     ]
   },
   { path: 'login', component: LoginComponent },

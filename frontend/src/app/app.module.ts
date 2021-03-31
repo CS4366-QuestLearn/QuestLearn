@@ -10,6 +10,7 @@ import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.compon
 import { NickComponentComponent } from './components/nick-component/nick-component.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TeacherClassroomComponent } from './modules/teacher-classroom/teacher-classroom.component';
+import { ClassShopComponent } from './modules/class-shop/class-shop.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
 import { TopNavigationBarComponent } from './components/top-navigation-bar/top-navigation-bar.component';
 import { TeacherHomeTableComponent } from './components/teacher-home-table/teacher-home-table.component';
@@ -20,11 +21,13 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 
 const material = {
   MatSidenavModule,
   MatButtonModule,
   MatTableModule,
+  MatSelectModule
 };
 
 @NgModule({
@@ -41,6 +44,7 @@ const material = {
     TeacherHomeTableComponent,
     TeacherClassroomTableComponent,
     TeacherClassroomComponent,
+    ClassShopComponent,
   ],
   exports: [MatSidenavModule,
     MatButtonModule,
@@ -54,6 +58,7 @@ const material = {
     MatSidenavModule,
     MatButtonModule,
     MatTableModule,
+    MatSelectModule,
     FormsModule,
   ],
   providers: [],
