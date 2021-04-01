@@ -40,7 +40,16 @@ export class TableComponent implements OnInit, OnChanges {
       this.columns.forEach(def => {
         if (def.type === 'date') {
           changes.dataSource.currentValue.forEach(row => {
-            row[def.propName + '_date'] = new Date(row[def.propName]);
+            const element = row[def.propName];
+            if (typeof element === 'object' && element) {
+              console.log(new Date(element.year, element.month - 1, element.day))
+              row[def.propName + '_date'] = new Date(element.year, element.month - 1, element.day);
+            } else if (element) {
+              row[def.propName + '_date'] = new Date(element);
+            }
+            else {
+              row[def.propName + '_date'] = ""
+            }
           });
         }
       });

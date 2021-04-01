@@ -11,10 +11,22 @@ export class GoogleService {
   constructor(
     private http: HttpClient,
     public auth: AuthService,
-    ) { }
+  ) { }
 
 
-    getClassrooms(user) {
-      return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
-    }
+  getClassrooms(user, type) {
+    return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}&user_type=${type}`)
   }
+  getGoogleAssignments(user, id) {
+    return this.http.get(`${this.localUrl}api/google/assignments?access_token=${user.getAuthResponse().access_token}&class_id=${id}`)
+  }
+  getAllAssignments(user, id) {
+    return this.http.get(`${this.localUrl}api/quests?class_id=${id}`)
+  }
+  authorizeClient(user) {
+    return this.http.get(`${this.localUrl}api/google/client?access_token=${user.getAuthResponse().access_token}`)
+  }
+  getTeachers(user) {
+    return this.http.get(`${this.localUrl}api/google/teachers?access_token=${user.getAuthResponse().access_token}`)
+  }
+}

@@ -19,7 +19,7 @@
       <!-- Date Column -->
       <ng-container *ngIf="cell.type == 'date'" matColumnDef="{{cell.propName}}">
         <mat-header-cell *matHeaderCellDef> {{cell.header}} </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element[cell.propName + '_date'] | date: 'dd/MM/yyyy' }} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element[cell.propName + '_date']  ? (element[cell.propName + '_date'] | date: 'MM/dd/yyyy') : 'No due date' }} </mat-cell>
       </ng-container>
 
       <!-- Text Column -->

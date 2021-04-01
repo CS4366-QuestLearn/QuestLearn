@@ -2,43 +2,73 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ColumnDefinition } from 'src/app/shared/models/column-definition';
+import { AuthService } from 'src/app/utils/auth.service';
+import { GoogleService } from 'src/app/utils/google.service';
+import { QuestService } from 'src/app/utils/quest.service';
 
 @Component({
   selector: 'app-teacher-classroom',
   templateUrl: './teacher-classroom.component.html',
   styleUrls: ['./teacher-classroom.component.scss']
 })
-export class TeacherClassroomComponent implements OnInit, OnDestroy {
+export class TeacherClassroomComponent implements OnInit {
+
+  // This is how you would pull from Google Classroom API only
+  // public displayedColumns: ColumnDefinition[] = [
+  //   { header: 'Quest Name', propName: 'title', type: 'text' },
+  //   { header: 'Students Completed', propName: 'students_completed', type: 'text' },
+  //   { header: 'Due Date', propName: 'dueDate', type: 'date' },
+  //   { header: 'Reward', propName: 'reward', type: 'text' }
+  // ];
+
   public displayedColumns: ColumnDefinition[] = [
-    { header: 'Quest Name', propName: 'quest_name', type: 'text' },
+    { header: 'Quest Name', propName: 'name', type: 'text' },
     { header: 'Students Completed', propName: 'students_completed', type: 'text' },
     { header: 'Due Date', propName: 'due_date', type: 'date' },
-    { header: 'Reward', propName: 'reward', type: 'text' }
+    { header: 'Reward', propName: 'reward_amount', type: 'text' }
   ];
 
-  public dataSource: any[] = [
-    {quest_name: "HW 1", students_completed: '25/25', due_date: '2/15/2020', reward: '10 QC'},
-    {quest_name: "HW 2", students_completed: '21/25', due_date: '3/5/2020', reward: '5 QC'},
-    {quest_name: "Test 1", students_completed: '13/25', due_date: '3/4/2020', reward: '20 QC'},
-    {quest_name: "Test 3", students_completed: '0/25', due_date: '3/16/2020', reward: '20 QC'}
-  ];
+  public dataSource
+  public id
   
-  private routeSub: Subscription;
+  public user: gapi.auth2.GoogleUser;
 
   constructor(
     private route: ActivatedRoute,
+    private authService: AuthService,
+    private googleService: GoogleService,
+    private questService: QuestService
   ) { }
 
   ngOnInit(): void {
-    this.routeSub = this.route.params.subscribe(params => {
-      console.log(params['id']) //log the value of id
-    });
+    this.id = this.route.snapshot.params.id;
+    this.user = this.authService.currentUserValue;
+    this.googleService.authorizeClient(this.user)
+    .subscribe(response => {
+      console.log(response)
+    })
+
+    this.questService.importGoogleAssignments(this.user, this.id)
+    .subscribe(response => {
+      console.log(response)
+    })
+    // This is how you would pull from Google Classroom API only
+    // this.googleService.getGoogleAssignments(this.user, id)
+    //   .subscribe((response: Array<any>) => {
+    //     this.dataSource = response
+    //     console.log(response)
+    //   })
+
+    this.reloadTable(null)
   }
-  
-  ngOnDestroy(): void {
-    if (this.routeSub) {
-      this.routeSub.unsubscribe();
-    }
+
+  reloadTable(event) {
+    this.googleService.getAllAssignments(this.user, this.id)
+    .subscribe((response: Array<any>) => {
+      this.dataSource = response
+      console.log(response)
+    })
   }
+
 
 }
