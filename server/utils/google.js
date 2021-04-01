@@ -175,7 +175,7 @@ async function pushMethod(req, res) {
     
     })
   }
-    quest.deleteMany({_id: {$exists: false}}, (err, result) => {
+    quest.deleteMany({name: {$exists: false}}, (err, result) => {
     if (err) {
       console.log('couldnt remove')
     }
