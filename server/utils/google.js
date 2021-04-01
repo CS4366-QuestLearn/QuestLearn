@@ -154,7 +154,8 @@ async function pushMethod(req, res) {
                   type: 1
                 })
                 newEntry.save((err, result) => {
-                  if (err) {console.log("oops")}
+                  if (err) {console.log("oops")
+                    console.log(err)}
                   else 
                   {
                     // result.status(201).send()
