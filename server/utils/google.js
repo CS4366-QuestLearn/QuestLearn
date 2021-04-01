@@ -133,6 +133,7 @@ async function pushMethod(req, res) {
 
       }
       else {
+        console.log(docs)
         if(true) {
           classroom.courses.courseWork.get(
             {
@@ -161,7 +162,7 @@ async function pushMethod(req, res) {
                   if (err) {console.log("oops")
                     console.log(err)}
                   else 
-                  {
+                  { 
                     // result.status(201).send()
                     console.log("Assignment entry saved!")
                   }
