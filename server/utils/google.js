@@ -143,14 +143,14 @@ async function pushMethod(req, res) {
                 console.log(err)
               }
               else {
-                console.log(result)
+                var element = result.data.courseWork[0]
                 let newEntry = new quest({
-                  classroom_id: result.courseId,
-                  coursework_id: result.id,
-                  due_date: result.due_date ? new Date(result.due_date.year, result.due_date.month - 1, result.due_date.day) : null,
-                  creation_date: new Date(result.creationTime),
-                  last_modified: new Date(result.updateTime),
-                  name: result.title,
+                  classroom_id: element.courseId,
+                  coursework_id: element.id,
+                  due_date: element.due_date ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
+                  creation_date: new Date(element.creationTime),
+                  last_modified: new Date(element.updateTime),
+                  name: element.title,
                   reward_amount: 5,
                   type: 1
                 })
