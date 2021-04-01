@@ -159,8 +159,51 @@ function importAllQuests(req, res) {
 }
 
 // todo: integrate with pubsub
-function importQuest(req, res) {
+function importQuest(resource) {
+  classroom.courses.courseWork.get(
+    {
+      courseId: resource.courseId,
+      id: resource.id,
+    }, (err, res) => {
+      console.log(res.data)
+    })
+  // quest.findOne({coursework_id: id}, (err, result) => {
+  //   if (err) {
 
+  //   }
+  //   else {
+  //     if(!result) {
+
+  //       console.log(`assignment ${element.title} is not in the db yet`)
+  //       let newEntry = new quest({
+  //         classroom_id: req.query.class_id,
+  //         coursework_id: element.id,
+  //         due_date: element.due_date ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
+  //         creation_date: new Date(element.creationTime),
+  //         last_modified: new Date(element.updateTime),
+  //         name: element.title,
+  //         reward_amount: 5,
+  //         type: 1
+  //       })
+  //       newEntry.save((err, result) => {
+  //         if (err) {console.log("oops")}
+  //         else 
+  //         {
+  //           // result.status(201).send()
+  //           console.log("Assignment entry saved!")
+  //         }
+  //       })
+  //     }
+  //     else {
+  //       console.log(`assignment ${element.title} already exists in the db`)
+  //     }
+
+  //   }
+  // })
+}
+
+function foobar() {
+  console.log('testing')
 }
 
 function getAllQuests(req, res) {

@@ -11,7 +11,8 @@ export class AuthService {
     'https://www.googleapis.com/auth/classroom.courses.readonly',
     'https://www.googleapis.com/auth/classroom.coursework.me',
     'https://www.googleapis.com/auth/classroom.coursework.students',
-    'https://www.googleapis.com/auth/classroom.rosters.readonly'
+    'https://www.googleapis.com/auth/classroom.rosters.readonly',
+    'https://www.googleapis.com/auth/classroom.push-notifications'
   ];
 
   public gapiSetup: boolean = false; // marks if the gapi library has been loaded
@@ -49,15 +50,10 @@ export class AuthService {
   async checkUser() {
     if (await this.checkIfUserAuthenticated()) {
       this.user = this.authInstance.currentUser.get();
-<<<<<<< HEAD
       if (!this.initialized) {
         this.currentUserSubject.next(this.user);
         this.initialized = true;
       }
-=======
-      this.currentUserSubject.next(this.user);
-      const option = new gapi.auth2.SigninOptionsBuilder();
->>>>>>> 9d73a728bdf2413806ad2743b4784e8720307ae6
     } else {
       this.logout();
     }
