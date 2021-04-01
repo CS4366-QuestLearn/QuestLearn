@@ -40,8 +40,9 @@ async function getClassroom(req, res) {
     }
   )
 }
-
+var subscription
 async function getClassrooms(req, res) {
+  subscription = pubSubClient.subscription("my-topic-sub");
   if(req.query.user_type == "1") {
   classroom.courses.list(
     {
@@ -52,7 +53,25 @@ async function getClassrooms(req, res) {
         console.log('Problem finding courses')
         res.status(404).send('Error finding teacher course list.')
       }
-      res.json(result.data.courses)}
+      result.data.forEach(element => {
+        await classroom.registrations.create(
+          {
+            requestBody: {
+              cloudPubsubTopic: {
+                topicName: "projects/phonic-botany-304917/topics/my-topic"
+              },
+              feed: {
+                feedType: "COURSE_WORK_CHANGES",
+                courseWorkChangesInfo: {
+                  courseId: element.id
+                }      
+              }
+            }
+          }
+        )
+      });
+      res.json(result.data.courses)
+    }
   )
     }
   else {
@@ -161,10 +180,29 @@ function authorizeClient(req, res) {
   });
 }
 
+async function subscribeCoursework() {
+  await classroom.registrations.create(
+    {
+      requestBody: {
+        cloudPubsubTopic: {
+          topicName: "projects/phonic-botany-304917/topics/my-topic"
+        },
+        feed: {
+          feedType: "COURSE_WORK_CHANGES",
+          courseWorkChangesInfo: {
+            courseId: "274852630327"
+          }      
+        }
+      }
+    }
+  )
+}
+
 router.get('/classroom', getClassroom)
 router.get('/createpush', pushTopic)
 router.post('/push', pushMethod)
 router.get('/client', authorizeClient)
+router.get('subscribe/coursework', subscribeCoursework)
 
 router.get('/classrooms', getClassrooms)
 router.get('/assignments', getAssignments)
