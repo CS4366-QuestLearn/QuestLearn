@@ -3,6 +3,7 @@ const { google } = require("googleapis");
 var axios = require('axios')
 const classroom = google.classroom("v1")
 var config = require('../config')
+var quests = require('../api/quest/router')
 
 // Imports the Google Cloud client library
 const {PubSub} = require('@google-cloud/pubsub');
@@ -125,6 +126,9 @@ async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
   console.log(info.eventType)
+  if(info.eventType == 'CREATED') {
+    //
+  }
   
   res.status(200).send()
 }
