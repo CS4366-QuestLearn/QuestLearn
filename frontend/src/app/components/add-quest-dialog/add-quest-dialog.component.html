@@ -1,0 +1,40 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
+  <mat-dialog-content class="mat-typography">
+
+      <h2 mat-dialog-title>Add a quest</h2>
+
+      <div>  
+        <mat-form-field>
+          <input matInput placeholder="Quest Name" formControlName="name">
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field>
+          <mat-label>Due Date</mat-label>
+          <input matInput [matDatepicker]="duePicker" formControlName="due_date">
+          <mat-datepicker-toggle matSuffix [for]="duePicker"></mat-datepicker-toggle>
+          <mat-datepicker #duePicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div>  
+        <mat-form-field>
+          <input matInput placeholder="Reward Amount" type="number" formControlName="reward_amount">
+        </mat-form-field>
+      </div>
+
+      <div class="radio-wrapper">
+        <mat-radio-group aria-label="Type" formControlName="type">
+          <mat-radio-button value="1">Single</mat-radio-button>
+          <mat-radio-button value="2">Group</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button cdkFocusInitial type="submit" [mat-dialog-close]="true" [disabled]="!formGroup.valid">Create</button>
+  </mat-dialog-actions>
+</form>

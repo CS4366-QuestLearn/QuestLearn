@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'
-import { getSyntheticPropertyName } from '@angular/compiler/src/render3/util';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from 'src/app/utils/auth.service';
 
 @Injectable({
@@ -26,7 +25,7 @@ export class LandingPageService {
     console.log(user.getBasicProfile().getId())
     return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
   }
-  subToPush() {
+  subToPull() {
     return this.http.get(`${this.serverUrl}api/google/createpush`)
   }
 

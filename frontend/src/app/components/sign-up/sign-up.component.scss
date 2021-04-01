@@ -1,0 +1,13 @@
+.welcome {
+  padding-bottom: 16px;
+}
+
+.button-column {
+  display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.button-column .mat-button-base {
+  margin: 8px 0px;
+}

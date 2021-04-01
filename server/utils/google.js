@@ -3,17 +3,17 @@ const { google } = require("googleapis");
 var axios = require('axios')
 const classroom = google.classroom("v1")
 var config = require('../config')
+var quest = require('../api/quest/quest-model')
 
 // Imports the Google Cloud client library
 const {PubSub} = require('@google-cloud/pubsub');
 // Creates a client; cache this for further use
 const pubSubClient = new PubSub();
 
-async function getClassrooms(req, res) {
-  console.log('hello i am unda da wata')
+// Hardcoded testing function.
+async function getClassroom(req, res) {
   token = req.query.access_token
-  console.log(token)
-  res.status(200).send()
+  const class_id = req.query.class_id;
 
   // locally, replace these env variables with references to config.js
 
@@ -29,12 +29,68 @@ async function getClassrooms(req, res) {
   });
 
 
-  room = classroom.courses.get(
+  classroom.courses.get(
     {
-      id: '274852630327'
-    }, (err, res) => 
-    { console.log(res.data)}
+      id: class_id
+    }, (err, result) => 
+    {
+      res.json(result.data)
+    }
   )
+}
+var subscription
+async function getClassrooms(req, res) {
+  console.log('geting classrooms')
+  console.log(req.query)
+  subscription = pubSubClient.subscription("my-topic-heroku-push");
+  if(req.query.user_type == "1") {
+    console.log('user is a teacher')
+  classroom.courses.list(
+    {
+      teacherId: 'me'
+    }, (err, result) => 
+    {
+      if(err) {
+        console.log('Problem finding courses')
+        console.log(err)
+        res.status(404).send('Error finding teacher course list.')
+      }
+      result.data.courses.forEach(async (element) => {
+        console.log('registration starting')
+        await classroom.registrations.create(
+          {
+            requestBody: {
+              cloudPubsubTopic: {
+                topicName: "projects/phonic-botany-304917/topics/my-topic"
+              },
+              feed: {
+                feedType: "COURSE_WORK_CHANGES",
+                courseWorkChangesInfo: {
+                  courseId: element.id
+                }      
+              }
+            }
+          }
+        )
+        console.log('registration created')
+      });
+      res.json(result.data.courses)
+    }
+  )
+    }
+  else {
+    classroom.courses.list(
+      {
+        studentId: 'me'
+      }, (err, result) => 
+      {
+        if(err) {
+          console.log('Problem finding courses')
+          res.status(404).send('Error finding teacher course list.')
+        }
+        res.json(result.data.courses)}
+    )
+      }  
 }
 
 async function pushTopic(req, res) {
@@ -64,12 +120,138 @@ async function pushTopic(req, res) {
 }
 
 async function pushMethod(req, res) {
-  console.log(Buffer.from(req.body.message.data, 'base64').toString());
+  // console.log(Buffer.from(req.body.message.data, 'base64'));
+  var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
+  console.log(info.eventType)
+  console.log(info.resourceId)
+  if(info.eventType == 'MODIFIED') {
+    quest.findOneAndReplace({coursework_id: info.resourceId.id}, {upsert: true}, (err, docs) => {
+      if (err) {
+
+      }
+      else {
+        console.log(docs)
+        if(true) {
+          classroom.courses.courseWork.get(
+            {
+              courseId: info.resourceId.courseId,
+              id: info.resourceId.id,
+            }, (err, result) => {
+              if (err) {
+                console.log(err)
+              }
+              else {
+                console.log(result.data)
+                var element = result.data
+                let newEntry = new quest({
+                  classroom_id: element.courseId,
+                  coursework_id: element.id,
+                  due_date: element.due_date ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
+                  creation_date: new Date(element.creationTime),
+                  last_modified: new Date(element.updateTime),
+                  name: element.title,
+                  reward_amount: 5,
+                  type: 1
+                })
+                console.log('yeeeeeeeeeeeeeeeeeeeeeeehaw')
+                console.log(newEntry)
+                newEntry.save((err, result) => {
+                  if (err) {console.log("oops")
+                    console.log(err)}
+                  else 
+                  { 
+                    // result.status(201).send()
+                    console.log("Assignment entry saved!")
+                  }
+                })
+              }
+            })
+          
+        }
+      }
+    
+    })
+  }
+    quest.deleteMany({name: {$exists: false}}, (err, result) => {
+    if (err) {
+      console.log('couldnt remove')
+    }
+    else {
+      console.log(`empty entries removed.`)
+    }
+  })
   res.status(200).send()
 }
 
-router.get('/classrooms', getClassrooms)
+
+// NOT FINAL. The actual call is in quest/router.js.
+// This will only get the google classroom assignments.
+async function getAssignments(req, res) {
+  token = req.query.access_token
+  const oauth2Client = new google.auth.OAuth2(
+    config.google.client,
+    config.google.secret
+  );
+
+  oauth2Client.credentials = {access_token: token}
+
+  google.options({
+    auth: oauth2Client
+  });
+
+  // Example query
+  // room = classroom.courses.list(
+  //   {
+  //     teacherId: 'me'
+  //   }, (err, res) => 
+  //   { console.log(res.data)}
+  // )
+
+  classroom.courses.courseWork.list(
+    {
+      // note: google is a little poop baby and
+      // sometimes you have to do
+      // "courseId" in quotes APPARENTLY since it was a 
+      // path parameter
+
+      // TODO: remove hardcoded ID
+      // the course ID would be passed through the request
+      courseId: req.query.class_id,
+      orderBy: "updateTime desc"
+    }, (err, result) => {
+      result.data.courseWork.forEach(element => {
+        // console.log(element)
+        // element.due_date = new Date(element.dueDate.year, element.dueDate.month - 1, element.dueDate.day)
+      });
+      console.log(result.data.courseWork)
+      res.json(result.data.courseWork)
+    })
+}
+const oauth2Client = new google.auth.OAuth2(
+  config.google.client,
+  config.google.secret
+);
+
+
+function authorizeClient(req, res) {
+  token = req.query.access_token
+
+  oauth2Client.credentials = {access_token: token}
+
+  google.options({
+    auth: oauth2Client
+  });
+
+  res.status(200).send()
+}
+
+
+router.get('/classroom', getClassroom)
 router.get('/createpush', pushTopic)
 router.post('/push', pushMethod)
+router.get('/client', authorizeClient)
+
+router.get('/classrooms', getClassrooms)
+router.get('/assignments', getAssignments)
 
 module.exports = router;

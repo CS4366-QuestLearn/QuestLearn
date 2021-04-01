@@ -1,10 +1,19 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable } from "rxjs";
+import { UserType } from "../shared/models/user-type.enum";
 
 @Injectable({ providedIn: "root" })
 export class AuthService {
   public currentUserSubject: BehaviorSubject<gapi.auth2.GoogleUser>;
   public currentUser: Observable<any>;
+  public permissions = [
+    'https://www.googleapis.com/auth/classroom.courses.readonly',
+    'https://www.googleapis.com/auth/classroom.coursework.me',
+    'https://www.googleapis.com/auth/classroom.coursework.students',
+    'https://www.googleapis.com/auth/classroom.rosters.readonly',
+    'https://www.googleapis.com/auth/classroom.push-notifications'
+  ];
 
   public gapiSetup: boolean = false; // marks if the gapi library has been loaded
   public authInstance: gapi.auth2.GoogleAuth;
@@ -13,7 +22,12 @@ export class AuthService {
   public data: any = {response: "No data yet"};
   public initialized = false;
 
-  constructor() {
+  public serverUrl = "https://questlearn-server.herokuapp.com/"
+  public localUrl = "http://localhost:3000/"
+
+  constructor (
+    private http: HttpClient,
+  ) { 
     try {
       this.currentUserSubject = new BehaviorSubject<any>(
         JSON.parse(localStorage.getItem("currentUser"))
@@ -29,7 +43,7 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  public get currentUserValue() {
+  public get currentUserValue(): gapi.auth2.GoogleUser {
     return this.currentUserSubject.value;
   }
 
@@ -58,7 +72,7 @@ export class AuthService {
       await gapi.auth2
         .init({
           client_id: '358049124735-nh8u2f4n8i0uu1183vugsgd5lcm2unh3.apps.googleusercontent.com', 
-          scope: 'https://www.googleapis.com/auth/classroom.courses.readonly'
+          scope: this.permissions.join(' ')
         }).then(auth => {
           this.gapiSetup = true;
           this.authInstance = auth;
@@ -75,15 +89,15 @@ export class AuthService {
 
     // Resolve or reject signin Promise
     return new Promise(async () => {
-      await this.authInstance.signIn().then(
-        user => this.user = user,
+      return await this.authInstance.signIn().then(
+        user => {
+          this.user = user
+          this.currentUserSubject.next(this.user);
+          localStorage.setItem('currentUser', JSON.stringify(this.user));
+        },
         error => this.error = error
         );
 
-        console.log(this.user);
-
-        this.currentUserSubject.next(this.user);
-        localStorage.setItem('currentUser', JSON.stringify(this.user));
     });
   }
 
@@ -102,4 +116,13 @@ export class AuthService {
     this.currentUserSubject.next(null);
     this.authInstance.signOut();
   }
+  
+  userMongoRead(user: gapi.auth2.GoogleUser) {
+    return this.http.get(`${this.localUrl}api/login/user?google_id=${user.getBasicProfile().getId()}`)
+  }
+
+  userMongoWrite(user: gapi.auth2.GoogleUser, type: UserType) {
+    return this.http.post(`${this.localUrl}api/login/user`, {user: user.getBasicProfile().getId(), user_type: type})
+  }
+
 }

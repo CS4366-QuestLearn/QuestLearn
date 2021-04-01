@@ -1,0 +1,99 @@
+<div class="page-layout">
+  <div class="shop-table">
+    <div class="top-container">
+        <div class="search-box"></div>
+        <div class="info-box">
+          <h2>You have 300 QC in </h2>
+          <mat-form-field appearance="fill">
+            <mat-label>Class</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let classroom of classrooms" [value]="classroom.value">
+                {{classroom.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+    </div>
+    <div class="bottom-container">
+<div class="tab">
+    <button id="First_Button" class="tablinks" (click)="openCity($event, 'Classroom_Rewards')">Classroom Rewards</button>
+    <button class="tablinks" (click)="openCity($event, 'Animals')">Animals</button>
+    <button class="tablinks" (click)="openCity($event, 'Hats')">Hats</button>
+    <button class="tablinks" (click)="openCity($event, 'Shirts')">Shirts</button>
+    <button class="tablinks" (click)="openCity($event, 'Legs')">Legs</button>
+    <button class="tablinks" (click)="openCity($event, 'Accessories_and_Seasonal_Clothes')">Accessories and Seasonal Clothes</button>
+  </div>
+  
+  <div id="Classroom_Rewards" class="tabcontent">
+      <h2>Most Popular Rewards</h2>
+      <div class="tabcontent-container">
+        <button class="shop-button"><h3>Fruit Snacks</h3><p>100 QC</p></button>
+        <button class="shop-button"><h3>No-Homework Pass</h3><p>700 QC</p></button>
+        <button class="shop-button"><h3>Take One from the Grab Bag</h3><p>200 QC</p></button>
+      </div>
+      <h2>All Classroom Rewards</h2>
+      <div class="tabcontent-container">
+        <button class="shop-class-button"><h3>Bag of Lays</h3><p>100 QC</p></button>
+        <button class="shop-class-button"><h3>Take One from the Grab Bag</h3><p>200 QC</p></button>
+        <button class="shop-class-button"><h3>No-Homework Pass</h3><p>700 QC</p></button>
+        <button class="shop-class-button"><h3>Fruit Snacks</h3><p>100 QC</p></button>
+        <button class="shop-class-button"><h3>5 Homework Points</h3><p>700 QC</p></button>
+        <button class="shop-class-button"><h3>Lunch with the Teacher</h3><p>200 QC</p></button>
+      </div>
+      <h2>Class Bank</h2>
+      <div class="tabcontent-class-bank">
+        <div class="progress-bar-background">
+          <div class="progress-bar"></div>
+        </div>
+        <h2>300/500</h2>
+        <h2>Pizza Party</h2>
+        <button mat-raised-button class="donate-button">Donate</button>
+      </div>
+  </div>
+  
+  <div id="Animals" class="tabcontent">
+    <h2>Animals</h2>
+    <div class="tabcontent-container">
+      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Rabbit.PNG" width=50px height=50px></div><h3>Rabbit  100 QC</h3></button>
+      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Dog.PNG" width=50px height=50px></div><h3>Dog  500 QC</h3></button>
+    </div>
+    <div class="tabcontent-container">
+    </div>
+  </div>
+  
+  <div id="Hats" class="tabcontent">
+    <h2>Hats</h2>
+    <div class="tabcontent-container">
+      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Bow.PNG" width=50px height=50px></div><h3>Bow  50 QC</h3></button>
+    </div>
+    <div class="tabcontent-container">
+    </div>
+  </div>
+
+  <div id="Shirts" class="tabcontent">
+    <h2>Shirts</h2>
+    <div class="tabcontent-container">
+    </div>
+    <div class="tabcontent-container">
+    </div>
+  </div>
+
+  <div id="Legs" class="tabcontent">
+    <h2>Legs</h2>
+    <div class="tabcontent-container">
+    </div>
+    <div class="tabcontent-container">
+    </div>
+  </div>
+
+  <div id="Accessories_and_Seasonal_Clothes" class="tabcontent">
+    <h2>Accessories and Seasonal Clothes</h2>
+    <div class="tabcontent-container">
+      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Santa Hat.PNG" width=50px height=50px></div><h3>Santa Hat  300 QC</h3></button>
+    </div>
+    <div class="tabcontent-container">
+    </div>
+  </div> 
+</div>
+</div>
+</div>

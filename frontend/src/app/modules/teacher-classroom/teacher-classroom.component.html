@@ -1,0 +1,12 @@
+<div class="page-layout">
+    <div class="main-content">
+        <div>
+            <questlearn-sidenav [id]="id" (save)="reloadTable($event)"></questlearn-sidenav>
+        </div>
+        <div class="main-div">
+            <div class="table_header">Mrs. Johnson - 01 - 1st Period Social Studies</div>
+            <div class="table-container">
+                <questlearn-table [dataSource]="dataSource" [columns]="displayedColumns"></questlearn-table>
+            </div>
+        </div>
+    </div>
