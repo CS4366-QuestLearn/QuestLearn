@@ -3,7 +3,7 @@ const { google } = require("googleapis");
 var axios = require('axios')
 const classroom = google.classroom("v1")
 var config = require('../config')
-var quests = require('../api/quest/router')
+var quest = require('../api/quest/quest-model')
 
 // Imports the Google Cloud client library
 const {PubSub} = require('@google-cloud/pubsub');
@@ -128,19 +128,46 @@ async function pushMethod(req, res) {
   console.log(info.eventType)
   console.log(info.resourceId)
   if(info.eventType == 'MODIFIED') {
-    classroom.courses.courseWork.get(
-      {
-        courseId: info.resourceId.courseId,
-        id: info.resourceId.id,
-      }, (err, result) => {
-        if (err) {
-          console.log(err)
+    quest.findOne({coursework_id: info.resourceId.id}, (err, docs) => {
+      if (err) {
+
+      }
+      else {
+        if(!docs) {
+          classroom.courses.courseWork.get(
+            {
+              courseId: info.resourceId.courseId,
+              id: info.resourceId.id,
+            }, (err, result) => {
+              if (err) {
+                console.log(err)
+              }
+              else {
+                let newEntry = new quest({
+                  classroom_id: result.courseId,
+                  coursework_id: result.id,
+                  due_date: result.due_date ? new Date(result.due_date.year, result.due_date.month - 1, result.due_date.day) : null,
+                  creation_date: new Date(result.creationTime),
+                  last_modified: new Date(result.updateTime),
+                  name: result.title,
+                  reward_amount: 5,
+                  type: 1
+                })
+                newEntry.save((err, result) => {
+                  if (err) {console.log("oops")}
+                  else 
+                  {
+                    // result.status(201).send()
+                    console.log("Assignment entry saved!")
+                  }
+                })
+              }
+            })
+          
         }
-        else {
-        console.log(result.data)
-        quests.foobar()
-        }
-      })
+      }
+    
+    })
   }
   
   res.status(200).send()
