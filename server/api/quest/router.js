@@ -5,13 +5,15 @@ var config = require('../../config')
 const { google } = require("googleapis");
 const classroom = google.classroom("v1")
 
+const {PubSub} = require('@google-cloud/pubsub');
+
 // for now, custom quests are allowed:
 // maybe we id them but not worth rn
 function createQuest (req, res) {
   console.log(req.body)
   let newEntry = new quest({
     classroom_id: req.body.classroom_id,
-    coursework_id: null,
+    coursework_id: req.query.class_id,
     due_date: req.body.due_date,
     creation_date: Date.now(),
     last_modified: Date.now(),
@@ -80,6 +82,7 @@ function deleteQuest (req, res) {
 }
 
 function importAllQuests(req, res) {
+  console.log('GETTING ALL QUESTS FROM CLASSROOM')
   token = req.query.access_token
   const oauth2Client = new google.auth.OAuth2(
     config.google.client,
@@ -109,7 +112,7 @@ function importAllQuests(req, res) {
 
       // TODO: remove hardcoded ID
       // the course ID would be passed through the request
-      courseId: "274852630327",
+      courseId: req.query.class_id,
       orderBy: "updateTime asc"
     }, (err, res) => {
       res.data.courseWork.forEach(element => {
@@ -122,7 +125,7 @@ function importAllQuests(req, res) {
             if(!result) {
               console.log(`assignment ${element.title} is not in the db yet`)
               let newEntry = new quest({
-                classroom_id: '274852630327',
+                classroom_id: req.query.class_id,
                 coursework_id: element.id,
                 due_date: element.due_date ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
                 creation_date: new Date(element.creationTime),
@@ -160,6 +163,15 @@ function importQuest(req, res) {
 
 }
 
+function getAllQuests(req, res) {
+  console.log('getting all quests')
+  quest.find({classroom_id: req.query.class_id}).sort({due_date: 1}).exec(function(err, docs) {
+    console.log(req.query.class_id)
+    res.json(docs)
+  })
+}
+
+router.get('/', getAllQuests)
 
 router.post('/quest', createQuest);
 router.get('/quest/:_id', getQuest);

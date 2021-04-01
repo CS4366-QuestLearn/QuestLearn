@@ -18,6 +18,7 @@ export class TeacherHomeComponent implements OnInit {
 
   public dataSource: any[];
   public user: gapi.auth2.GoogleUser;
+  public userType
 
   constructor(
     private authService: AuthService,
@@ -27,11 +28,22 @@ export class TeacherHomeComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    
     this.user = this.authService.currentUserValue;
-    this.googleService.getClassrooms(this.user)
+    this.googleService.authorizeClient(this.user)
+    .subscribe(response => {
+      console.log(response)
+    })
+    this.authService.userMongoRead(this.user)
+    .subscribe(response => {
+      // console.log(typeof response)
+      this.userType = JSON.parse(response.toString()).user_type
+      console.log(this.user)
+      this.googleService.getClassrooms(this.user, this.userType)
       .subscribe((response: Array<any>) => {
         this.dataSource = response
       })
+    })
   }
 
   getRecord(record){

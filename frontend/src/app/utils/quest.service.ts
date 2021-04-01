@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,15 @@ export class QuestService {
 
   constructor(
     private http: HttpClient,
+    public auth: AuthService,
     ) { }
 
   
   addQuest(data) {
     return this.http.post(`${this.localUrl}api/quests/quest`, data)
+  }
+  importGoogleAssignments(user, id){
+    console.log(id)
+    return this.http.get(`${this.localUrl}api/quests/import?access_token=${user.getAuthResponse().access_token}&class_id=${id}`)
   }
 }
