@@ -33,11 +33,24 @@
 	width: 30%;
 }
 
+.name-class {
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
 
 .name-class-text {
   font-size: 250%;
   text-align: center;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
+  font-weight: 500;
+	padding-bottom: 4px;
+}
+
+.name-class-subtext {
+  font-size: 150%;
+  text-align: center;
   font-weight: 500;
 }
 

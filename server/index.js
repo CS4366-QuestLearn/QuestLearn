@@ -22,5 +22,6 @@ app.use('/api/login', require('./api/login/router'))
 app.use('/api/example', require('./api/example/foobar'))
 app.use('/api/quests', require('./api/quest/router'))
 app.use('/api/google', require('./utils/google'))
+app.use('/api/questlearn', require('./utils/questlearn-user'))
 // app.use('/api', require('./utils/auth'))
 app.listen(process.env.PORT || port, () => console.log(`Example app listening at http://localhost:${port}`));

@@ -10,7 +10,8 @@ var Schema = mongoose.Schema;
 var LoginSchema = new Schema({
   google_id: String,
   user_type: Number,
-  balance: Number
+  balance: Number,
+  avatar_url: String,
 });
 
 // Compile model from schema
