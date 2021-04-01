@@ -13,6 +13,7 @@ function createUser (req, res) {
           google_id: req.body.user,
           user_type: parseInt(req.body.user_type),
           balance: 0,
+          avatar_url: ''
         })
         newEntry.save((err, result) => {
           if (err) {console.log("oops")}

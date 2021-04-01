@@ -10,10 +10,8 @@ const {PubSub} = require('@google-cloud/pubsub');
 const pubSubClient = new PubSub();
 
 async function getClassroom(req, res) {
-  console.log('hello i am unda da wata')
   token = req.query.access_token
-  console.log(token)
-  //res.status(200).send()
+  const class_id = req.query.class_id;
 
   // locally, replace these env variables with references to config.js
 
@@ -31,10 +29,9 @@ async function getClassroom(req, res) {
 
   classroom.courses.get(
     {
-      id: '274852630327'
+      id: class_id
     }, (err, result) => 
-    { 
-      console.log(result.data)
+    {
       res.json(result.data)
     }
   )

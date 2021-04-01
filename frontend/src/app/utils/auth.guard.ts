@@ -6,12 +6,14 @@ import {
   CanActivateChild,
 } from "@angular/router";
 import { AuthService } from "./auth.service";
+import { QuestlearnService } from "./questlearn.service";
 
 @Injectable({ providedIn: "root" })
 export class AuthGuard implements CanActivateChild {
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private questlearnService: QuestlearnService,
   ) {}
 
   async canActivateChild(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -20,6 +22,8 @@ export class AuthGuard implements CanActivateChild {
     if (currentUser) {
       // Authorized so return true
       console.log('User is authenticated.');
+      
+      await this.questlearnService.init(currentUser);
       return true;
     }
 

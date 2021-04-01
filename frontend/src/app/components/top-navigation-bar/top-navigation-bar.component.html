@@ -5,8 +5,15 @@
     <button mat-button class="nav-button">Shop</button>
   </div>
   <div class="flexbox-subcontainer-right">
-    <div class="avatar-box"><img src="../../../assets/img/Rabbit.PNG" width=75px height=75px></div>
-    <p class="name-class-text">Mrs. Johnson</p>
+    <div class="avatar-box">
+      <img [src]="questlearnUser.avatar_url" width=75px height=75px>
+    </div>
+    <div class="name-class">
+      <div>
+        <div class="name-class-text">{{user?.getBasicProfile().getName()}}</div>
+        <div class="name-class-subtext" [@dataChange]="dataState" (@dataChange.done)="dataState = 'done'">{{classroom}}</div>
+      </div>
+    </div>
     <button mat-button class="nav-button" (click)=logout()>Log Out</button>
   </div>
 </div>
