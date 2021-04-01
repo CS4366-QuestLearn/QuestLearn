@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 mongoose.connect(`mongodb+srv://${config.mongodb.credentials}@${config.mongodb.url}`, 
-{useNewUrlParser: true}, { useUnifiedTopology: true })
+{useNewUrlParser: true}, { useUnifiedTopology: true }, {useFindAndModify:true})
 
 
 app.get('/', (req, res) => res.send('Hello world'));
