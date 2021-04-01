@@ -1,2 +1,10 @@
-<p>login works! A</p>
-<app-auth-button></app-auth-button>
+<div class="page-layout">
+  <div class="spacer"></div>
+  <div id="vertical-wrapper" class="window">
+    <div id="login-wrapper">
+      <div id="title">QuestLearn</div>
+      <app-auth-button *ngIf="!toSignUp" id="auth-button" (toSignUp)="showSignUp($event)"></app-auth-button>
+      <app-sign-up *ngIf="toSignUp"></app-sign-up>
+    </div>  
+  </div>
+</div>

@@ -1,0 +1,75 @@
+#gSignInWrapper {
+	width: 240px;
+	text-align: center;
+	color: #fff;	
+	box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
+	-webkit-transition: background-color .218s,border-color .218s,box-shadow .218s;
+	transition: background-color .218s,border-color .218s,box-shadow .218s;
+	user-select: none;
+}
+
+#gSignInWrapper:hover {
+  box-shadow: 0 0 8px 0px #5080f4;
+}
+
+#gButton {
+	-webkit-border-radius: 1px;
+	border-radius: 1px;
+	display: inline-block;
+	background-color: #5080f4;
+	// color: #444;
+	// width: 190px;
+	// border-radius: 5px;
+	// border: thin solid #888;
+	// box-shadow: 1px 1px 1px grey;
+	height: 100%;
+	width: 100%;
+	white-space: nowrap;
+	border: 1px solid transparent;
+}
+
+#gButton:hover {
+	cursor: pointer;
+}
+
+#gButton.isClicking {
+	background-color: #4161d6;
+}
+
+span {
+	.abcRioButtonSvg {
+		display: block;
+	}
+
+	&.buttonText {
+		display: inline-block;
+		// vertical-align: top;
+    font-size: 16px;
+		letter-spacing: .21px;
+    line-height: 48px;
+    margin-left: 6px;
+    margin-right: 6px;
+		/* Use the Roboto font that is loaded in the <head> */
+		font-family: 'Roboto', sans-serif;
+	}
+}
+
+.abcRioButtonIcon {
+	padding: 15px;
+	background-color: #fff;
+	float: left;
+	border-radius: 1px;
+
+	.abcRioButtonIconImage {
+		width: 18px;
+    height: 18px;
+    -webkit-user-select: none;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+
+		>svg {
+			display: block;
+		}
+	}
+}

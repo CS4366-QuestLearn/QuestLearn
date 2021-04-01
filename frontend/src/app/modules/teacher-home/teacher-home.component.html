@@ -1,6 +1,7 @@
 <div class="page-layout">
-    <app-top-navigation-bar> </app-top-navigation-bar>
-    <div class="table-container"><app-teacher-home-table></app-teacher-home-table></div>
-    <button mat-raised-button class="edit-button">Edit</button>
-</div>
+  <questlearn-table [dataSource]="dataSource" [columns]="displayedColumns" (open)="getRecord($event)" [hasCount]="true"></questlearn-table>
 
+  <div>
+    <button mat-raised-button class="edit-button">Edit</button>
+  </div>
+</div>
