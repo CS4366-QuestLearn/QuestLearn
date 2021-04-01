@@ -143,7 +143,8 @@ async function pushMethod(req, res) {
                 console.log(err)
               }
               else {
-                var element = result.data.courseWork[0]
+                console.log(result.data)
+                var element = result.data
                 let newEntry = new quest({
                   classroom_id: element.courseId,
                   coursework_id: element.id,
