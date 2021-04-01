@@ -134,6 +134,7 @@ async function pushMethod(req, res) {
         id: info.resourceId.id,
       }, (err, result) => {
         console.log(result.data)
+        quests.foobar()
       })
   }
   
