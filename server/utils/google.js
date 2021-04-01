@@ -128,12 +128,12 @@ async function pushMethod(req, res) {
   console.log(info.eventType)
   console.log(info.resourceId)
   if(info.eventType == 'MODIFIED') {
-    quest.findOne({coursework_id: info.resourceId.id}, (err, docs) => {
+    quest.findOneAndReplace({coursework_id: info.resourceId.id}, {upsert: true}, (err, docs) => {
       if (err) {
 
       }
       else {
-        if(!docs) {
+        if(true) {
           classroom.courses.courseWork.get(
             {
               courseId: info.resourceId.courseId,
