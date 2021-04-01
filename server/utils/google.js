@@ -133,8 +133,13 @@ async function pushMethod(req, res) {
         courseId: info.resourceId.courseId,
         id: info.resourceId.id,
       }, (err, result) => {
+        if (err) {
+          console.log(err)
+        }
+        else {
         console.log(result.data)
         quests.foobar()
+        }
       })
   }
   
