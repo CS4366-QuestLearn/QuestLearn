@@ -127,13 +127,13 @@ async function pushMethod(req, res) {
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
   console.log(info.eventType)
   console.log(info.resourceId)
-  if(info.eventType == 'CREATED') {
+  if(info.eventType == 'MODIFIED') {
     classroom.courses.courseWork.get(
       {
         courseId: info.resourceId.courseId,
         id: info.resourceId.id,
-      }, (err, res) => {
-        console.log('a')
+      }, (err, result) => {
+        console.log(result.data)
       })
   }
   
