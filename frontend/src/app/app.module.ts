@@ -9,6 +9,7 @@ import { AuthButtonComponent } from './components/auth-button/auth-button.compon
 import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TeacherClassroomComponent } from './modules/teacher-classroom/teacher-classroom.component';
+import { ClassShopComponent } from './modules/class-shop/class-shop.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
@@ -16,6 +17,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
 import { MatTableModule } from '@angular/material/table';
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -45,6 +47,7 @@ import { StudentComponent } from './modules/student/student.component';
     SignUpComponent,
     TopNavigationBarComponent,
     TeacherClassroomComponent,
+    ClassShopComponent,
     AddQuestDialogComponent,
     UpcomingAssignmentComponent,
     TestingComponent,
@@ -62,6 +65,7 @@ import { StudentComponent } from './modules/student/student.component';
     MatSidenavModule,
     MatButtonModule,
     MatTableModule,
+    MatSelectModule,
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,

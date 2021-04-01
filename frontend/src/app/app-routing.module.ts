@@ -11,6 +11,7 @@ import { LoginComponent } from './modules/login/login.component';
 import { LandingPageComponent } from './modules/landing-page/landing-page.component';
 import { TeacherHomeComponent } from './modules/teacher-home/teacher-home.component';
 import { TeacherClassroomComponent } from './modules/teacher-classroom/teacher-classroom.component';
+import { ClassShopComponent } from './modules/class-shop/class-shop.component';
 import { StudentHomeComponent } from './modules/student-home/student-home.component';
 import { TestingComponent } from './modules/testing/testing.component';
 import { TeacherComponent } from './modules/teacher/teacher.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
         path: '',
         component: LandingPageComponent,
         children: [
+          { path: 'shop', component: ClassShopComponent },
           { 
             path: 'teacher',
             component: TeacherComponent,

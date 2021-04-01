@@ -31,4 +31,8 @@ export class TopNavigationBarComponent implements OnInit {
   })
   }
 
+  shop() {
+    this.router.navigate(['shop']);
+  }
+
 }
