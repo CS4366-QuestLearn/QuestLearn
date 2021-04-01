@@ -53,7 +53,7 @@ async function getClassrooms(req, res) {
         console.log('Problem finding courses')
         res.status(404).send('Error finding teacher course list.')
       }
-      result.data.forEach(element => {
+      result.data.forEach(async (element) => {
         await classroom.registrations.create(
           {
             requestBody: {
