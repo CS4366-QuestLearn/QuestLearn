@@ -143,6 +143,7 @@ async function pushMethod(req, res) {
                 console.log(err)
               }
               else {
+                console.log(result)
                 let newEntry = new quest({
                   classroom_id: result.courseId,
                   coursework_id: result.id,
@@ -153,6 +154,8 @@ async function pushMethod(req, res) {
                   reward_amount: 5,
                   type: 1
                 })
+                console.log('yeeeeeeeeeeeeeeeeeeeeeeehaw')
+                console.log(newEntry)
                 newEntry.save((err, result) => {
                   if (err) {console.log("oops")
                     console.log(err)}
