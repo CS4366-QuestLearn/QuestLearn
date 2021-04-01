@@ -15,6 +15,7 @@ import { StudentHomeComponent } from './modules/student-home/student-home.compon
 import { TestingComponent } from './modules/testing/testing.component';
 import { TeacherComponent } from './modules/teacher/teacher.component';
 import { StudentComponent } from './modules/student/student.component';
+import { QuestBoardComponent } from './modules/quest-board/quest-board.component';
 
 const routes: Routes = [
   { 
@@ -39,6 +40,7 @@ const routes: Routes = [
             component: StudentComponent,
             children: [
               { path: 'home', component: StudentHomeComponent },
+              { path: 'class/:id', component: QuestBoardComponent },
             ]
           },
         ]
@@ -51,7 +53,7 @@ const routes: Routes = [
     canActivateChild: [DevGuard],
     children: [
       { path: 'testing', component: TestingComponent },
-      { path: 'tyler', component: StudentHomeComponent },
+      { path: 'tyler', component: QuestBoardComponent },
     ]
   },
   { path: '**', redirectTo: '' } // otherwise redirect to home

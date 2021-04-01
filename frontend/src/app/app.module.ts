@@ -31,6 +31,8 @@ import { TableComponent } from './components/table/table.component';
 import { SideNavComponent } from './components/sidenav/sidenav.component';
 import { TeacherComponent } from './modules/teacher/teacher.component';
 import { StudentComponent } from './modules/student/student.component';
+import { QuestBoardComponent } from './modules/quest-board/quest-board.component';
+import { QuestComponent } from './components/quest/quest.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +53,8 @@ import { StudentComponent } from './modules/student/student.component';
     TableComponent,
     TeacherComponent,
     StudentComponent,
+    QuestBoardComponent,
+    QuestComponent,
   ],
   exports: [],
   imports: [
