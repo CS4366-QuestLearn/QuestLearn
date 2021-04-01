@@ -127,7 +127,13 @@ async function pushMethod(req, res) {
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
   console.log(info.eventType)
   if(info.eventType == 'CREATED') {
-    quests.importQuest()
+    classroom.courses.courseWork.get(
+      {
+        courseId: info.resourceId.courseId,
+        id: info.resourceId.id,
+      }, (err, res) => {
+        console.log(res.data)
+      })
   }
   
   res.status(200).send()
