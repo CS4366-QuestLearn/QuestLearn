@@ -175,14 +175,14 @@ async function pushMethod(req, res) {
     
     })
   }
-    quest.delete({_id: {$exists: false}}, (err, result) => {
-    if (err) {
-      console.log('couldnt remove')
-    }
-    else {
-      console.log(`empty entries removed.`)
-    }
-  })
+  //   quest.delete({_id: {$exists: false}}, (err, result) => {
+  //   if (err) {
+  //     console.log('couldnt remove')
+  //   }
+  //   else {
+  //     console.log(`empty entries removed.`)
+  //   }
+  // })
   res.status(200).send()
 }
 
