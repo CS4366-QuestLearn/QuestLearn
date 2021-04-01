@@ -24,7 +24,7 @@ export class GoogleService {
     return this.http.get(`${this.localUrl}api/quests?class_id=${id}`)
   }
   authorizeClient(user) {
-    return this.http.get(`${this.localUrl}api/google/client?access_token=${user.getAuthResponse().access_token}`)
+    return this.http.get(`${this.serverUrl}api/google/client?access_token=${user.getAuthResponse().access_token}`)
   }
   getTeachers(user) {
     return this.http.get(`${this.localUrl}api/google/teachers?access_token=${user.getAuthResponse().access_token}`)

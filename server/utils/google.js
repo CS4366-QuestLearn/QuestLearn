@@ -54,26 +54,26 @@ async function getClassrooms(req, res) {
     {
       if(err) {
         console.log('Problem finding courses')
+        console.log(err)
         res.status(404).send('Error finding teacher course list.')
       }
-      console.log(result)
-      // result.data.courses.forEach(async (element) => {
-      //   await classroom.registrations.create(
-      //     {
-      //       requestBody: {
-      //         cloudPubsubTopic: {
-      //           topicName: "projects/phonic-botany-304917/topics/my-topic"
-      //         },
-      //         feed: {
-      //           feedType: "COURSE_WORK_CHANGES",
-      //           courseWorkChangesInfo: {
-      //             courseId: element.id
-      //           }      
-      //         }
-      //       }
-      //     }
-      //   )
-      // });
+      result.data.courses.forEach(async (element) => {
+        await classroom.registrations.create(
+          {
+            requestBody: {
+              cloudPubsubTopic: {
+                topicName: "projects/phonic-botany-304917/topics/my-topic"
+              },
+              feed: {
+                feedType: "COURSE_WORK_CHANGES",
+                courseWorkChangesInfo: {
+                  courseId: element.id
+                }      
+              }
+            }
+          }
+        )
+      });
       res.json(result.data.courses)
     }
   )
