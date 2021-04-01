@@ -122,7 +122,10 @@ async function pushTopic(req, res) {
 }
 
 async function pushMethod(req, res) {
-  console.log(Buffer.from(req.body.message.data, 'base64').toString());
+  console.log(Buffer.from(req.body.message.data, 'base64'));
+  var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
+  console.log(info)
+  
   res.status(200).send()
 }
 
