@@ -43,7 +43,7 @@ async function getClassroom(req, res) {
 var subscription
 async function getClassrooms(req, res) {
   console.log('geting classrooms')
-  subscription = pubSubClient.subscription("my-topic-sub");
+  subscription = pubSubClient.subscription("my-topic-heroku-push");
   if(req.query.user_type == "1") {
     console.log('user is a teacher')
   classroom.courses.list(
