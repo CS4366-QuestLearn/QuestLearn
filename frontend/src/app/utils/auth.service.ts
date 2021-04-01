@@ -11,7 +11,8 @@ export class AuthService {
     'https://www.googleapis.com/auth/classroom.courses.readonly',
     'https://www.googleapis.com/auth/classroom.coursework.me',
     'https://www.googleapis.com/auth/classroom.coursework.students',
-    'https://www.googleapis.com/auth/classroom.rosters.readonly'
+    'https://www.googleapis.com/auth/classroom.rosters.readonly',
+    'https://www.googleapis.com/auth/classroom.push-notifications'
   ];
 
   public gapiSetup: boolean = false; // marks if the gapi library has been loaded

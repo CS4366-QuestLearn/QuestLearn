@@ -58,6 +58,7 @@ async function getClassrooms(req, res) {
         res.status(404).send('Error finding teacher course list.')
       }
       result.data.courses.forEach(async (element) => {
+        console.log('registration starting')
         await classroom.registrations.create(
           {
             requestBody: {
@@ -73,6 +74,7 @@ async function getClassrooms(req, res) {
             }
           }
         )
+        console.log('registration created')
       });
       res.json(result.data.courses)
     }
@@ -182,31 +184,15 @@ function authorizeClient(req, res) {
   google.options({
     auth: oauth2Client
   });
+
+  res.status(200).send()
 }
 
-async function subscribeCoursework() {
-  await classroom.registrations.create(
-    {
-      requestBody: {
-        cloudPubsubTopic: {
-          topicName: "projects/phonic-botany-304917/topics/my-topic"
-        },
-        feed: {
-          feedType: "COURSE_WORK_CHANGES",
-          courseWorkChangesInfo: {
-            courseId: "274852630327"
-          }      
-        }
-      }
-    }
-  )
-}
 
 router.get('/classroom', getClassroom)
 router.get('/createpush', pushTopic)
 router.post('/push', pushMethod)
 router.get('/client', authorizeClient)
-router.get('subscribe/coursework', subscribeCoursework)
 
 router.get('/classrooms', getClassrooms)
 router.get('/assignments', getAssignments)
