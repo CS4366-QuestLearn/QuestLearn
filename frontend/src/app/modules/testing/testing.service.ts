@@ -34,6 +34,9 @@ export class TestingService {
   // Teacher testing functions:
   // get the list of classrooms that the teacher has
   getClassrooms(user) {
-    return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}`)
+    return this.http.get(`${this.localUrl}api/test/create?access_token=${user.getAuthResponse().access_token}`)
+  }
+  getClassrooms2(user: gapi.auth2.GoogleUser) {
+    return this.http.get(`${this.localUrl}api/login/completed-quests?access_token=${user.getAuthResponse().access_token}&google_id=${user.getBasicProfile().getId()}`)
   }
 }

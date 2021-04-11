@@ -72,4 +72,13 @@ export class TestingComponent implements OnInit {
       })
   }
 
+  getClassrooms2() {
+    console.log(this.user as gapi.auth2.GoogleUser)
+    // console.log(typeof(this.user))
+    this.testingService.getClassrooms2(this.user)
+      .subscribe(response => {
+        console.log(response)
+      })
+  }
+
 }

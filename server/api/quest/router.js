@@ -206,6 +206,7 @@ function foobar() {
   console.log('testing')
 }
 
+// this has an example of using mongoose's filters (.sort)
 function getAllQuests(req, res) {
   console.log('getting all quests')
   quest.find({classroom_id: req.query.class_id}).sort({due_date: 1}).exec(function(err, docs) {

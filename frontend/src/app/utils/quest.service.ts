@@ -16,7 +16,7 @@ export class QuestService {
 
   
   addQuest(data) {
-    return this.http.post(`${this.localUrl}api/quests/quest`, data)
+    return this.http.post(`${this.localUrl}api/classroom/quest`, data)
   }
   importGoogleAssignments(user, id){
     console.log(id)

@@ -48,10 +48,13 @@ export class TeacherClassroomComponent implements OnInit {
       console.log(response)
     })
 
-    this.questService.importGoogleAssignments(this.user, this.id)
-    .subscribe(response => {
-      console.log(response)
-    })
+    // This method checked if all Google Classroom assignments were in the db
+    // this.questService.importGoogleAssignments(this.user, this.id)
+    // .subscribe(response => {
+    //   console.log(response)
+    // })
+
+    
     // This is how you would pull from Google Classroom API only
     // this.googleService.getGoogleAssignments(this.user, id)
     //   .subscribe((response: Array<any>) => {

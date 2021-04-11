@@ -18,10 +18,25 @@ mongoose.connect(`mongodb+srv://${config.mongodb.credentials}@${config.mongodb.u
 
 app.get('/', (req, res) => res.send('Hello world'));
 
+// USER ROUTES
+// TODO: Rename login -> user
 app.use('/api/login', require('./api/login/router'))
+
+// CLASSROOM AND QUEST ROUTE
+app.use('/api/classroom', require('./api/classroom/router'))
 app.use('/api/example', require('./api/example/foobar'))
+
+// TODO: deprecate this
 app.use('/api/quests', require('./api/quest/router'))
+
+// GOOGLE CLASSROOM API ROUTE
+// Mostly for pubsub and testing
 app.use('/api/google', require('./utils/google'))
+
+// QUESTLEARN USER ROUTE
+// Contains information about usertype
 app.use('/api/questlearn', require('./utils/questlearn-user'))
+
+
 // app.use('/api', require('./utils/auth'))
 app.listen(process.env.PORT || port, () => console.log(`Example app listening at http://localhost:${port}`));
