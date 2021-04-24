@@ -36,7 +36,11 @@ export class TestingService {
   getClassrooms(user) {
     return this.http.get(`${this.localUrl}api/test/create?access_token=${user.getAuthResponse().access_token}`)
   }
-  getClassrooms2(user: gapi.auth2.GoogleUser) {
-    return this.http.get(`${this.localUrl}api/login/completed-quests?access_token=${user.getAuthResponse().access_token}&google_id=${user.getBasicProfile().getId()}`)
+  importQuestsToUser(user: gapi.auth2.GoogleUser) {
+    return this.http.get(`${this.localUrl}api/login/test/importquests?access_token=${user.getAuthResponse().access_token}&google_id=${user.getBasicProfile().getId()}`)
+  }
+
+  getTestClassroom(user: gapi.auth2.GoogleUser) {
+    return this.http.get(`${this.localUrl}api/classroom/test/classroom?access_token=${user.getAuthResponse().access_token}&google_id=${user.getBasicProfile().getId()}`)
   }
 }

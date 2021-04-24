@@ -9,7 +9,8 @@ var Schema = mongoose.Schema;
 
 var Quests = new Schema({
   _id: String,
-  completed: Boolean
+  classroom_id: String,
+  completed: Boolean,
 })
 
 var UserSchema = new Schema({

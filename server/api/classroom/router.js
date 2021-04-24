@@ -199,10 +199,20 @@ function deleteQuest() {
 }
 
 
+function getTestClassroom(req, res) {
+  classroom.findOne({classroom_id: '311516886961'}).sort({due_date: 1}).exec(function(err, doc) {
+    res.json(doc.quests)
+  })
+}
+
 router.get('/foobar', getFoo)
 router.get('/create', createClassrooms)
 router.get('/import', importQuestsToClass)
 router.get('/quests', readAllQuests)
 router.get('/quest', readQuest)
 router.post('/quest', createQuest)
+
+
+// testing functions
+router.get('/test/classroom', getTestClassroom)
 module.exports = router;
