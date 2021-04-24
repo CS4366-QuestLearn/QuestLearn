@@ -72,4 +72,38 @@ export class TestingComponent implements OnInit {
       })
   }
 
+  importQuestsToUser() {
+    console.log(this.user as gapi.auth2.GoogleUser)
+    // console.log(typeof(this.user))
+    this.testingService.importQuestsToUser(this.user)
+      .subscribe(response => {
+        console.log(response)
+      })
+  }
+
+  getQuestData() {
+    console.log(this.user as gapi.auth2.GoogleUser)
+
+
+      // table data
+      this.testingService.getTestClassroom(this.user)
+      .subscribe((response: Array<any>) => {
+        console.log('classroom data')
+        console.log(response)
+        this.testingService.importQuestsToUser(this.user)
+        .subscribe((status: Array<any>) => {
+          console.log('student data')
+          console.log(status)
+          response.forEach(element => {
+            element.completed = status.find(x => x._id == element._id).completed
+          });
+          console.log(response)
+        })
+      })
+
+      // load class data into table
+      // then for each element inthe table
+      // check the user object for true false and then change status "Completed", "Incomplete", etc
+  }
+
 }

@@ -1,5 +1,6 @@
 var user = require('./user-model')
 var router = require('express').Router()
+var classroom = require('../classroom/classroom-model')
 
 function createUser (req, res) {
   user.findOne({google_id: req.body.user}, (err, result) =>
@@ -51,7 +52,93 @@ function getUser (req, res) {
   })
 }
 
+function getUserQuests (req, res) {
+  console.log('getting user quests')
+
+  user.findOne({google_id: req.query.google_id}, (err, doc) =>
+  {
+    if(err || !doc) {
+      console.log("No user found with getUser.")
+      res.json(JSON.stringify({exists: false}))
+    }
+    else { 
+          res.json(doc.completed_quests)   
+    }
+
+  })
+  // res.status(200).send()
+}
+
+function completeQuest(req, res) {
+  user.findOne({google_id: req.query.google_id}, (err, doc) =>
+  {
+    if(err || !doc) {
+      console.log("No user found with getUser.")
+      res.json(JSON.stringify({exists: false}))
+    }
+    else {
+      doc.completed_quests.push({
+        _id: req.body._id,
+        completed: true
+      })
+
+      doc.save()
+
+        
+    }
+
+  })
+
+  res.status(201).send()
+
+}
+
+// THIS IS ONLY FOR TESTING TO LOAD DATA IN. DO NOT CALL THIS
+function importQuestStatus(req, res) {
+  console.log('importing')
+  console.log(req.query)
+    // call get GoogleID to get the reference
+    // google_user = user.findOne( {google_id: req.google_id})
+  
+    // user_type = usertype.find( {user_id: google_user._id})
+  
+    user.findOne({google_id: req.query.google_id}, (err, user_doc) =>
+    {
+      if(err || !user_doc) {
+        console.log("No user found with getUser.")
+        res.json(JSON.stringify({exists: false}))
+      }
+      else {
+        classroom.findOne({classroom_id: '311516886961'}, async (err, classdoc) => {
+          classdoc.quests.forEach(element => {
+            if (user_doc.completed_quests.filter(e => e._id === element.id).length > 0) {
+              // if it already exists
+              console.log('quest already added')
+            }
+            else{
+              console.log('adding quest')
+            user_doc.completed_quests.push({
+              _id: element.id,
+              classroom_id: element.classroom_id,
+              completed: false
+            })
+          }
+        });
+        await user_doc.save()
+        // console.log(user_doc.completed_quests)
+        res.json(user_doc.completed_quests)   
+        }) 
+      }
+  
+    })
+  }
+
 router.post('/user', createUser)
 router.get('/user', getUser)
+
+router.post('/quest', completeQuest)
+
+router.get('/completed-quests', getUserQuests)
+router.get('/test/importquests', importQuestStatus)
 
 module.exports = router

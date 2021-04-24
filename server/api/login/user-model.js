@@ -7,15 +7,22 @@ var mongoose = require('mongoose');
 //Define a schema
 var Schema = mongoose.Schema;
 
-var LoginSchema = new Schema({
+var Quests = new Schema({
+  _id: String,
+  classroom_id: String,
+  completed: Boolean,
+})
+
+var UserSchema = new Schema({
   google_id: String,
   user_type: Number,
   balance: Number,
   avatar_url: String,
+  completed_quests: [Quests]
 });
 
 // Compile model from schema
-let LoginModel = mongoose.model('user', LoginSchema );
+let UserModel = mongoose.model('user-test', UserSchema );
 
   
- module.exports = LoginModel
+ module.exports = UserModel
