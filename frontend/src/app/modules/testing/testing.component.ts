@@ -95,7 +95,8 @@ export class TestingComponent implements OnInit {
           console.log('student data')
           console.log(status)
           response.forEach(element => {
-            element.completed = status.find(x => x._id == element._id).completed
+            // element.completed = status.find(x => x._id == element._id).completed
+            console.log('aaa')
           });
           console.log(response)
         })

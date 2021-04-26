@@ -183,7 +183,9 @@ function readQuest(req, res) {
 }
 
 function readAllQuests(req, res) {
+  console.log('getting quests')
   classroom.findOne({classroom_id: req.query.class_id}).sort({due_date: 1}).exec(function(err, doc) {
+    // console.log(doc.quests)
     res.json(doc.quests)
   })
 }

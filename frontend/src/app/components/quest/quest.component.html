@@ -1,6 +1,9 @@
 <div class="outer-box">
-  <div class="details">{{description}}</div>
-  <div class="details">{{progress}}</div>
-  <div class="details">{{due_date}}</div>
-  <div class="details">{{reward}}</div>
+  <div class="details">{{data.name}}</div>
+  <div class="details">{{data.due_date  ? (data.due_date | date: 'MM/dd/yyyy') : 'No due date' }}</div>
+  <div class="details">{{data.reward_amount}}</div>
+  <ng-container *ngIf="data.completed;else elseBlock">
+    <div class="details">Completed</div>
+  </ng-container>
+  <ng-template #elseBlock><div class=details><button (click)="turnIn()">Turn in</button></div></ng-template>
 </div>

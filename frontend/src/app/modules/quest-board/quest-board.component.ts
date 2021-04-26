@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { QuestService } from 'src/app/utils/quest.service';
+import { AuthService } from 'src/app/utils/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-quest-board',
@@ -7,31 +10,44 @@ import { Component, OnInit } from '@angular/core';
 })
 export class QuestBoardComponent implements OnInit {
 
-  public teamQuests = [
-    { description: 'Donate to the Class Bank', progress: '300/500', due_date: 'Due March 20th', reward: 'Pizza Party' },
-    { description: 'Participate in Lab', progress: 'Entire Class', due_date: 'Due March 15th', reward: '5 QC' },
-    { description: 'Participate in Lab', progress: 'Entire Class', due_date: 'Due March 15th', reward: '5 QC' },
-    { description: 'Participate in Lab', progress: 'Entire Class', due_date: 'Due March 15th', reward: '5 QC' },
-    { description: 'Participate in Lab', progress: 'Entire Class', due_date: 'Due March 15th', reward: '5 QC' },
-    { description: 'Participate in Lab', progress: 'Entire Class', due_date: 'Due March 15th', reward: '5 QC' },
-    { description: 'Participate in Lab', progress: 'Entire Class', due_date: 'Due March 15th', reward: '5 QC' },
-  ];
-  
-  public yourQuests = [
-    { description: 'Homework 1', progress: 'Turn In', due_date: 'Due March 11th', reward: '10 QC' },
-    { description: 'Homework 2', progress: 'Turn In', due_date: 'Due March 16th', reward: '5 QC' },
-    { description: 'Reading Analysis', progress: 'Turn In', due_date: 'Due March 19th', reward: '8 QC' },
-    { description: 'Reading Analysis', progress: 'Turn In', due_date: 'Due March 19th', reward: '8 QC' },
-    { description: 'Reading Analysis', progress: 'Turn In', due_date: 'Due March 19th', reward: '8 QC' },
-    { description: 'Reading Analysis', progress: 'Turn In', due_date: 'Due March 19th', reward: '8 QC' },
-    { description: 'Reading Analysis', progress: 'Turn In', due_date: 'Due March 19th', reward: '8 QC' },
-    { description: 'Reading Analysis', progress: 'Turn In', due_date: 'Due March 19th', reward: '8 QC' },
-    { description: 'Reading Analysis', progress: 'Turn In', due_date: 'Due March 19th', reward: '8 QC' },
-  ];
+  public teamQuests = [];
+  public yourQuests = [];
 
-  constructor() { }
+  public loading = true;
+
+  public id;
+  public user: gapi.auth2.GoogleUser;
+
+  constructor(
+    private questService: QuestService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit(): void {
+    this.user = this.authService.currentUserValue;
+    this.id = this.route.snapshot.params.id;
+    this.questService.getAllAssignments(this.user, this.id, true)
+    .subscribe((response: Array<any>) => {
+      console.log('response data')
+      console.log(response)
+      this.teamQuests = response.filter(x => x.type == 2);
+      this.yourQuests = response.filter(x => x.type == 1);
+      console.log(this.teamQuests)
+      console.log(this.yourQuests)
+      this.loading = false
+      // this.questService.importQuestsToUser(this.user)
+      // .subscribe((status: any) => {
+      //   console.log('student data')
+      //   console.log(status)
+      //   response.forEach(element => {
+      //     element.completed = status.quests.find(x => x._id == element._id).completed
+      //   });
+
+      //   this.loading = false;
+      //   console.log("Student balance for current classroom: " , status.balance)
+      // })
+    })
   }
 
 }
