@@ -27,7 +27,7 @@ var UserSchema = new Schema({
 });
 
 // Compile model from schema
-let UserModel = mongoose.model('user-test-2', UserSchema );
+let UserModel = mongoose.model('user', UserSchema );
 
   
  module.exports = UserModel

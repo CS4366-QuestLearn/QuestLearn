@@ -1,3 +1,6 @@
+/**
+ * DEPRECATED: Keeping this here for documentation purposes
+ */
 var quest = require('./quest-model')
 var router = require('express').Router();
 var config = require('../../config')
@@ -6,9 +9,6 @@ const { google } = require("googleapis");
 const classroom = google.classroom("v1")
 
 const {PubSub} = require('@google-cloud/pubsub');
-
-// TODO: Deprecate this soon
-
 
 // for now, custom quests are allowed:
 // maybe we id them but not worth rn

@@ -43,10 +43,10 @@ export class TeacherClassroomComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
     this.user = this.authService.currentUserValue;
-    this.googleService.authorizeClient(this.user)
-    .subscribe(response => {
-      console.log(response)
-    })
+    // this.googleService.authorizeClient(this.user)
+    // .subscribe(response => {
+    //   console.log(response)
+    // })
 
     // This method checked if all Google Classroom assignments were in the db
     // this.questService.importGoogleAssignments(this.user, this.id)

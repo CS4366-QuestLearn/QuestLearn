@@ -1,6 +1,3 @@
-// Maybe this is just some "joi" schema or uses an ORM like bookshelf etc
-
-
 //Require Mongoose
 var mongoose = require('mongoose');
 
