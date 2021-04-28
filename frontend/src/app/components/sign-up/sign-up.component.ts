@@ -28,12 +28,10 @@ export class SignUpComponent implements OnInit {
 
   signUp(type) {
     this.authService.userMongoWrite(this.user, type).subscribe(x => {
+      this.zone.run(() => { 
+        this.router.navigate([`/${Object.values(UserRoute)[type - 1]}`]);
+      });
     });
-
-    this.zone.run(() => { 
-      this.router.navigate([`/${Object.values(UserRoute)[type - 1]}`]);
-     });
-
   }
 
 }

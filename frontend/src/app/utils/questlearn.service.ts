@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +19,8 @@ export class QuestlearnService {
 
   constructor(
     private http: HttpClient,
+    private authService: AuthService,
+    private router: Router,
   ) {
     try {
       this.questlearnUserSubject = new BehaviorSubject<any>(
@@ -32,7 +36,12 @@ export class QuestlearnService {
   }
 
   async init(user: gapi.auth2.GoogleUser) {
-    const response = await this.http.get(`${this.localUrl}api/questlearn/user?google_id=${user.getBasicProfile().getId()}`).toPromise();
+    const response = await this.http.get(`${this.localUrl}api/questlearn/user?google_id=${user.getBasicProfile().getId()}`).toPromise()
+      .catch(error => {
+        this.authService.logout();
+        this.router.navigate(['login']);
+      }
+    );
     this.questlearnUserSubject.next(response);
   }
 
