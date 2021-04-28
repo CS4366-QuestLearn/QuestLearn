@@ -11,6 +11,9 @@
 }
 
 .flexbox-subcontainer-left {
+	>img {
+		padding-left: 8px;
+	}
 	height: 90%;
 	width: 45%;
 	display: flex;

@@ -1,0 +1,58 @@
+<form *ngIf="itemFormGroup" [formGroup]="itemFormGroup" (ngSubmit)="onItemCreate(itemFormGroup.value)">
+  <div>Add item to shop-items:</div>
+  <input formControlName="name" placeholder="name">
+  <input type="number" formControlName="cost" placeholder="cost">
+  <input formControlName="thumbnail_url" placeholder="thumbnail_url">
+  <input formControlName="full_url" placeholder="full_url">
+  <label for="type">Type:</label>
+  <select formControlName="type" id="type">
+    <option value="animal">animal</option>
+    <option value="head">head</option>
+    <option value="shirt">shirt</option>
+    <option value="pant">pant</option>
+    <option value="accessory">accessory</option>
+  </select>
+
+  <button type="submit" [disabled]="!itemFormGroup.valid">Submit</button>
+</form>
+
+<br>
+
+<form *ngIf="purchaseFormGroup" [formGroup]="purchaseFormGroup" (ngSubmit)="onItemBuy(purchaseFormGroup.value)">
+  <div>Add item to user inventory:</div>
+  <input formControlName="google_id" placeholder="google_id">
+  <label for="item">Item:</label>
+  <select formControlName="item_id" id="item">
+    <option *ngFor="let item of items" [value]="item._id">{{item.name}}</option>
+  </select>
+
+  <button type="submit" [disabled]="!purchaseFormGroup.valid">Submit</button>
+</form>
+
+<br>
+
+<form *ngIf="editItemFormGroup" [formGroup]="editItemFormGroup" (ngSubmit)="onItemEdit(editItemFormGroup.value)">
+  <div>
+    <label for="edit-item">Edit Item: </label>
+    <select id="edit-item" (change)="onEditChange($event.target.value)">
+      <option value=""></option>
+      <option *ngFor="let item of items" [value]="item._id">{{item.name}}</option>
+    </select>
+  </div>
+  <input formControlName="name" placeholder="name">
+  <input type="number" formControlName="cost" placeholder="cost">
+  <input formControlName="thumbnail_url" placeholder="thumbnail_url">
+  <input formControlName="full_url" placeholder="full_url">
+  <label for="type">Type:</label>
+  <select formControlName="type" id="type">
+    <option value="animal">animal</option>
+    <option value="head">head</option>
+    <option value="shirt">shirt</option>
+    <option value="pant">pant</option>
+    <option value="accessory">accessory</option>
+  </select>
+
+  <button type="submit" [disabled]="!editItemFormGroup.valid">Submit</button>
+</form>
+
+<br>

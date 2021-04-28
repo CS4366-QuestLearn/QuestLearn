@@ -12,6 +12,7 @@ export class QuestlearnService {
   public localUrl = "http://localhost:3000/"
   
   public questlearnUserSubject: BehaviorSubject<any>;
+  private user: gapi.auth2.GoogleUser;
 
   public get questlearnUserValue() {
     return this.questlearnUserSubject.value;
@@ -36,6 +37,7 @@ export class QuestlearnService {
   }
 
   async init(user: gapi.auth2.GoogleUser) {
+    this.user = user;
     const response = await this.http.get(`${this.localUrl}api/questlearn/user?google_id=${user.getBasicProfile().getId()}`).toPromise()
       .catch(error => {
         this.authService.logout();
@@ -43,6 +45,10 @@ export class QuestlearnService {
       }
     );
     this.questlearnUserSubject.next(response);
+  }
+
+  async reload() {
+    this.init(this.user);
   }
 
   async getClassroom(user: gapi.auth2.GoogleUser, id) {

@@ -98,4 +98,8 @@ export class TopNavigationBarComponent implements OnInit, OnDestroy {
     this.router.navigate(['shop']);
   }
 
+  avatar() {
+    this.router.navigate(['avatar']);
+  }
+
 }
