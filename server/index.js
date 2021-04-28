@@ -20,7 +20,7 @@ app.get('/', (req, res) => res.send('Hello world'));
 
 // USER ROUTES
 // TODO: Rename login -> user
-app.use('/api/login', require('./api/login/router'))
+app.use('/api/user', require('./api/user/router'))
 
 // CLASSROOM AND QUEST ROUTE
 app.use('/api/classroom', require('./api/classroom/router'))

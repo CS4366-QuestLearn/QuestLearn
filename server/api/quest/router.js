@@ -1,3 +1,6 @@
+/**
+ * DEPRECATED: Keeping this here for documentation purposes
+ */
 var quest = require('./quest-model')
 var router = require('express').Router();
 var config = require('../../config')

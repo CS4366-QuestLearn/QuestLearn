@@ -1,4 +1,4 @@
-var user = require('../api/login/user-model');
+var user = require('../api/user/user-model');
 var router = require("express").Router();
 
 function getUser(req, res) {

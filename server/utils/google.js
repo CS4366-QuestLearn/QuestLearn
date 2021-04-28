@@ -1,3 +1,6 @@
+/**
+ * google.js: endpoints for pulling from google classroom and for pubsub integration
+ */
 var router = require("express").Router();
 const { google } = require("googleapis");
 var axios = require('axios')
@@ -10,17 +13,19 @@ const {PubSub} = require('@google-cloud/pubsub');
 // Creates a client; cache this for further use
 const pubSubClient = new PubSub();
 
-// Hardcoded testing function.
-async function getClassroom(req, res) {
-  token = req.query.access_token
-  const class_id = req.query.class_id;
 
-  // locally, replace these env variables with references to config.js
-
-  const oauth2Client = new google.auth.OAuth2(
-    config.google.client,
-    config.google.secret
+const oauth2Client = new google.auth.OAuth2(
+  config.google.client,
+  config.google.secret
   );
+  
+var subscription
+
+/**
+ * This function is called right when the user logs in in order to get the google classroom permissions.
+ */
+function authorizeClient(req, res) {
+  token = req.query.access_token
 
   oauth2Client.credentials = {access_token: token}
 
@@ -28,6 +33,16 @@ async function getClassroom(req, res) {
     auth: oauth2Client
   });
 
+  res.status(200).send()
+}
+
+/**
+ * This function gets information about a specific google classroom.
+ */
+async function getClassroom(req, res) {
+  console.log('Getting classroom')
+  token = req.query.access_token
+  const class_id = req.query.class_id;
 
   classroom.courses.get(
     {
@@ -38,11 +53,16 @@ async function getClassroom(req, res) {
     }
   )
 }
-var subscription
+
+/**
+ * This function gets all of the google classroom courses that a user is registered in.
+ */
 async function getClassrooms(req, res) {
-  console.log('geting classrooms')
+  console.log('Getting classrooms')
   console.log(req.query)
   subscription = pubSubClient.subscription("my-topic-heroku-push");
+
+  // Check user type
   if(req.query.user_type == "1") {
     console.log('user is a teacher')
   classroom.courses.list(
@@ -55,6 +75,7 @@ async function getClassrooms(req, res) {
         console.log(err)
         res.status(404).send('Error finding teacher course list.')
       }
+      // Student user types can't use registrations. It's just the design of the Classroom API.
       result.data.courses.forEach(async (element) => {
         console.log('registration starting')
         await classroom.registrations.create(
@@ -86,13 +107,16 @@ async function getClassrooms(req, res) {
       {
         if(err) {
           console.log('Problem finding courses')
-          res.status(404).send('Error finding teacher course list.')
+          res.status(404).send('Error finding student course list.')
         }
         res.json(result.data.courses)}
     )
       }  
 }
 
+/**
+ * Function for creating the subscription.
+ */
 async function pushTopic(req, res) {
   
   subscription = pubSubClient.subscription("my-topic-sub");
@@ -119,70 +143,83 @@ async function pushTopic(req, res) {
   res.status(200).send()
 }
 
+/**
+ * The function that's called when the push endpoint is used by Google
+ */
 async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
   console.log(info.eventType)
   console.log(info.resourceId)
-  if(info.eventType == 'MODIFIED') {
-    quest.findOneAndReplace({coursework_id: info.resourceId.id}, {upsert: true}, (err, docs) => {
-      if (err) {
+  // The code below needs to be fine-tuned for every type of change that can occur since we get so many notifications.
+  // if(info.eventType == 'MODIFIED') {
+  //   quest.findOneAndReplace({coursework_id: info.resourceId.id}, {upsert: true}, (err, docs) => {
+  //     if (err) {
 
-      }
-      else {
-        console.log(docs)
-        if(true) {
-          classroom.courses.courseWork.get(
-            {
-              courseId: info.resourceId.courseId,
-              id: info.resourceId.id,
-            }, (err, result) => {
-              if (err) {
-                console.log(err)
-              }
-              else {
-                console.log(result.data)
-                var element = result.data
-                let newEntry = new quest({
-                  classroom_id: element.courseId,
-                  coursework_id: element.id,
-                  due_date: element.due_date ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
-                  creation_date: new Date(element.creationTime),
-                  last_modified: new Date(element.updateTime),
-                  name: element.title,
-                  reward_amount: 5,
-                  type: 1
-                })
-                console.log('yeeeeeeeeeeeeeeeeeeeeeeehaw')
-                console.log(newEntry)
-                newEntry.save((err, result) => {
-                  if (err) {console.log("oops")
-                    console.log(err)}
-                  else 
-                  { 
-                    // result.status(201).send()
-                    console.log("Assignment entry saved!")
-                  }
-                })
-              }
-            })
+  //     }
+  //     else {
+  //       console.log(docs)
+  //       if(true) {
+  //         classroom.courses.courseWork.get(
+  //           {
+  //             courseId: info.resourceId.courseId,
+  //             id: info.resourceId.id,
+  //           }, (err, result) => {
+  //             if (err) {
+  //               console.log(err)
+  //             }
+  //             else {
+  //               console.log(result.data)
+  //               var element = result.data
+  //               let newEntry = new quest({
+  //                 classroom_id: element.courseId,
+  //                 coursework_id: element.id,
+  //                 due_date: element.due_date ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
+  //                 creation_date: new Date(element.creationTime),
+  //                 last_modified: new Date(element.updateTime),
+  //                 name: element.title,
+  //                 reward_amount: 5,
+  //                 type: 1
+  //               })
+  //               console.log('yeeeeeeeeeeeeeeeeeeeeeeehaw')
+  //               console.log(newEntry)
+  //               newEntry.save((err, result) => {
+  //                 if (err) {console.log("oops")
+  //                   console.log(err)}
+  //                 else 
+  //                 { 
+  //                   // result.status(201).send()
+  //                   console.log("Assignment entry saved!")
+  //                 }
+  //               })
+  //             }
+  //           })
           
-        }
-      }
+  //       }
+  //     }
     
-    })
-  }
-    quest.deleteMany({name: {$exists: false}}, (err, result) => {
-    if (err) {
-      console.log('couldnt remove')
-    }
-    else {
-      console.log(`empty entries removed.`)
-    }
-  })
+  //   })
+  // }
+  //   quest.deleteMany({name: {$exists: false}}, (err, result) => {
+  //   if (err) {
+  //     console.log('couldnt remove')
+  //   }
+  //   else {
+  //     console.log(`empty entries removed.`)
+  //   }
+  // })
   res.status(200).send()
 }
 
+/**
+ * 
+ * 
+ * 
+ * TESTING FUNCTIONS
+ * 
+ * 
+ * 
+ **/
 
 // NOT FINAL. The actual call is in quest/router.js.
 // This will only get the google classroom assignments.
@@ -227,23 +264,7 @@ async function getAssignments(req, res) {
       res.json(result.data.courseWork)
     })
 }
-const oauth2Client = new google.auth.OAuth2(
-  config.google.client,
-  config.google.secret
-);
 
-
-function authorizeClient(req, res) {
-  token = req.query.access_token
-
-  oauth2Client.credentials = {access_token: token}
-
-  google.options({
-    auth: oauth2Client
-  });
-
-  res.status(200).send()
-}
 
 
 router.get('/classroom', getClassroom)

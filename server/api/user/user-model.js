@@ -9,8 +9,13 @@ var Schema = mongoose.Schema;
 
 var Quests = new Schema({
   _id: String,
-  classroom_id: String,
   completed: Boolean,
+})
+
+var Classes = new Schema({
+  classroom_id: String,
+  balance: Number,
+  quests: [Quests]
 })
 
 var UserSchema = new Schema({
@@ -18,11 +23,11 @@ var UserSchema = new Schema({
   user_type: Number,
   balance: Number,
   avatar_url: String,
-  completed_quests: [Quests]
+  classes: [Classes]
 });
 
 // Compile model from schema
-let UserModel = mongoose.model('user-test', UserSchema );
+let UserModel = mongoose.model('user', UserSchema );
 
   
  module.exports = UserModel

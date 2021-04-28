@@ -37,7 +37,7 @@ export class TestingService {
     return this.http.get(`${this.localUrl}api/test/create?access_token=${user.getAuthResponse().access_token}`)
   }
   importQuestsToUser(user: gapi.auth2.GoogleUser) {
-    return this.http.get(`${this.localUrl}api/login/test/importquests?access_token=${user.getAuthResponse().access_token}&google_id=${user.getBasicProfile().getId()}`)
+    return this.http.get(`${this.localUrl}api/user/test/importquests?access_token=${user.getAuthResponse().access_token}&google_id=${user.getBasicProfile().getId()}`)
   }
 
   getTestClassroom(user: gapi.auth2.GoogleUser) {
