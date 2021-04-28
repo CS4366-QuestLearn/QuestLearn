@@ -17,6 +17,8 @@ import { TestingComponent } from './modules/testing/testing.component';
 import { TeacherComponent } from './modules/teacher/teacher.component';
 import { StudentComponent } from './modules/student/student.component';
 import { QuestBoardComponent } from './modules/quest-board/quest-board.component';
+import { AvatarComponent } from './modules/avatar/avatar.component';
+import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
 
 const routes: Routes = [
   { 
@@ -29,6 +31,7 @@ const routes: Routes = [
         component: LandingPageComponent,
         children: [
           { path: 'shop', component: ClassShopComponent },
+          { path: 'avatar', component: AvatarComponent },
           { 
             path: 'teacher',
             component: TeacherComponent,
@@ -56,6 +59,7 @@ const routes: Routes = [
     children: [
       { path: 'testing', component: TestingComponent },
       { path: 'tyler', component: QuestBoardComponent },
+      { path: 'shop', component: TestingShopComponent },
     ]
   },
   { path: '**', redirectTo: '' } // otherwise redirect to home

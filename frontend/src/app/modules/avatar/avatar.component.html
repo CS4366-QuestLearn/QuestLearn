@@ -1,0 +1,91 @@
+<div fxLayout="row" id="page">
+  <div fxLayoutAlign="space-around" fxFlex="40">
+    <div fxLayout="column">
+      <div fxLayoutAlign="center" id="portrait">
+        <ng-container *ngIf="!loading">
+          <img [src]="inventory.animal_items[formGroup.value.animal].full_url">
+          <img [src]="inventory.pant_items[formGroup.value.pant].full_url">
+          <img [src]="inventory.shirt_items[formGroup.value.shirt].full_url">
+          <img [src]="inventory.head_items[formGroup.value.head].full_url">
+          <img [src]="inventory.accessory_items[formGroup.value.accessory].full_url">
+        </ng-container>
+      </div>
+      <div fxLayoutAlign="center" class="title">Username</div>
+    </div>
+  </div>
+  <form *ngIf="formGroup" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" fxLayoutAlign="space-around" fxFlex="60" fxLayout="row wrap">
+    <div fxLayoutAlign="space-around" fxFlex="50">
+      <div fxLayout="column">
+        <div fxLayoutAlign="center" class="title">Animal</div>
+        <div fxLayoutAlign="center">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="animal" name="Animal">
+              <mat-option *ngFor="let option of inventory.animal_items; index as i" [value]="i">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-around" fxFlex="50">
+      <div fxLayout="column">
+        <div fxLayoutAlign="center" class="title">Head</div>
+        <div fxLayoutAlign="center">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="head" name="Head">
+              <mat-option *ngFor="let option of inventory.head_items; index as i" [value]="i">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-around" fxFlex="50">
+      <div fxLayout="column">
+        <div fxLayoutAlign="center" class="title">Shirt</div>
+        <div fxLayoutAlign="center">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="shirt" name="Shirt">
+              <mat-option *ngFor="let option of inventory.shirt_items; index as i" [value]="i">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-around" fxFlex="50">
+      <div fxLayout="column">
+        <div fxLayoutAlign="center" class="title">Pants</div>
+        <div fxLayoutAlign="center">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="pant" name="Pant">
+              <mat-option *ngFor="let option of inventory.pant_items; index as i" [value]="i">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="space-around" fxFlex="100">
+      <div fxLayout="column">
+        <div fxLayoutAlign="center" class="title">Accessory</div>
+        <div fxLayoutAlign="center">
+          <mat-form-field appearance="fill">
+            <mat-select formControlName="accessory" name="Accessory">
+              <mat-option *ngFor="let option of inventory.accessory_items; index as i" [value]="i">
+                {{option.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div fxLayoutAlign="end center" fxFlex="80">
+      <button mat-raised-button type="submit" [disabled]="!formGroup.valid" color="primary">Save</button>
+    </div>
+  </form>
+</div>

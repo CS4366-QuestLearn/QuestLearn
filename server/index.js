@@ -26,6 +26,10 @@ app.use('/api/user', require('./api/user/router'))
 app.use('/api/classroom', require('./api/classroom/router'))
 app.use('/api/example', require('./api/example/foobar'))
 
+// SHOP ROUTE
+// Contains information about shop and items
+app.use('/api/shop', require('./api/shop/router'))
+
 // TODO: deprecate this
 app.use('/api/quests', require('./api/quest/router'))
 

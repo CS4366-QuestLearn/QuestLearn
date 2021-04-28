@@ -13,6 +13,7 @@ import { ClassShopComponent } from './modules/class-shop/class-shop.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
@@ -35,6 +36,8 @@ import { TeacherComponent } from './modules/teacher/teacher.component';
 import { StudentComponent } from './modules/student/student.component';
 import { QuestBoardComponent } from './modules/quest-board/quest-board.component';
 import { QuestComponent } from './components/quest/quest.component';
+import { AvatarComponent } from './modules/avatar/avatar.component';
+import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
 
 @NgModule({
   declarations: [
@@ -58,11 +61,14 @@ import { QuestComponent } from './components/quest/quest.component';
     StudentComponent,
     QuestBoardComponent,
     QuestComponent,
+    AvatarComponent,
+    TestingShopComponent,
   ],
   exports: [],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,

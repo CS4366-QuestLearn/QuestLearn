@@ -17,7 +17,21 @@ function createUser(req, res) {
           google_id: req.body.user,
           user_type: parseInt(req.body.user_type),
           balance: 0,
-          avatar_url: ''
+          avatar_url: '',
+          equipped: {
+            animal_id: '60885cbaf24f980404b3196c',
+            head_id: '60885c81f24f980404b31966',
+            shirt_id: '60885c83f24f980404b31967',
+            pant_id: '60885c85f24f980404b31968',
+            accessory_id: '60885c87f24f980404b31969',
+          },
+          inventory: {
+            animal_ids: ["60885cbaf24f980404b3196c"], // default animal for user
+            head_ids: ["60885c81f24f980404b31966"], // blank image
+            shirt_ids: ["60885c83f24f980404b31967"], // blank image
+            pant_ids: ["60885c85f24f980404b31968"], // blank image
+            accessory_ids: ["60885c87f24f980404b31969"], // blank image
+          },
         })
         newEntry.save((err, result) => {
           if (err) { console.log("Problem saving using") }
@@ -128,6 +142,28 @@ function updateStudentAssignments(req, res) {
 }
 
 /**
+ * This function is called when a user saves their avatar.
+ */
+function updateEquippedItems(req, res) {
+  user.findOne({ google_id: req.query.google_id }, (err, user) => {
+    if (err || !user) {
+      console.log("No user found with updateEquippedItems.")
+      res.status(404).send();
+    }
+    else {
+      user.equipped.animal_id = req.body.animal_id;
+      user.equipped.head_id = req.body.head_id;
+      user.equipped.shirt_id = req.body.shirt_id;
+      user.equipped.pant_id = req.body.pant_id;
+      user.equipped.accessory_id = req.body.accessory_id;
+      user.save()
+      res.status(201).send();
+    }
+  });
+
+}
+
+/**
  * 
  * 
  * 
@@ -212,5 +248,7 @@ router.get('/completed-quests', getUserQuests)
 router.get('/test/importquests', importQuestStatus)
 
 router.get('/update-assignments', updateStudentAssignments)
+
+router.post('/update-equipped-items', updateEquippedItems)
 
 module.exports = router
