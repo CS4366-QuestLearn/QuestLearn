@@ -35,6 +35,9 @@ import { TeacherComponent } from './modules/teacher/teacher.component';
 import { StudentComponent } from './modules/student/student.component';
 import { QuestBoardComponent } from './modules/quest-board/quest-board.component';
 import { QuestComponent } from './components/quest/quest.component';
+import { PurchaseConfirmationComponent } from './components/purchase-confirmation/purchase-confirmation.component';
+import { AddRewardDialogComponent } from './components/add-reward-dialog/add-reward-dialog.component';
+import { ShopButtonLargeComponent } from './components/shop-button-large/shop-button-large.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +61,9 @@ import { QuestComponent } from './components/quest/quest.component';
     StudentComponent,
     QuestBoardComponent,
     QuestComponent,
+    PurchaseConfirmationComponent,
+    AddRewardDialogComponent,
+    ShopButtonLargeComponent,
   ],
   exports: [],
   imports: [
