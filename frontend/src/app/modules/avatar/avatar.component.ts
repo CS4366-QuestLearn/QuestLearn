@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { TopNavigationBarService } from 'src/app/components/top-navigation-bar/top-navigation-bar.service';
 import { AuthService } from 'src/app/utils/auth.service';
 import { QuestlearnService } from 'src/app/utils/questlearn.service';
 import { AvatarService } from './avatar.service';
@@ -24,12 +25,14 @@ export class AvatarComponent implements OnInit {
   items: any[] = [];
 
   loading = true;
+  isSaving = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private avatarService: AvatarService,
     private questlearnService: QuestlearnService,
     private authService: AuthService,
+    private topNavigationBarService: TopNavigationBarService,
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -66,8 +69,10 @@ export class AvatarComponent implements OnInit {
       accessory_id: this.inventory.accessory_items[formData.accessory]._id,
     };
 
-    const res = await this.avatarService.updateEquippedItems(saveData, this.user);
-    console.log(res);
+    this.isSaving = true;
+    const res: any = await this.avatarService.updateEquippedItems(saveData, this.user);
+    this.isSaving = false;
+    this.topNavigationBarService.updateAvatarUrl(res.avatar_url);
   }
 
 }

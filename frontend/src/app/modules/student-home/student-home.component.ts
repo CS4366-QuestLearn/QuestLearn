@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ColumnDefinition } from 'src/app/shared/models/column-definition';
 import { AuthService } from 'src/app/utils/auth.service';
 import { GoogleService } from 'src/app/utils/google.service';
+import { QuestlearnService } from 'src/app/utils/questlearn.service';
 
 @Component({
   selector: 'app-student-home',
@@ -17,6 +18,7 @@ export class StudentHomeComponent implements OnInit {
 
   public dataSource;
   public user: gapi.auth2.GoogleUser;
+  public questlearnUser: any;
   public userType;
 
   constructor(
@@ -24,10 +26,12 @@ export class StudentHomeComponent implements OnInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private googleService: GoogleService,
+    private questlearnService: QuestlearnService,
   ) { }
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
+    this.questlearnUser = this.questlearnService.questlearnUserValue;
     // this.googleService.authorizeClient(this.user)
     // .subscribe(response => {
     //   console.log(response)
