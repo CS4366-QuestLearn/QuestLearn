@@ -16,6 +16,7 @@ import { SignUpComponent } from './components/sign-up/sign-up.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button'
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
@@ -38,6 +39,7 @@ import { QuestBoardComponent } from './modules/quest-board/quest-board.component
 import { QuestComponent } from './components/quest/quest.component';
 import { AvatarComponent } from './modules/avatar/avatar.component';
 import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
+import { ManageBalanceDialogComponent } from './components/manage-balance-dialog/manage-balance-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,7 @@ import { TestingShopComponent } from './modules/testing-shop/testing-shop.compon
     QuestComponent,
     AvatarComponent,
     TestingShopComponent,
+    ManageBalanceDialogComponent,
   ],
   exports: [],
   imports: [
@@ -73,6 +76,7 @@ import { TestingShopComponent } from './modules/testing-shop/testing-shop.compon
     BrowserAnimationsModule,
     MatButtonModule,
     MatSidenavModule,
+    MatCheckboxModule,
     MatButtonModule,
     MatTableModule,
     MatSelectModule,
