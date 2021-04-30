@@ -15,11 +15,16 @@ var Quests = new Schema({
   type: Number
 })
 
+var Rewards = new Schema({
+  reward_name: String,
+  reward_amount: Number
+})
 
 var Classroom = new Schema({
   teacher_id: String,
   classroom_id: String,
-  quests: [Quests]
+  quests: [Quests],
+  rewards: [Rewards]
 });
 
 // Compile model from schema

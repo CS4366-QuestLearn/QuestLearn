@@ -138,7 +138,8 @@ async function createClassrooms(req, res) {
               let newEntry = new classroom({
                 classroom_id: element.id,
                 teacher_id: element.ownerId,
-                quests: []
+                quests: [],
+                rewards: []
               })
               newEntry.save((err, result) => {
               if (err) {console.log("oops")}
