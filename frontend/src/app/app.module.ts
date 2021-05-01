@@ -38,6 +38,8 @@ import { QuestBoardComponent } from './modules/quest-board/quest-board.component
 import { QuestComponent } from './components/quest/quest.component';
 import { AvatarComponent } from './modules/avatar/avatar.component';
 import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
+import { RewardNotifsComponent } from './modules/reward-notifs/reward-notifs.component';
+import { RedeemNotifComponent } from './components/redeem-notif/redeem-notif.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +65,8 @@ import { TestingShopComponent } from './modules/testing-shop/testing-shop.compon
     QuestComponent,
     AvatarComponent,
     TestingShopComponent,
+    RewardNotifsComponent,
+    RedeemNotifComponent,
   ],
   exports: [],
   imports: [
