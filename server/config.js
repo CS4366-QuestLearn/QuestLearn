@@ -25,3 +25,7 @@ config.google =
 // config.email etc
 // config.log
 
+config.imgur = {
+  client: process.env.IMGUR_CLIENT_ID,
+  secret: process.env.IMGUR_SECRET,
+}

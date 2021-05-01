@@ -3,12 +3,12 @@
   <div id="top">
     <div id="profile">
       <div id="portrait">
-          <img id="pfp" src="https://media.discordapp.net/attachments/823615379083231264/825494496410075166/unknown.png">
+          <img id="pfp" [src]="questlearnUser?.avatar_url">
       </div>
     </div>
     <div id="welcome">
       <div id="top-text">
-        Welcome back, Jimmy.
+        Welcome back, {{user?.getBasicProfile().getName()}}.
         <br>
       </div>
       <div id="bottom-text">
