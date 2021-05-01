@@ -19,6 +19,7 @@ import { StudentComponent } from './modules/student/student.component';
 import { QuestBoardComponent } from './modules/quest-board/quest-board.component';
 import { AvatarComponent } from './modules/avatar/avatar.component';
 import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
+import { RewardNotifsComponent } from './modules/reward-notifs/reward-notifs.component';
 
 const routes: Routes = [
   { 
@@ -60,6 +61,7 @@ const routes: Routes = [
       { path: 'testing', component: TestingComponent },
       { path: 'tyler', component: QuestBoardComponent },
       { path: 'shop', component: TestingShopComponent },
+      { path: 'manage-rewards', component: RewardNotifsComponent },
     ]
   },
   { path: '**', redirectTo: '' } // otherwise redirect to home

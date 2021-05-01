@@ -41,6 +41,8 @@ import { AddRewardDialogComponent } from './components/add-reward-dialog/add-rew
 import { ShopButtonLargeComponent } from './components/shop-button-large/shop-button-large.component';
 import { AvatarComponent } from './modules/avatar/avatar.component';
 import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
+import { RewardNotifsComponent } from './modules/reward-notifs/reward-notifs.component';
+import { RedeemNotifComponent } from './components/redeem-notif/redeem-notif.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { TestingShopComponent } from './modules/testing-shop/testing-shop.compon
     ShopButtonLargeComponent,
     AvatarComponent,
     TestingShopComponent,
+    RewardNotifsComponent,
+    RedeemNotifComponent,
   ],
   exports: [],
   imports: [
