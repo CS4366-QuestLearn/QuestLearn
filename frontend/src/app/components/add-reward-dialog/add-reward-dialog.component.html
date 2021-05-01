@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>Add New Classroom Reward</h2>
+<mat-dialog-content>
+  <form class="form-content">
+    <mat-form-field floatlabel="never" appearance="outline" color="accent">
+      <mat-label>Reward Name</mat-label>
+      <input matInput [formControl]="nameFormControl" required #message maxlength="30" placeholder="Ex. 5 points Extra Credit" (change)="setName()">
+      <mat-hint align="end">{{message.value.length}} / 30</mat-hint>
+      <mat-error *ngIf="nameFormControl.hasError('required')">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field floatlabel="never" appearance="outline" color="accent">
+      <mat-label>Reward Price</mat-label>
+      <input type="number"  matInput [formControl]="numberFormControl" required #message placeholder="Ex. 30" (change)="setPrice()">      
+      <mat-error *ngIf="numberFormControl.hasError('min') && !numberFormControl.hasError('required')">
+        Please enter a non-negative number
+      </mat-error>
+      <mat-error *ngIf="numberFormControl.hasError('required')">
+        Please enter a number
+      </mat-error>
+    </mat-form-field>
+  </form>  
+</mat-dialog-content>
+<mat-dialog-actions class="window_row">
+  <button mat-raised-button (click)="closeDialog()">Confirm</button>
+  <button mat-raised-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
