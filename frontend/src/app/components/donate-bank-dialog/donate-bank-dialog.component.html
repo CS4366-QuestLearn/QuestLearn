@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup">
+<h2 mat-dialog-title>Class Bank</h2>
+<mat-dialog-content>
+  <div class="form-content">
+    <mat-form-field floatlabel="never" appearance="outline" color="accent">
+      <mat-label>Reward Price</mat-label>
+      <input type="number" id="d" matInput formControlName="donation_amount" required #message placeholder="Ex. 30" (change)="setDonation(message.value)">
+      <mat-hint align="end">{{message.value}} / {{donation_max}}</mat-hint>      
+      
+    </mat-form-field>
+   </div>
+</mat-dialog-content>
+<mat-dialog-actions class="window_row">
+  <p>Do you want to donate this amount?</p>
+  <button mat-button mat-dialog-close="{{donation}}" [disabled]="!formGroup.valid">Yes</button>
+  <button mat-button mat-dialog-close>No</button>
+</mat-dialog-actions>
+</form>

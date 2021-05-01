@@ -1,16 +1,23 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)">
-  <mat-dialog-content class="mat-typography">
-
-      <h2 mat-dialog-title>Add a quest</h2>
-
-      <div>  
-        <mat-form-field>
+  <h2 mat-dialog-title>Add a New Quest</h2>
+  <mat-dialog-content class="mat-typography"> 
+      
+    <div class="radio-wrapper">
+      <h3>Quest Type: </h3>
+        <mat-radio-group aria-label="Type" formControlName="type">
+          <mat-radio-button value="1">Single</mat-radio-button>
+          <mat-radio-button value="2">Group</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    
+      <div class="name-box">  
+        <mat-form-field appearance="outline" color="accent" class="name-box">
           <input matInput placeholder="Quest Name" formControlName="name">
         </mat-form-field>
       </div>
-
+    <div class="input-container">
       <div>
-        <mat-form-field>
+        <mat-form-field appearance="outline" color="accent">
           <mat-label>Due Date</mat-label>
           <input matInput [matDatepicker]="duePicker" formControlName="due_date">
           <mat-datepicker-toggle matSuffix [for]="duePicker"></mat-datepicker-toggle>
@@ -19,17 +26,11 @@
       </div>
 
       <div>  
-        <mat-form-field>
+        <mat-form-field appearance="outline" color="accent">
           <input matInput placeholder="Reward Amount" type="number" formControlName="reward_amount">
         </mat-form-field>
       </div>
-
-      <div class="radio-wrapper">
-        <mat-radio-group aria-label="Type" formControlName="type">
-          <mat-radio-button value="1">Single</mat-radio-button>
-          <mat-radio-button value="2">Group</mat-radio-button>
-        </mat-radio-group>
-      </div>
+    </div>
 
 
   </mat-dialog-content>

@@ -1,6 +1,6 @@
 import { Component, OnInit} from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import {FormControl, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClassShopComponent } from 'src/app/modules/class-shop/class-shop.component';
 
 @Component({
@@ -9,40 +9,24 @@ import { ClassShopComponent } from 'src/app/modules/class-shop/class-shop.compon
   styleUrls: ['./add-reward-dialog.component.scss']
 })
 export class AddRewardDialogComponent implements OnInit {
-  reward_name: string;
-  reward_price: number;
-  price_set: boolean;
+  formGroup: FormGroup;
 
-  nameFormControl = new FormControl('', [
-    Validators.required,
-  ]);
-  
-  numberFormControl = new FormControl('', [
-    Validators.required,
-    Validators.min(0),
-  ]);
-  constructor(public dialogRef: MatDialogRef<ClassShopComponent>) { }
+  constructor(public dialogRef: MatDialogRef<ClassShopComponent>, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    this.price_set = false;
+    this.createForm();
   }
 
-  setName()
-  {
-    this.reward_name=this.nameFormControl.value;
+  createForm() {
+    this.formGroup = this.formBuilder.group({
+      'name': [null, [Validators.required]],
+      'price': [null, [Validators.required, Validators.min(0)]]
+    });
   }
-  setPrice()
-  {
-    if(this.numberFormControl.value != '')
-    {
-      this.price_set = true;
-    }
-    this.reward_price=this.numberFormControl.value;
-  }
+
 
   closeDialog() {
-    if(this.reward_name != null && this.price_set)
-      this.dialogRef.close({name: this.reward_name, price: this.reward_price});
+      this.dialogRef.close({name: this.formGroup.controls['name'].value, price: Number(this.formGroup.controls['price'].value)});
   }
 
 }

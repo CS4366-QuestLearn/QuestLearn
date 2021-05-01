@@ -2,11 +2,11 @@
 <mat-dialog-content>
   <div class="window_row"><p>You have: </p><p>{{data.balance}} QC</p></div>
   <div class="window_row"><p>This item costs: </p><p>{{data.price}} QC</p></div>
-  <div class="window_row" id="not_purchasable"><p>You do not have enough QC for this item </p><button mat-raised-button mat-dialog-close>Close</button></div>
+  <div class="window_row" id="not_purchasable"><p>You do not have enough QC for this item </p><button mat-button mat-dialog-close>Close</button></div>
   <div class="window_row" id="purchasable1"><p>After buying, you will have: </p><p>{{remaining}} QC</p></div>
 </mat-dialog-content>
 <mat-dialog-actions class="window_row" id="purchasable2">
   <p>Do you want to buy this item?</p>
-  <button mat-raised-button mat-dialog-close="{{data.price}}">Yes</button>
-  <button mat-raised-button mat-dialog-close>No</button>
+  <button mat-button mat-dialog-close="purchased">Yes</button>
+  <button mat-button mat-dialog-close>No</button>
 </mat-dialog-actions>
