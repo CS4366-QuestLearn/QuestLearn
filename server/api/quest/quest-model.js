@@ -1,3 +1,6 @@
+/**
+ * DEPRECATED: Keeping this here for documentation purposes
+ */
 var mongoose = require('mongoose');
 
 //Define a schema

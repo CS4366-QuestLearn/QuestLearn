@@ -1,0 +1,25 @@
+#page {
+  padding-top: 20px;
+}
+
+.title {
+  font-size: 200%;
+  font-weight: 500;
+  padding-bottom: 8px;
+}
+
+#portrait {
+  width: 304px;
+  height: 454px;
+  background-color: #898eed;
+  border: 2px solid black;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  position: relative;
+
+  >img {
+    position:absolute;
+    top: 0;
+    left: 0;
+  }
+}

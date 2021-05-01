@@ -13,6 +13,7 @@ import { ClassShopComponent } from './modules/class-shop/class-shop.component';
 import { TylerComponentComponent } from './components/tyler-component/tyler-component.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignUpComponent } from './components/sign-up/sign-up.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button'
@@ -38,6 +39,8 @@ import { QuestComponent } from './components/quest/quest.component';
 import { PurchaseConfirmationComponent } from './components/purchase-confirmation/purchase-confirmation.component';
 import { AddRewardDialogComponent } from './components/add-reward-dialog/add-reward-dialog.component';
 import { ShopButtonLargeComponent } from './components/shop-button-large/shop-button-large.component';
+import { AvatarComponent } from './modules/avatar/avatar.component';
+import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
 
 @NgModule({
   declarations: [
@@ -64,11 +67,14 @@ import { ShopButtonLargeComponent } from './components/shop-button-large/shop-bu
     PurchaseConfirmationComponent,
     AddRewardDialogComponent,
     ShopButtonLargeComponent,
+    AvatarComponent,
+    TestingShopComponent,
   ],
   exports: [],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FlexLayoutModule,
     HttpClientModule,
     BrowserAnimationsModule,
     MatButtonModule,

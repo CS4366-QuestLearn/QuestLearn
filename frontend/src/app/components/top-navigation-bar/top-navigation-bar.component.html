@@ -3,10 +3,11 @@
     <img src="../../../assets/img/Sample Logo.png" width=75px height=75px>
     <button mat-button class="nav-button" (click)="home()">Home</button>
     <button mat-button class="nav-button" (click)="shop()">Shop</button>
+    <button mat-button class="nav-button" (click)="avatar()">Avatar</button>
   </div>
   <div class="flexbox-subcontainer-right">
     <div class="avatar-box">
-      <img [src]="questlearnUser.avatar_url" width=75px height=75px>
+      <img *ngIf="questlearnUser?.avatar_url" [src]="questlearnUser.avatar_url" width=75px height=75px>
     </div>
     <div class="name-class">
       <div>

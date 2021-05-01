@@ -5,26 +5,22 @@
   <div id="box-layout">
     <div id="outside-box">
       <div id="inside-box">
-        <div class="quest-header">Team Quests</div>
-        <div class="quests">
-          <ng-container *ngFor="let element of teamQuests">
-            <app-quest [description]="element.description"
-                       [progress]="element.progress"
-                       [due_date]="element.due_date"
-                       [reward]="element.reward">
-            </app-quest>
-          </ng-container>         
-        </div>
-        <div class="quest-header">Your Quests</div>
-        <div class="quests">
-          <ng-container *ngFor="let element of yourQuests">
-            <app-quest [description]="element.description"
-                       [progress]="element.progress"
-                       [due_date]="element.due_date"
-                       [reward]="element.reward">
-            </app-quest>
-          </ng-container>  
-        </div>
+        <ng-container *ngIf="!loading && teamQuests.length > 0">
+          <div class="quest-header">Team Quests</div>
+          <div  [ngClass]="{'quests': true, 'quests-max': yourQuests.length == 0}">
+            <ng-container *ngFor="let element of teamQuests">
+              <app-quest [data]="element"></app-quest>
+            </ng-container>         
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!loading && yourQuests.length > 0">
+          <div class="quest-header">Your Quests</div>
+          <div  [ngClass]="{'quests': true, 'quests-max': teamQuests.length == 0}">
+            <ng-container *ngFor="let element of yourQuests">
+              <app-quest [data]="element"></app-quest>
+            </ng-container>  
+          </div>
+        </ng-container>
       </div>
     </div>
   </div>

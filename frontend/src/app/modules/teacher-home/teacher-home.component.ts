@@ -30,10 +30,10 @@ export class TeacherHomeComponent implements OnInit {
   ngOnInit(): void {
     
     this.user = this.authService.currentUserValue;
-    this.googleService.authorizeClient(this.user)
-    .subscribe(response => {
-      console.log(response)
-    })
+    // this.googleService.authorizeClient(this.user)
+    // .subscribe(response => {
+    //   console.log(response)
+    // })
     this.authService.userMongoRead(this.user)
     .subscribe(response => {
       // console.log(typeof response)

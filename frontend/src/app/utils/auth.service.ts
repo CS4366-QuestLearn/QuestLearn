@@ -118,11 +118,11 @@ export class AuthService {
   }
   
   userMongoRead(user: gapi.auth2.GoogleUser) {
-    return this.http.get(`${this.localUrl}api/login/user?google_id=${user.getBasicProfile().getId()}`)
+    return this.http.get(`${this.localUrl}api/user/user?google_id=${user.getBasicProfile().getId()}`)
   }
 
   userMongoWrite(user: gapi.auth2.GoogleUser, type: UserType) {
-    return this.http.post(`${this.localUrl}api/login/user`, {user: user.getBasicProfile().getId(), user_type: type})
+    return this.http.post(`${this.localUrl}api/user/user`, {user: user.getBasicProfile().getId(), user_type: type})
   }
 
 }
