@@ -17,8 +17,8 @@
     </mat-form-field>
    </div>
 </mat-dialog-content>
-<mat-dialog-actions class="window_row">
-  <button mat-button (click)="closeDialog()" [disabled]="!formGroup.valid">Confirm</button>
+<mat-dialog-actions class="window_row" align="end">
   <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button type="submit" (click)="onSubmit(formGroup.value)" [disabled]="!formGroup.valid">Create</button>
 </mat-dialog-actions>
 </form> 
