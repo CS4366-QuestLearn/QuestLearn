@@ -1,7 +1,8 @@
-import { Component, OnInit} from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, Inject} from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ClassShopComponent } from 'src/app/modules/class-shop/class-shop.component';
+import { QuestService } from 'src/app/utils/quest.service';
 
 @Component({
   selector: 'app-add-reward-dialog',
@@ -11,7 +12,12 @@ import { ClassShopComponent } from 'src/app/modules/class-shop/class-shop.compon
 export class AddRewardDialogComponent implements OnInit {
   formGroup: FormGroup;
 
-  constructor(public dialogRef: MatDialogRef<ClassShopComponent>, private formBuilder: FormBuilder) { }
+  constructor(
+    public dialogRef: MatDialogRef<ClassShopComponent>,
+    private formBuilder: FormBuilder,
+    private questService: QuestService,
+    @Inject(MAT_DIALOG_DATA) public data: any
+    ) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -27,6 +33,14 @@ export class AddRewardDialogComponent implements OnInit {
 
   closeDialog() {
       this.dialogRef.close({name: this.formGroup.controls['name'].value, price: Number(this.formGroup.controls['price'].value)});
+  }
+
+  onSubmit(formData) {
+    formData.classroom_id = this.data.classroom_id
+    this.dialogRef.close({name: this.formGroup.controls['name'].value, price: Number(this.formGroup.controls['price'].value)});
+    this.questService.addReward(formData).subscribe(x => {
+      console.log(x);
+    });
   }
 
 }

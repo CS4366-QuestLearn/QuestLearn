@@ -285,7 +285,9 @@ export class ClassShopComponent implements OnInit {
    if (!selected_item.purchased) {
       if (evt.currentTarget.className == "add-button") {
         this.window = AddRewardDialogComponent;
-        this.openDialog(null);
+        this.openDialog({
+          classroom_id: this.selectedClass
+        });
       } else if(evt.currentTarget.className == "donate-button") {
         this.window = DonateBankDialogComponent;
         this.openDialog({
@@ -328,8 +330,9 @@ export class ClassShopComponent implements OnInit {
         }
         else if(this.window == AddRewardDialogComponent) {
           if(result != '')
-              this.class_rewards.push({name:result.name, price: result.price, image: "", purchased: false, sales: 0, _id: "", type: ""});
-            this.setClassItems(0);
+              // this.class_rewards.push({name:result.name, price: result.price, image: "", purchased: false, sales: 0, _id: "", type: ""});
+            // this.setClassItems(0);
+            console.log(result)
         }
         else if(this.window == DonateBankDialogComponent) {
           this.bank_balance += Number(result);

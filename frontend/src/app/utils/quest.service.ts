@@ -5,6 +5,8 @@ import { AuthService } from './auth.service';
 @Injectable({
   providedIn: 'root'
 })
+
+// TODO: This should actually be called the ClassroomService
 export class QuestService {
   serverUrl = "https://questlearn-server.herokuapp.com/"
   localUrl = "http://localhost:3000/"
@@ -17,6 +19,9 @@ export class QuestService {
   
   addQuest(data) {
     return this.http.post(`${this.localUrl}api/classroom/quest`, data)
+  }
+  addReward(data) {
+    return this.http.post(`${this.localUrl}api/classroom/add-reward`, data)
   }
   importGoogleAssignments(user, id){
     console.log(id)
