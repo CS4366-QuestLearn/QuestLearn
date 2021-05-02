@@ -43,6 +43,7 @@ import { AvatarComponent } from './modules/avatar/avatar.component';
 import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
 import { RewardNotifsComponent } from './modules/reward-notifs/reward-notifs.component';
 import { RedeemNotifComponent } from './components/redeem-notif/redeem-notif.component';
+import { DonateBankDialogComponent } from './components/donate-bank-dialog/donate-bank-dialog.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { RedeemNotifComponent } from './components/redeem-notif/redeem-notif.com
     TestingShopComponent,
     RewardNotifsComponent,
     RedeemNotifComponent,
+    DonateBankDialogComponent,
   ],
   exports: [],
   imports: [
