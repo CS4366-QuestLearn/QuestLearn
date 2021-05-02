@@ -301,6 +301,24 @@ function getUserQuests(req, res) {
   // res.status(200).send()
 }
 
+function updateBalance(req, res) {
+  // console.log(req.body)
+
+  user.find().where('google_id').in(req.body.ids).exec((err, records) => {
+    records.forEach(user_doc => {
+      var index = user_doc.classes.findIndex(x => x.classroom_id == req.body.class_id)
+      // if(req.body.type)
+      user_doc.classes[index].balance += req.body.number * req.body.type
+      if (user_doc.classes[index].balance < 0) {
+        user_doc.classes[index].balance = 0
+      }
+      user_doc.save()
+    });
+  });
+
+  res.status(201).send()
+}
+
 router.post('/user', createUser)
 router.get('/user', getUser)
 
@@ -312,5 +330,7 @@ router.get('/test/importquests', importQuestStatus)
 router.get('/update-assignments', updateStudentAssignments)
 
 router.post('/update-equipped-items', updateEquippedItems)
+
+router.post('/update-balance', updateBalance)
 
 module.exports = router

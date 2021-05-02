@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddQuestDialogComponent } from '../add-quest-dialog/add-quest-dialog.component';
+import { ManageBalanceDialogComponent } from '../manage-balance-dialog/manage-balance-dialog.component';
 
 
 @Component({
@@ -33,6 +34,19 @@ export class SideNavComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
       if(result) {
         this.save.emit('newquest')
+      }
+    });
+  }
+
+  openBalanceDialog() {
+    const dialogRef = this.dialog.open(ManageBalanceDialogComponent, {
+      data: {id: this.id},
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+      if(result) {
+        this.save.emit('alterbalance')
       }
     });
   }
