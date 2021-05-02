@@ -23,6 +23,9 @@ export class SideNavComponent implements OnInit {
 
   openQuestDialog() {
     const dialogRef = this.dialog.open(AddQuestDialogComponent, {
+      
+      minHeight: '50%',
+      minWidth: '30%',
       data: {id: this.id}
     });
 

@@ -1,9 +1,25 @@
+.input-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.mat-form-field {
+  padding-right: 5px;
+}
+
+h3 {
+  margin-right: 20px;
+}
+
+.name-box {
+  width: 90%;
+}
+
 .mat-radio-button ~ .mat-radio-button {
   margin-left: 16px;
 }
 
 .radio-wrapper {
-  min-height: 39px;
   display: flex;
   >mat-radio-group {
       align-self: center;

@@ -32,7 +32,7 @@ export class AddQuestDialogComponent implements OnInit {
       'classroom_id': [this.data.id, [Validators.required]], // TODO: insert classroom ID
       'name': [null, [Validators.required]],
       'due_date': [null, [Validators.required]],
-      'reward_amount': [null, [Validators.required]],
+      'reward_amount': [null, [Validators.required, Validators.min(0)]],
       'type': [null, [Validators.required]],
     });
     console.log(this.formGroup)

@@ -1,4 +1,11 @@
 * {box-sizing: border-box}
+
+button {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .page-layout {
     height: 100%; 
     height: calc(100% - 100px);
@@ -29,6 +36,10 @@
   width: 20%;
   height: 100%;
   box-shadow: 3px 0px 3px #287441;
+}
+
+.tablinks-large {
+  font-size: 100%;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -124,7 +135,7 @@ h3 {
 }
 
 mat-form-field {
-    width: 50%;
+  width: 50%;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-weight: 500;
   color: black;
@@ -147,14 +158,23 @@ mat-label {
     justify-content: space-evenly;
 }
 
-.add-button {
+.add-button, .donate-button {
   border: 3px solid black;
   height: 70%;
-  width: 70%;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   cursor: pointer;
+}
+
+.add-button {
+  width: 70%;
   background-color: #EECECE;
   box-shadow: 3px 3px 3px #b32723;
+}
+
+.donate-button {
+  width: 15%;
+  background-color: #5AB87A;
+  box-shadow: 3px 3px 3px #b69b31;
 }
 
 .up-button, .down-button{
@@ -213,12 +233,10 @@ mat-label {
 app-shop-button-large {
   width: 20%;
   height: 80%;
-  
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  
 }
 
 
@@ -226,6 +244,12 @@ app-shop-button-large {
   width: 30%;
   height: 40%;
   justify-content: space-between;
+}
+
+.shop-class-button * {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .tabcontent-class-bank {
@@ -238,10 +262,6 @@ app-shop-button-large {
     border: 4px solid black;
 }
 
-.donate-button {
-  background-color: #5AB87A;
-}
-
 .progress-bar-background {
   height: 50%;
   width: 30%;
@@ -251,7 +271,6 @@ app-shop-button-large {
 }
 
 .progress-bar {
-  width: 60%;
   height: 100%;
   background-color: #287441;
 }
