@@ -214,43 +214,6 @@ async function getStudentsBalance(req, res) {
   )
 }
 
-
-async function getStudents(req, res) {
-  const class_id = req.query.class_id;
-  console.log(class_id)
-  classroom.courses.students.list(
-    {
-      courseId: class_id
-    }, async (err, result) => 
-    {
-      if(err) {
-        console.log(err)
-      }
-      else {
-      // console.log(result.data.students)
-      await result.data.students.forEach(async element => {
-        await user.findOne({google_id: element.profile.id}).exec(function(err, doc)
-        {
-          if (err || !doc) {
-            console.log('problem finding user')
-          }
-          else{
-            console.log('mongo user found')
-            var index = doc.classes.findIndex(x => x.classroom_id == class_id)
-            element.balance = doc.classes[index].balance
-            console.log('set da balance!')
-          }
-        })
-      });
-      console.log('im sending!!!!')
-      res.json(result.data.students)
-      console.log('i sent it!!!!')
-      }
-    }
-  )
-}
-
-
 // PUBSUB FUNCTIONS -------------------------------------------------------------------------------------------------------------
 /**
  * Function for creating the subscription.
