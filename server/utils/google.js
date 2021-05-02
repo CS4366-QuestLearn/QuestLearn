@@ -8,6 +8,11 @@ const classroom = google.classroom("v1")
 var config = require('../config')
 var quest = require('../api/quest/quest-model')
 
+/**
+ * This is the classroom document that we have in our MongoDB collection.
+ */
+var mongo_classroom = require('../api/classroom/classroom-model')
+
 // Imports the Google Cloud client library
 const {PubSub} = require('@google-cloud/pubsub');
 // Creates a client; cache this for further use
@@ -94,6 +99,53 @@ async function getClassrooms(req, res) {
           }
         )
         console.log('registration created')
+
+        mongo_classroom.findOne({classroom_id: element.id}, async (err, doc) => {
+          if(err) {
+
+          }
+          else {
+            if(!doc) {
+              let newEntry = new mongo_classroom({
+                classroom_id: element.id,
+                teacher_id: element.ownerId,
+                quests: [],
+                rewards: []
+              })
+
+              await newEntry.save((err, result) => {
+              if (err) {console.log("oops")}
+              else 
+              {
+                // result.status(201).send()
+                console.log("Classroom entry saved!")
+              }
+
+              classroom.courses.courseWork.list(
+                {
+                  courseId: element.id
+                },
+                (err, assignments) => {
+                  assignments.data.courseWork.forEach(element => {
+                    newEntry.quests.push({
+                      classroom_id: element.courseId,
+                      coursework_id: element.id,
+                      due_date: element.dueDate ? new Date(element.dueDate.year, element.dueDate.month - 1, element.dueDate.day) : null,
+                      creation_date: new Date(element.creationTime),
+                      last_modified: new Date(element.updateTime),
+                      name: element.title,
+                      reward_amount: 5,
+                      type: 1
+                    })
+                  })
+                  newEntry.save()
+                }
+                )
+            })
+              
+            }
+          }
+        })
       });
       res.json(result.data.courses)
     }
