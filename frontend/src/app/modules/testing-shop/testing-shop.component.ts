@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { TestingShopService } from '../testing-shop.service';
+import { TestingShopService } from './testing-shop.service';
 
 @Component({
   selector: 'app-testing-shop',

@@ -55,7 +55,15 @@ function buyItem(req, res) {
       if (itemTypeList.includes(req.body.item_id)) {
         res.status(409).send("A user with associated with this Google Account already has this item.")
       } else {
-        // TODO: check if user has enough money and subtract from user balance
+        if (req.body.classroom_id) {
+          var classroom = user.classes.find(x => x.classroom_id == req.body.classroom_id);
+          var item = await shopItem.findOne({_id: req.body.item_id}).exec();
+          if (classroom.balance <= item.cost) {
+            res.status(400).send("The specified user does not have enough balance to purchase this item.")
+          } else {
+            classroom.balance -= item.cost
+          }
+        }
         itemTypeList.push(req.body.item_id)
         await user.save();
         res.json(user.inventory);

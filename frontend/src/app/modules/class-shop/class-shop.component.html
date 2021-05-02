@@ -5,10 +5,11 @@
           <button class="add-button" (click)="openWindow(empty_item, $event, false)">Add Classroom Reward</button>
         </div>
         <div class="info-box">
-          <h2>You have {{balance}} QC in </h2>
+          <h2 *ngIf="classrooms.length > 0">You have {{balance}} QC in </h2>
           <mat-form-field appearance="fill" color="accent">
             <mat-label>Class</mat-label>
-            <mat-select (selectionChange)="setIdItems($event)">
+            <mat-select [value]="selectedClass" (selectionChange)="updateSelectedClass($event.value)">
+            <!-- <mat-select (selectionChange)="setIdItems($event)"> -->
               <mat-option *ngFor="let classroom of classrooms" [value]="classroom.value">
                 {{classroom.viewValue}}
               </mat-option>
@@ -22,8 +23,8 @@
       <button class="tablinks" (click)="openTab($event, 'Animals')">Animals</button>
       <button class="tablinks" (click)="openTab($event, 'Hats')">Hats</button>
       <button class="tablinks" (click)="openTab($event, 'Shirts')">Shirts</button>
-      <button class="tablinks" (click)="openTab($event, 'Legs')">Legs</button>
-      <button class="tablinks" (click)="openTab($event, 'Accessories_and_Seasonal_Clothes')">Accessories</button>
+      <button class="tablinks" (click)="openTab($event, 'Pants')">Pants</button>
+      <button class="tablinks" (click)="openTab($event, 'Accessories')">Accessories</button>
     </div>
   
     <div id="Classroom_Rewards" class="tabcontent">
@@ -49,8 +50,9 @@
   <div id="Animals" class="tabcontent">
     <h2>Animals</h2>
     <div class="tabcontent-container">
-      <app-shop-button-large id="Rabbit" (click)="openWindow(animals[0], $event, true)"></app-shop-button-large>
-      <app-shop-button-large id="Dog" (click)="openWindow(animals[1], $event, true)"></app-shop-button-large>
+      <ng-container *ngFor="let item of animals">
+        <app-shop-button-large [id]="item.name" [item]="item" (click)="openWindow(item, $event, true)"></app-shop-button-large>
+      </ng-container>
     </div>
     <div class="tabcontent-container">
     </div>
@@ -59,7 +61,9 @@
   <div id="Hats" class="tabcontent">
     <h2>Hats</h2>
     <div class="tabcontent-container">
-      <app-shop-button-large id="Bow" (click)="openWindow(hats[0], $event, true)"></app-shop-button-large>
+      <ng-container *ngFor="let item of hats">
+        <app-shop-button-large [id]="item.name" [item]="item" (click)="openWindow(item, $event, true)"></app-shop-button-large>
+      </ng-container>
     </div>
     <div class="tabcontent-container">
     </div>
@@ -68,23 +72,31 @@
   <div id="Shirts" class="tabcontent">
     <h2>Shirts</h2>
     <div class="tabcontent-container">
+      <ng-container *ngFor="let item of shirts">
+        <app-shop-button-large [id]="item.name" [item]="item" (click)="openWindow(item, $event)"></app-shop-button-large>
+      </ng-container>
     </div>
     <div class="tabcontent-container">
     </div>
   </div>
 
-  <div id="Legs" class="tabcontent">
-    <h2>Legs</h2>
+  <div id="Pants" class="tabcontent">
+    <h2>Pants</h2>
     <div class="tabcontent-container">
+      <ng-container *ngFor="let item of pants">
+        <app-shop-button-large [id]="item.name" [item]="item" (click)="openWindow(item, $event)"></app-shop-button-large>
+      </ng-container>
     </div>
     <div class="tabcontent-container">
     </div>
   </div>
 
-  <div id="Accessories_and_Seasonal_Clothes" class="tabcontent">
-    <h2>Accessories and Seasonal Clothes</h2>
+  <div id="Accessories" class="tabcontent">
+    <h2>Accessories</h2>
     <div class="tabcontent-container">
-      <app-shop-button-large id="Santa" (click)="openWindow(accessories[0], $event, true)"></app-shop-button-large>
+      <ng-container *ngFor="let item of accessories">
+        <app-shop-button-large [id]="item.name" [item]="item" (click)="openWindow(item, $event, true)"></app-shop-button-large>
+      </ng-container>
     </div>
     <div class="tabcontent-container">
     </div>
@@ -94,7 +106,7 @@
 <h2>Class Bank</h2>
         <div class="tabcontent-class-bank">
         <div class="progress-bar-background">
-          <div class="progress-bar" id="bar"></div>
+          <div class="progress-bar" id="bar" [style.width]="(bank_balance/500 * 100) + '%'"></div>
         </div>
         <h2>{{bank_balance}}/500</h2>
         <h2>Pizza Party</h2>

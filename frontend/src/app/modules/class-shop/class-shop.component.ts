@@ -3,6 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { PurchaseConfirmationComponent } from 'src/app/components/purchase-confirmation/purchase-confirmation.component';
 import { AddRewardDialogComponent } from 'src/app/components/add-reward-dialog/add-reward-dialog.component';
 import { DonateBankDialogComponent } from 'src/app/components/donate-bank-dialog/donate-bank-dialog.component';
+import { ClassShopService } from './class-shop.service';
+import { QuestlearnService } from 'src/app/utils/questlearn.service';
+import { GoogleService } from 'src/app/utils/google.service';
+import { AuthService } from 'src/app/utils/auth.service';
 
 export interface Classroom {
   value: number;
@@ -15,6 +19,8 @@ export interface Class_Item {
   image: string;
   purchased: boolean;
   sales: number;
+  type: string;
+  _id: string;
 }
 
 export interface Class_ID_Rewards{
@@ -44,23 +50,25 @@ export class ClassShopComponent implements OnInit {
   class_rewards: Class_Item[];
   window: any;
 
-  
+  classroomsData: any[];
+  classrooms: Classroom[] = [];
+  selectedClass = 0;
 
   class_rewards_ex_1: Class_Item[] = [
-    {name: "Bag of Lays", price: 100, image: "", purchased: false, sales: 0},
-    {name: "Take One from the Grab Bag", price: 200, image: "", purchased: false, sales: 0},
-    {name: "No-Homework Pass", price: 700, image: "", purchased: false, sales: 0},
-    {name: "Fruit Snacks", price: 100, image: "", purchased: false, sales: 0},
-    {name: "5 Homework Points", price: 700, image: "", purchased: false, sales: 0},
-    {name: "Lunch with the Teacher", price: 200, image: "", purchased: false, sales: 0},
+    {name: "Bag of Lays", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
+    {name: "Take One from the Grab Bag", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
+    {name: "No-Homework Pass", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
+    {name: "Fruit Snacks", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
+    {name: "5 Homework Points", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
+    {name: "Lunch with the Teacher", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
   ];
 
   class_rewards_ex_2: Class_Item[] = [
-    {name: "Amogus", price: 10000, image: "", purchased: false, sales: 0},
+    {name: "Amogus", price: 10000, image: "", purchased: false, sales: 0, _id: "", type: ""},
   ];
 
   class_rewards_ex_3: Class_Item[] = [
-    {name: "Travis Scott Meal", price: 5.99, image: "", purchased: false, sales: 0},
+    {name: "Travis Scott Meal", price: 5.99, image: "", purchased: false, sales: 0, _id: "", type: ""},
   ];
   
   all_class_rewards: Class_ID_Rewards[] = [
@@ -69,13 +77,7 @@ export class ClassShopComponent implements OnInit {
     {id: 2, name: 'Random Class 2', rewards: this.class_rewards_ex_3},
   ];
 
-  classrooms: Classroom[] = [
-    {value: 1, viewValue: this.all_class_rewards[0].name},
-    {value: 2, viewValue: this.all_class_rewards[1].name},
-    {value: 3, viewValue: this.all_class_rewards[2].name}
-  ];
-
-  empty_item = {name: "", price: 0, image: "", purchased: false, sales: 0};
+  empty_item = {name: "", price: 0, image: "", purchased: false, sales: 0, _id: "", type: ""};
 
   popular_items: Class_Item[] = [
     this.empty_item,
@@ -92,51 +94,41 @@ export class ClassShopComponent implements OnInit {
     this.empty_item
   ];
 
-  animals: Class_Item[] = [
-    {name: "Rabbit", price: 100, image: "../../../assets/img/Rabbit.PNG", purchased: false, sales: 0},
-    {name: "Dog", price: 500, image: "../../../assets/img/Dog.PNG", purchased: false, sales: 0},
-  ];
-
-  hats: Class_Item[] = [
-    {name: "Bow", price: 100, image: "../../../assets/img/Bow.PNG", purchased: false, sales: 0},
-  ];
-
-  shirts: Class_Item[] = [];
-
-  legs: Class_Item[] = [];
-
-  accessories: Class_Item[] = [
-    {name: "Santa", price: 50, image: "../../../assets/img/Santa Hat.PNG", purchased: false, sales: 0},
-  ];
+  animals: Class_Item[];
+  hats: Class_Item[];
+  shirts: Class_Item[];
+  pants: Class_Item[];
+  accessories: Class_Item[];
   
-  inventory: Class_Item[][] = [
-    this.animals,
-    this.hats,
-    this.shirts,
-    this.legs,
-    this.accessories,
-  ];
+  inventory: Class_Item[][];
+  shopItems: any[];
 
-  image_element: HTMLImageElement;
+  user: gapi.auth2.GoogleUser;
+  userType: any;
+  questlearnUser: any;
   
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private authService: AuthService,
+    private googleService: GoogleService,
+    private questlearnService: QuestlearnService,
+    private classShopService: ClassShopService,
+  ) { }
 
-  ngOnInit(): void {
-    this.balance = 200;
+  async ngOnInit(): Promise<void> {
+    // this.balance = 200;
     this.bank_balance = 400;
     this.bank_max = 500;
+
+    this.user = this.authService.currentUserValue;
+    this.questlearnUser = this.questlearnService.questlearnUserValue;
+
+    await this.initShop();
+
     this.openTab(null, 'Classroom_Rewards');
-    document.getElementById("Classroom_Rewards").style.display = "none";
-    document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
-    for(var i = 0; i < this.inventory.length; i++)
-    {
-      for(var j = 0; j < this.inventory[i].length; j++)
-      {
-        this.image_element = <HTMLImageElement> document.getElementById(this.inventory[i][j].name).firstChild.firstChild.lastChild;
-        this.image_element.src =  this.inventory[i][j].image;
-        document.getElementById(this.inventory[i][j].name).firstChild.lastChild.textContent= this.inventory[i][j].name + "  " + this.inventory[i][j].price + " QC";
-      }
-    }
+    // document.getElementById("Classroom_Rewards").style.display = "none";
+    // document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
+
     document.getElementById('First_Button').className += " active";
     this.display_top = 0;
   }
@@ -148,6 +140,76 @@ export class ClassShopComponent implements OnInit {
     this.display_top = 0;
     this.setPopular();
     this.setClassItems(0);
+  }
+
+  async initShop() {
+    // Init classroom rewards
+    this.googleService.getClassrooms(this.user, this.questlearnUser.user_type)
+      .subscribe((response: Array<any>) => {
+        this.classroomsData = response;
+        this.classrooms = response
+        .sort((a, b) => {
+          var textA = a.name.toUpperCase();
+          var textB = b.name.toUpperCase();
+          return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+        })
+        .map(x => {
+          return { value: x.id, viewValue: x.name };
+        });
+        this.updateSelectedClass(this.classrooms[0].value);
+      })
+    
+    // Init global items
+
+    // Get list of user's purchased items
+    const purchasedList = [
+      ...this.questlearnUser.inventory.animal_ids,
+      ...this.questlearnUser.inventory.head_ids,
+      ...this.questlearnUser.inventory.shirt_ids,
+      ...this.questlearnUser.inventory.pant_ids,
+      ...this.questlearnUser.inventory.accessory_ids,
+    ];
+
+    this.shopItems = await this.classShopService.getShopItems();
+    this.animals = this.getItemsOfType('animal', purchasedList);
+    this.hats = this.getItemsOfType('head', purchasedList);
+    this.shirts = this.getItemsOfType('shirt', purchasedList);
+    this.pants = this.getItemsOfType('pant', purchasedList);
+    this.accessories = this.getItemsOfType('accessory', purchasedList);
+
+    this.inventory = [
+      this.animals,
+      this.hats,
+      this.shirts,
+      this.pants,
+      this.accessories,
+    ];
+
+    console.log(this.inventory);
+  }
+  
+  getItemsOfType(type: string, purchasedList: Array<string>): Class_Item[] {
+    return this.shopItems
+      .filter(x => x.type === type && x.cost !== 0)
+      .map(x => {
+        return {
+          name: x.name,
+          price: x.cost,
+          image: x.thumbnail_url,
+          purchased: purchasedList.includes(x._id),
+          sales: 0,
+          type: x.type,
+          _id: x._id
+        };
+      }
+    ); 
+  }
+
+  updateSelectedClass(value) {
+    const classData = this.questlearnUser.classes.find(x => x.classroom_id == value);
+    
+    this.selectedClass = value;
+    this.balance = classData.balance;
   }
 
   setClassItems(change: number) {
@@ -193,8 +255,8 @@ export class ClassShopComponent implements OnInit {
                 case 2: s = "popular_three"; break;
               }
               this.popular_items[i] = this.inventory[j][k];
-              this.image_element = <HTMLImageElement> document.getElementById(s).firstChild.firstChild.lastChild;
-              this.image_element.src =  this.inventory[j][k].image;
+              const image_element = <HTMLImageElement> document.getElementById(s).firstChild.firstChild.lastChild;
+              image_element.src =  this.inventory[j][k].image;
               document.getElementById(s).firstChild.lastChild.textContent= this.inventory[j][k].name + "  " + this.inventory[j][k].price + " QC";
             }
         }
@@ -219,60 +281,60 @@ export class ClassShopComponent implements OnInit {
       evt.currentTarget.className += " active";
   }
 
-  openWindow(selected_item:Class_Item, evt: any, one_purchase: boolean)
-  {
-    if(evt.currentTarget.className == "add-button")
-    {
-      this.window = AddRewardDialogComponent;
+  openWindow(selected_item:Class_Item, evt: any, one_purchase: boolean) {
+   if (!selected_item.purchased) {
+      if (evt.currentTarget.className == "add-button") {
+        this.window = AddRewardDialogComponent;
+        this.openDialog(null);
+      } else if(evt.currentTarget.className == "donate-button") {
+        this.window = DonateBankDialogComponent;
+        this.openDialog({
+          bank: this.bank_balance,
+          max: this.bank_max,
+        });
+      } else {
+        // this.one_time_purchase = one_purchase;
+        // this.purchase_button = evt.currentTarget;
+        // this.current_purchase = selected_item;
+        // this.item_name=selected_item.name;
+        // this.item_price=selected_item.price;
+        this.window = PurchaseConfirmationComponent;
+        this.openDialog({
+          item: selected_item,
+          balance: this.balance,
+          user: this.user,
+          classroom_id: this.selectedClass,
+        });
+      }
     }
-    else if(evt.currentTarget.className == "donate-button")
-    {
-      this.window = DonateBankDialogComponent;
-    }
-    else
-    { 
-      this.one_time_purchase = one_purchase;
-      this.purchase_button = evt.currentTarget;
-      this.current_purchase = selected_item;
-      this.item_name=selected_item.name;
-      this.item_price=selected_item.price;
-      this.window = PurchaseConfirmationComponent;
-    }
-    if(this.window != null && !selected_item.purchased)
-      this.openDialog();
   }
 
-  openDialog()
+  openDialog(dialogData)
   {
     let dialogRef = this.dialog.open(this.window, 
       {
-        minHeight: '40%',
+        // height: '40%',
         minWidth: '30%',
-        data: {name: this.item_name, price: this.item_price, balance: this.balance, bank: this.bank_balance, max: this.bank_max}
+        data: dialogData
       });
       dialogRef.afterClosed().subscribe(result => {
-        if(this.window == PurchaseConfirmationComponent && result == "purchased")
-        {
-          this.balance -= this.item_price;
-          this.current_purchase.sales++;
-          if(this.one_time_purchase)
-          {
-            this.purchase_button.style.opacity = 0.3;
-            this.current_purchase.purchased = true;
+        if(this.window == PurchaseConfirmationComponent && result?.purchased) {
+          console.log(result);
+          if (!Number.isNaN(result.price)) {
+            this.balance -= result.price;
+            // this.current_purchase.sales++;
           }
           this.setPopular();
         }
-        else if(this.window == AddRewardDialogComponent)
-        {
+        else if(this.window == AddRewardDialogComponent) {
           if(result != '')
-              this.class_rewards.push({name:result.name, price: result.price, image: "", purchased: false, sales: 0});
+              this.class_rewards.push({name:result.name, price: result.price, image: "", purchased: false, sales: 0, _id: "", type: ""});
             this.setClassItems(0);
         }
-        else if(this.window == DonateBankDialogComponent)
-        {
+        else if(this.window == DonateBankDialogComponent) {
           this.bank_balance += Number(result);
           this.balance -= Number(result);
-          document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
+          // document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
         }
       })
   }
