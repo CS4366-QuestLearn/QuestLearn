@@ -56,3 +56,14 @@
 </form>
 
 <br>
+
+<h1>
+  Items:
+</h1>
+<ng-container *ngFor="let item of items">
+  <div *ngIf="item.cost != 0">
+    <h2>{{item.name}}</h2>
+    <img class="shop-item" [src]="item.full_url" alt="">
+    <img class="shop-item" [src]="item.thumbnail_url" alt="">
+  </div>
+</ng-container>

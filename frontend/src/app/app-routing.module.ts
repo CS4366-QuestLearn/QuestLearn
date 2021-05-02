@@ -39,6 +39,7 @@ const routes: Routes = [
             children: [
               { path: 'home', component: TeacherHomeComponent },
               { path: 'class/:id', component: TeacherClassroomComponent },
+              { path: 'class/:id/manage-requests', component: RewardNotifsComponent },
             ]
           },
           { 
@@ -64,7 +65,7 @@ const routes: Routes = [
       { path: 'manage-rewards', component: RewardNotifsComponent },
     ]
   },
-  { path: '**', redirectTo: '' } // otherwise redirect to home
+  // { path: '**', redirectTo: '' } // otherwise redirect to home
 ];
 
 @NgModule({

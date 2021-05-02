@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AddQuestDialogComponent } from '../add-quest-dialog/add-quest-dialog.component';
 import { ManageBalanceDialogComponent } from '../manage-balance-dialog/manage-balance-dialog.component';
 
@@ -16,6 +17,8 @@ export class SideNavComponent implements OnInit {
   
   
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     public dialog: MatDialog,
   ) { }
 
@@ -49,6 +52,10 @@ export class SideNavComponent implements OnInit {
         this.save.emit('alterbalance')
       }
     });
+  }
+
+  navigateToRequests() {
+    this.router.navigate([`./manage-requests`], {relativeTo: this.route});
   }
 
 }

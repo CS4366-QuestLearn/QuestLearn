@@ -138,16 +138,24 @@ async function getClassrooms(req, res) {
                       reward_amount: 5,
                       type: 1
                     })
+                  // user push here
                   })
                   newEntry.save()
+                  updateUserAssignments(req, res, newEntry)
                 }
                 )
             })
               
             }
+            else if(doc) {
+              updateUserAssignments(req, res, doc)
+              console.log('am finished doing stuff')
+            }
           }
         })
       });
+      console.log(result.data.courses)
+      console.log('sendalo')
       res.json(result.data.courses)
     }
   )
@@ -162,9 +170,54 @@ async function getClassrooms(req, res) {
           console.log('Problem finding courses')
           res.status(404).send('Error finding student course list.')
         }
+        console.log('am a student!!!!!!!!!!!!!!')
         res.json(result.data.courses)}
     )
       }  
+}
+
+function updateUserAssignments(req, res, class_doc) {
+  console.log('am been addedsdasdasdasdasd')
+  console.log(class_doc.classroom_id)
+
+  user.findOne({ google_id: req.query.google_id }, async (err, user_doc) => {
+    if (err || !user_doc) {
+      console.log("No user found with getUser.")
+      res.json(JSON.stringify({ exists: false }))
+    }
+    else {
+      if (user_doc.classes.filter(e => e.classroom_id === class_doc.classroom_id).length > 0) {
+        //               // if it already exists
+        console.log('classroom already added')
+      }
+      else {
+        user_doc.classes.push({
+          classroom_id: class_doc.classroom_id,
+          balance: 0,
+          quests: []
+        })
+      }
+      await user_doc.save()
+      mongo_classroom.findOne({ classroom_id: class_doc.classroom_id }, async (err, class_doc) => {
+      var index = user_doc.classes.findIndex(x => x.classroom_id == class_doc.classroom_id)
+      console.log(index)
+      class_doc.quests.forEach(element => {
+        if (user_doc.classes[index].quests.filter(e => e._id === element.id).length > 0) {
+          // if it already exists
+          console.log('quest already added')
+        }
+        else {
+          console.log('adding quest')
+          user_doc.classes[index].quests.push({
+            _id: element.id,
+            completed: false
+          })
+        }
+      });
+      user_doc.save()
+    })
+    }
+  })
 }
 
 async function getStudentsBalance(req, res) {

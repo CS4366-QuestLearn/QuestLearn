@@ -7,6 +7,6 @@
 </mat-dialog-content>
 <mat-dialog-actions class="window_row" id="purchasable2">
   <p>Do you want to buy this item?</p>
-  <button mat-button mat-dialog-close="purchased">Yes</button>
-  <button mat-button mat-dialog-close>No</button>
+  <button mat-raised-button (click)="onAccept()">Yes</button>
+  <button mat-raised-button (click)="onDecline()">No</button>
 </mat-dialog-actions>

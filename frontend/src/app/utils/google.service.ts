@@ -20,7 +20,7 @@ export class GoogleService {
   }
 
   getClassrooms(user, type) {
-    return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}&user_type=${type}`)
+    return this.http.get(`${this.localUrl}api/google/classrooms?access_token=${user.getAuthResponse().access_token}&user_type=${type}&google_id=${user.getBasicProfile().getId()}`)
   }
   getTeachers(user) {
     return this.http.get(`${this.localUrl}api/google/teachers?access_token=${user.getAuthResponse().access_token}`)
