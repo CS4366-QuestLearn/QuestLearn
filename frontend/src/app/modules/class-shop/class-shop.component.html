@@ -1,12 +1,14 @@
 <div class="page-layout">
   <div class="shop-table">
     <div class="top-container">
-        <div class="search-box"></div>
+        <div class="search-box">
+          <button class="add-button" (click)="openWindow(empty_item, $event, false)">Add Classroom Reward</button>
+        </div>
         <div class="info-box">
-          <h2>You have 300 QC in </h2>
-          <mat-form-field appearance="fill">
+          <h2>You have {{balance}} QC in </h2>
+          <mat-form-field appearance="fill" color="accent">
             <mat-label>Class</mat-label>
-            <mat-select>
+            <mat-select (selectionChange)="setIdItems($event)">
               <mat-option *ngFor="let classroom of classrooms" [value]="classroom.value">
                 {{classroom.viewValue}}
               </mat-option>
@@ -15,47 +17,40 @@
         </div>
     </div>
     <div class="bottom-container">
-<div class="tab">
-    <button id="First_Button" class="tablinks" (click)="openCity($event, 'Classroom_Rewards')">Classroom Rewards</button>
-    <button class="tablinks" (click)="openCity($event, 'Animals')">Animals</button>
-    <button class="tablinks" (click)="openCity($event, 'Hats')">Hats</button>
-    <button class="tablinks" (click)="openCity($event, 'Shirts')">Shirts</button>
-    <button class="tablinks" (click)="openCity($event, 'Legs')">Legs</button>
-    <button class="tablinks" (click)="openCity($event, 'Accessories_and_Seasonal_Clothes')">Accessories and Seasonal Clothes</button>
-  </div>
+    <div class="tab">
+      <button id="First_Button" class="tablinks" (click)="openTab($event, 'Classroom_Rewards')">Classroom Rewards</button>
+      <button class="tablinks" (click)="openTab($event, 'Animals')">Animals</button>
+      <button class="tablinks" (click)="openTab($event, 'Hats')">Hats</button>
+      <button class="tablinks" (click)="openTab($event, 'Shirts')">Shirts</button>
+      <button class="tablinks" (click)="openTab($event, 'Legs')">Legs</button>
+      <button class="tablinks" (click)="openTab($event, 'Accessories_and_Seasonal_Clothes')">Accessories</button>
+    </div>
   
-  <div id="Classroom_Rewards" class="tabcontent">
-      <h2>Most Popular Rewards</h2>
-      <div class="tabcontent-container">
-        <button class="shop-button"><h3>Fruit Snacks</h3><p>100 QC</p></button>
-        <button class="shop-button"><h3>No-Homework Pass</h3><p>700 QC</p></button>
-        <button class="shop-button"><h3>Take One from the Grab Bag</h3><p>200 QC</p></button>
-      </div>
-      <h2>All Classroom Rewards</h2>
-      <div class="tabcontent-container">
-        <button class="shop-class-button"><h3>Bag of Lays</h3><p>100 QC</p></button>
-        <button class="shop-class-button"><h3>Take One from the Grab Bag</h3><p>200 QC</p></button>
-        <button class="shop-class-button"><h3>No-Homework Pass</h3><p>700 QC</p></button>
-        <button class="shop-class-button"><h3>Fruit Snacks</h3><p>100 QC</p></button>
-        <button class="shop-class-button"><h3>5 Homework Points</h3><p>700 QC</p></button>
-        <button class="shop-class-button"><h3>Lunch with the Teacher</h3><p>200 QC</p></button>
-      </div>
-      <h2>Class Bank</h2>
-      <div class="tabcontent-class-bank">
-        <div class="progress-bar-background">
-          <div class="progress-bar"></div>
+    <div id="Classroom_Rewards" class="tabcontent">
+        <h2>Most Popular Rewards</h2>
+        <div class="tabcontent-container">
+          <app-shop-button-large id="popular_one" (click)="openWindow(popular_items[0], $event, true)"></app-shop-button-large>
+          <app-shop-button-large id="popular_two" (click)="openWindow(popular_items[1], $event, true)"></app-shop-button-large>
+          <app-shop-button-large id="popular_three" (click)="openWindow(popular_items[2], $event, true)"></app-shop-button-large>
         </div>
-        <h2>300/500</h2>
-        <h2>Pizza Party</h2>
-        <button mat-raised-button class="donate-button">Donate</button>
+        <h2>All Classroom Rewards</h2>
+        <div class="up-button" id="up" (click)="setClassItems(-6)"></div>
+        <div class="tabcontent-container">
+          <button class="shop-class-button" id="display_one" (click)="openWindow(displayed_class_items[0], $event, false)"><h3>{{displayed_class_items[0].name}}</h3><p>{{displayed_class_items[0].price}} QC</p></button>
+          <button class="shop-class-button" id="display_two" (click)="openWindow(displayed_class_items[1], $event, false)"><h3>{{displayed_class_items[1].name}}</h3><p>{{displayed_class_items[1].price}} QC</p></button>
+          <button class="shop-class-button" id="display_three" (click)="openWindow(displayed_class_items[2], $event, false)"><h3>{{displayed_class_items[2].name}}</h3><p>{{displayed_class_items[2].price}} QC</p></button>
+          <button class="shop-class-button" id="display_four" (click)="openWindow(displayed_class_items[3], $event, false)"><h3>{{displayed_class_items[3].name}}</h3><p>{{displayed_class_items[3].price}} QC</p></button>
+          <button class="shop-class-button" id="display_five" (click)="openWindow(displayed_class_items[4], $event, false)"><h3>{{displayed_class_items[4].name}}</h3><p>{{displayed_class_items[4].price}} QC</p></button>
+          <button class="shop-class-button" id="display_six" (click)="openWindow(displayed_class_items[5], $event, false)"><h3>{{displayed_class_items[5].name}}</h3><p>{{displayed_class_items[5].price}} QC</p></button>
+        </div>
+        <div class="down-button" id="down" (click)="setClassItems(6)"></div>  
       </div>
-  </div>
   
   <div id="Animals" class="tabcontent">
     <h2>Animals</h2>
     <div class="tabcontent-container">
-      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Rabbit.PNG" width=50px height=50px></div><h3>Rabbit  100 QC</h3></button>
-      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Dog.PNG" width=50px height=50px></div><h3>Dog  500 QC</h3></button>
+      <app-shop-button-large id="Rabbit" (click)="openWindow(animals[0], $event, true)"></app-shop-button-large>
+      <app-shop-button-large id="Dog" (click)="openWindow(animals[1], $event, true)"></app-shop-button-large>
     </div>
     <div class="tabcontent-container">
     </div>
@@ -64,7 +59,7 @@
   <div id="Hats" class="tabcontent">
     <h2>Hats</h2>
     <div class="tabcontent-container">
-      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Bow.PNG" width=50px height=50px></div><h3>Bow  50 QC</h3></button>
+      <app-shop-button-large id="Bow" (click)="openWindow(hats[0], $event, true)"></app-shop-button-large>
     </div>
     <div class="tabcontent-container">
     </div>
@@ -89,11 +84,20 @@
   <div id="Accessories_and_Seasonal_Clothes" class="tabcontent">
     <h2>Accessories and Seasonal Clothes</h2>
     <div class="tabcontent-container">
-      <button class="shop-button"><div class="item-box"><img src="../../../assets/img/Santa Hat.PNG" width=50px height=50px></div><h3>Santa Hat  300 QC</h3></button>
+      <app-shop-button-large id="Santa" (click)="openWindow(accessories[0], $event, true)"></app-shop-button-large>
     </div>
     <div class="tabcontent-container">
     </div>
   </div> 
 </div>
 </div>
+<h2>Class Bank</h2>
+        <div class="tabcontent-class-bank">
+        <div class="progress-bar-background">
+          <div class="progress-bar" id="bar"></div>
+        </div>
+        <h2>{{bank_balance}}/500</h2>
+        <h2>Pizza Party</h2>
+        <button class="donate-button" (click)="openWindow(empty_item, $event, false)">Donate</button>
+      </div>
 </div>

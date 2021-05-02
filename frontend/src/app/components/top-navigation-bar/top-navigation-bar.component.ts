@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 import { UserRoute } from 'src/app/shared/models/user-type.enum';
 import { AuthService } from 'src/app/utils/auth.service';
 import { QuestlearnService } from 'src/app/utils/questlearn.service';
+import { TopNavigationBarService } from './top-navigation-bar.service';
 
 @Component({
   selector: 'app-top-navigation-bar',
@@ -29,7 +30,9 @@ export class TopNavigationBarComponent implements OnInit, OnDestroy {
   public questlearnUser: any;
   public class_id: any;
   public routerSub: Subscription;
+  public topNavSubscription: Subscription;
   public _classroom: string;
+  public avatarUrl: string;
 
   set classroom(classroom: any) {
     this.dataState = 'entering';
@@ -44,6 +47,7 @@ export class TopNavigationBarComponent implements OnInit, OnDestroy {
     private questlearnService: QuestlearnService,
     private router: Router,
     private route: ActivatedRoute,
+    private topNavigationBarService: TopNavigationBarService,
   ) { }
 
   async ngOnInit() {
@@ -51,11 +55,16 @@ export class TopNavigationBarComponent implements OnInit, OnDestroy {
     this.questlearnUser = this.questlearnService.questlearnUserValue;
 
     this.subscribeRouterEvents();
+    this.subscribeToAvatarUpdates();
   }
 
   ngOnDestroy(): void {
     if (this.routerSub) {
       this.routerSub.unsubscribe();
+    }
+
+    if (this.topNavSubscription) {
+      this.topNavSubscription.unsubscribe();
     }
   }
 
@@ -92,6 +101,21 @@ export class TopNavigationBarComponent implements OnInit, OnDestroy {
     }
 
     this.classroom = response.name;
+  }
+
+  subscribeToAvatarUpdates() {
+    this.topNavSubscription = this.topNavigationBarService.avatarUrl.subscribe(x => {
+      if (x) {
+        this.avatarUrl = x;
+
+        const origMsg = this.classroom;
+        this.classroom = 'Saved!'
+
+        setTimeout(() => {
+          this.classroom = origMsg;
+        }, 4000);
+      }
+    })
   }
 
   shop() {

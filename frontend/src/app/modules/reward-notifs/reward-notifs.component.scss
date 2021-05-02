@@ -1,0 +1,33 @@
+.page {
+  background-color: #7C81EB;
+  height: 100%;
+}
+
+#header {
+  text-align: center;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  font-size: 35px;
+}
+
+.reward-box {
+  padding: 1%;
+  padding-right: 3%;
+  padding-left: 3%;
+  background-color: #65EB91;
+  flex-wrap: wrap;
+
+  overflow-y: scroll;
+
+  max-width: 80%;
+  max-height: 50%;
+
+  outline-style: solid;
+  outline-width: 4px;
+}
+
+#reward-wrapper {
+
+  padding-top: 1%;
+  padding-bottom: 1%;
+}

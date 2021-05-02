@@ -10,7 +10,7 @@
           <img [src]="inventory.accessory_items[formGroup.value.accessory].full_url">
         </ng-container>
       </div>
-      <div fxLayoutAlign="center" class="title">Username</div>
+      <div fxLayoutAlign="center" class="title">{{user?.getBasicProfile().getName()}}</div>
     </div>
   </div>
   <form *ngIf="formGroup" [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup.value)" fxLayoutAlign="space-around" fxFlex="60" fxLayout="row wrap">
@@ -85,7 +85,7 @@
       </div>
     </div>
     <div fxLayoutAlign="end center" fxFlex="80">
-      <button mat-raised-button type="submit" [disabled]="!formGroup.valid" color="primary">Save</button>
+      <button mat-raised-button type="submit" [disabled]="!formGroup.valid || isSaving" color="primary">Save</button>
     </div>
   </form>
 </div>

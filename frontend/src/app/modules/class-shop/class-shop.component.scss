@@ -1,15 +1,23 @@
 * {box-sizing: border-box}
+
+button {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .page-layout {
     height: 100%; 
     height: calc(100% - 100px);
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     background-color: #7C81EB;
 }
 
 .shop-table {
-    height: 80%;
+    height: 75%;
     width: 90%;
     background-color: #5AB87A;
     border: 4px solid black;
@@ -28,6 +36,10 @@
   width: 20%;
   height: 100%;
   box-shadow: 3px 0px 3px #287441;
+}
+
+.tablinks-large {
+  font-size: 100%;
 }
 
 /* Style the buttons that are used to open the tab content */
@@ -107,6 +119,9 @@ h3 {
     border-bottom: 4px solid black;;
     background-color: #EB514D;
     width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .info-box {
@@ -120,7 +135,7 @@ h3 {
 }
 
 mat-form-field {
-    width: 50%;
+  width: 50%;
   font-family: "Roboto", "Helvetica Neue", sans-serif;
   font-weight: 500;
   color: black;
@@ -143,6 +158,68 @@ mat-label {
     justify-content: space-evenly;
 }
 
+.add-button, .donate-button {
+  border: 3px solid black;
+  height: 70%;
+  font-family: "Roboto", "Helvetica Neue", sans-serif;
+  cursor: pointer;
+}
+
+.add-button {
+  width: 70%;
+  background-color: #EECECE;
+  box-shadow: 3px 3px 3px #b32723;
+}
+
+.donate-button {
+  width: 15%;
+  background-color: #5AB87A;
+  box-shadow: 3px 3px 3px #b69b31;
+}
+
+.up-button, .down-button{
+  height: 0px;
+  width: 0px;
+  position: relative;
+  border-right: 20px solid transparent;
+  border-left: 20px solid transparent;
+}
+
+.up-button::before, .down-button::before {
+  content: "";
+  position: absolute;
+  border-right: 16px solid transparent;
+  border-left: 16px solid transparent;
+  left:-16px;
+  cursor: pointer;
+}
+
+.up-button:hover {
+  border-bottom: 20px solid #EECECE;
+}
+
+.up-button::before
+{
+  border-bottom: 16px solid #EB514D;
+  top: 2px;
+}
+
+.up-button {
+  border-bottom: 20px solid black;
+}
+
+.down-button:hover{
+  border-top: 20px solid #EECECE;
+}
+
+.down-button::before {
+  border-top: 16px solid #EB514D;
+  bottom: 2px;
+}
+.down-button {
+  border-top: 20px solid black;
+}
+
 .shop-button, .shop-class-button {
   background-color: white;
   border: 3px solid black;
@@ -153,31 +230,36 @@ mat-label {
   align-items: center;
 }
 
-.shop-button {
+app-shop-button-large {
   width: 20%;
   height: 80%;
+  display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
 }
 
+
 .shop-class-button {
   width: 30%;
-  height: 35%;
+  height: 40%;
   justify-content: space-between;
 }
 
+.shop-class-button * {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .tabcontent-class-bank {
-    height: 15%;
+    height: 10%;
     width: 80%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     background-color: #EBCE59;
     border: 4px solid black;
-}
-
-.donate-button {
-  background-color: #5AB87A;
 }
 
 .progress-bar-background {
@@ -189,11 +271,7 @@ mat-label {
 }
 
 .progress-bar {
-  width: 60%;
   height: 100%;
   background-color: #287441;
 }
 
-.item-box {
-  margin-top: 15%;
-}

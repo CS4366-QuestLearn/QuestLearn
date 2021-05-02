@@ -1,0 +1,24 @@
+<form [formGroup]="formGroup">
+<h2 mat-dialog-title>Add New Classroom Reward</h2>
+<mat-dialog-content class="mat-typography">
+  
+  <div class="form-content">
+    <mat-form-field floatlabel="never" appearance="outline" color="accent">
+      <mat-label>Reward Name</mat-label>
+      <input matInput formControlName="name" required #message maxlength="30" placeholder="Ex. 5 points Extra Credit">
+      <mat-hint align="end">{{message.value.length}} / 30</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <div class="form-content">
+    <mat-form-field floatlabel="never" appearance="outline" color="accent">
+      <mat-label>Reward Price</mat-label>
+      <input type="number" matInput formControlName="price" required #message placeholder="Ex. 30">
+    </mat-form-field>
+   </div>
+</mat-dialog-content>
+<mat-dialog-actions class="window_row">
+  <button mat-button (click)="closeDialog()" [disabled]="!formGroup.valid">Confirm</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
+</form> 

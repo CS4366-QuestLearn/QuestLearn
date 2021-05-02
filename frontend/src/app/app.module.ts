@@ -37,9 +37,15 @@ import { TeacherComponent } from './modules/teacher/teacher.component';
 import { StudentComponent } from './modules/student/student.component';
 import { QuestBoardComponent } from './modules/quest-board/quest-board.component';
 import { QuestComponent } from './components/quest/quest.component';
+import { PurchaseConfirmationComponent } from './components/purchase-confirmation/purchase-confirmation.component';
+import { AddRewardDialogComponent } from './components/add-reward-dialog/add-reward-dialog.component';
+import { ShopButtonLargeComponent } from './components/shop-button-large/shop-button-large.component';
 import { AvatarComponent } from './modules/avatar/avatar.component';
 import { TestingShopComponent } from './modules/testing-shop/testing-shop.component';
 import { ManageBalanceDialogComponent } from './components/manage-balance-dialog/manage-balance-dialog.component';
+import { RewardNotifsComponent } from './modules/reward-notifs/reward-notifs.component';
+import { RedeemNotifComponent } from './components/redeem-notif/redeem-notif.component';
+import { DonateBankDialogComponent } from './components/donate-bank-dialog/donate-bank-dialog.component';
 
 @NgModule({
   declarations: [
@@ -63,9 +69,15 @@ import { ManageBalanceDialogComponent } from './components/manage-balance-dialog
     StudentComponent,
     QuestBoardComponent,
     QuestComponent,
+    PurchaseConfirmationComponent,
+    AddRewardDialogComponent,
+    ShopButtonLargeComponent,
     AvatarComponent,
     TestingShopComponent,
     ManageBalanceDialogComponent,
+    RewardNotifsComponent,
+    RedeemNotifComponent,
+    DonateBankDialogComponent,
   ],
   exports: [],
   imports: [
