@@ -365,7 +365,7 @@ async function pushMethod(req, res) {
     }
     else if(info.collection == 'courses.courseWork.studentSubmissions') {
       console.log('did something with a submission')
-      courses.courseWork.studentSubmissions.get({
+      classroom.courses.courseWork.studentSubmissions.get({
         courseId: info.resourceId.courseId,
         courseWorkId: info.resourseId.courseWorkId,
         id: info.resourceId.id
