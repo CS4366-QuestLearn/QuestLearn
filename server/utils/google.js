@@ -387,6 +387,10 @@ async function pushMethod(req, res) {
               
               console.log(user_course)
               console.log(current_user_quest)
+              current_user_quest.completed = true
+              user_course.balance += an_assignment.reward_amount
+
+              await user_doc.save()
             })
           }
         }
