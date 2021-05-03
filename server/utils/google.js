@@ -383,7 +383,7 @@ async function pushMethod(req, res) {
               // console.log(an_assignment)
 
               const user_course = user_doc.classes.find(x => x.classroom_id == info.resourceId.courseId)
-              const current_user_quest = user_course.quests.find(x._id == an_assignment._id)
+              const current_user_quest = user_course.quests.find(x => x._id == an_assignment._id)
               
               console.log(user_course)
               console.log(current_user_quest)
