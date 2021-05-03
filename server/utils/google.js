@@ -315,8 +315,83 @@ async function pushTopic(req, res) {
 async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
-  console.log(info.eventType)
-  console.log(info.resourceId)
+
+  // A MODIFIED event.
+  if(info.eventType == 'MODIFIED'){
+    if(info.collection == 'courses.courseWork') {
+      console.log('Coursework was modified.')
+
+      mongo_classroom.findOne({classroom_id: info.resourceId.courseId}, async (err, class_doc) => {
+        if(err) {
+          console.log('err')
+        }
+        else {
+          classroom.courses.courseWork.get({
+            courseId: info.resourceId.courseId,
+            id: info.resourceId.id
+          }, (err, coursework) => {
+            if(err) {
+              console.log(err)
+            }
+            else{
+              var coursework_index = class_doc.quests.findIndex(x => x.coursework_id == info.resourceId.id)
+              if(class_doc.quests[coursework_index]) {
+                class_doc.quests[coursework_index].name = coursework.data.title
+              }
+              else {
+                class_doc.quests.push({
+                  classroom_id: coursework.data.courseId,
+                  coursework_id: coursework.data.id,
+                  due_date: coursework.data.dueDate ? new Date(coursework.data.dueDate.year, coursework.data.dueDate.month - 1, coursework.data.dueDate.day) : null,
+                  creation_date: Date.now(),
+                  last_modified: Date.now(),
+                  name: coursework.data.title,
+                  reward_amount: 5,
+                  type: 1
+                })
+              }
+              class_doc.save();
+            }
+          })
+
+        }
+      })
+    }
+    else if(info.collection == 'courses.courseWork.studentSubmissions') {
+      console.log('did something with a submission')
+      classroom.courses.courseWork.studentSubmissions.get({
+        courseId: info.resourceId.courseId,
+        courseWorkId: info.resourceId.courseWorkId,
+        id: info.resourceId.id
+      }, (err, assignment) => {
+        if(err) {
+          console.log(err)
+        }
+        else{
+          // console.log(assignment)
+          if(assignment.data.state == 'RETURNED') {
+            user.findOne({ google_id: assignment.data.userId }, async (err, user_doc) => {
+              const a_class = await mongo_classroom.findOne({classroom_id: info.resourceId.courseId}).exec()
+              const an_assignment = a_class.quests.find(x => x.coursework_id == info.resourceId.courseWorkId)
+              // console.log(a_class)
+              // console.log(an_assignment)
+
+              const user_course = user_doc.classes.find(x => x.classroom_id == info.resourceId.courseId)
+              const current_user_quest = user_course.quests.find(x => x._id == an_assignment._id)
+              
+              console.log(user_course)
+              console.log(current_user_quest)
+              current_user_quest.completed = true
+              user_course.balance += an_assignment.reward_amount
+
+              await user_doc.save()
+            })
+          }
+        }
+      })
+
+    }
+  }
   // The code below needs to be fine-tuned for every type of change that can occur since we get so many notifications.
   // if(info.eventType == 'MODIFIED') {
   //   quest.findOneAndReplace({coursework_id: info.resourceId.id}, {upsert: true}, (err, docs) => {
