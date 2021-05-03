@@ -154,8 +154,6 @@ async function getClassrooms(req, res) {
           }
         })
       });
-      console.log(result.data.courses)
-      console.log('sendalo')
       res.json(result.data.courses)
     }
   )
@@ -170,16 +168,12 @@ async function getClassrooms(req, res) {
           console.log('Problem finding courses')
           res.status(404).send('Error finding student course list.')
         }
-        console.log('am a student!!!!!!!!!!!!!!')
         res.json(result.data.courses)}
     )
       }  
 }
 
 function updateUserAssignments(req, res, class_doc) {
-  console.log('am been addedsdasdasdasdasd')
-  console.log(class_doc.classroom_id)
-
   user.findOne({ google_id: req.query.google_id }, async (err, user_doc) => {
     if (err || !user_doc) {
       console.log("No user found with getUser.")
@@ -191,11 +185,21 @@ function updateUserAssignments(req, res, class_doc) {
         console.log('classroom already added')
       }
       else {
-        user_doc.classes.push({
-          classroom_id: class_doc.classroom_id,
-          balance: 0,
-          quests: []
-        })
+        if(req.query.user_type == "1") {
+          user_doc.classes.push({
+            classroom_id: class_doc.classroom_id,
+            balance: 9999999,
+            quests: []
+          })
+        }
+        else if(req.query.user_type == "2") {
+          user_doc.classes.push({
+            classroom_id: class_doc.classroom_id,
+            balance: 0,
+            quests: []
+          })
+        }
+
       }
       await user_doc.save()
       mongo_classroom.findOne({ classroom_id: class_doc.classroom_id }, async (err, class_doc) => {
