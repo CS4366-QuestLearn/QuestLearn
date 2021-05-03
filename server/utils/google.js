@@ -379,8 +379,14 @@ async function pushMethod(req, res) {
             user.findOne({ google_id: assignment.data.userId }, async (err, user_doc) => {
               const a_class = await mongo_classroom.findOne({classroom_id: info.resourceId.courseId}).exec()
               const an_assignment = a_class.quests.find(x => x.coursework_id == info.resourceId.courseWorkId)
-              console.log(a_class)
-              console.log(an_assignment)
+              // console.log(a_class)
+              // console.log(an_assignment)
+
+              const user_course = user_doc.classes.find(x => x.classroom_id == info.resourceId.courseId)
+              const current_user_quest = user_course.quests.find(x._id == an_assignment._id)
+              
+              console.log(user_course)
+              console.log(current_user_quest)
             })
           }
         }
