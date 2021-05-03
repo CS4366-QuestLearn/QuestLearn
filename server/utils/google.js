@@ -321,6 +321,24 @@ async function pushMethod(req, res) {
   console.log(info.eventType)
   console.log('RESOUCRE')
   console.log(info.resourceId)
+
+  // A MODIFIED event.
+  if(info.eventType == 'MODIFIED'){
+    if(info.collection == 'courses.courseWork') {
+      console.log('A course was modified.')
+      classroom.courses.courseWork.get({
+        courseId: info.resourceId.courseId,
+        id: info.resourceId.id
+      }, (err, result) => {
+        if(err) {
+          console.log(err)
+        }
+        else{
+          console.log(coursework.data)
+        }
+      })
+    }
+  }
   // The code below needs to be fine-tuned for every type of change that can occur since we get so many notifications.
   // if(info.eventType == 'MODIFIED') {
   //   quest.findOneAndReplace({coursework_id: info.resourceId.id}, {upsert: true}, (err, docs) => {
