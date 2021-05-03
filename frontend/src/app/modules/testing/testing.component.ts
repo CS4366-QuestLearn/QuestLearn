@@ -107,4 +107,11 @@ export class TestingComponent implements OnInit {
       // check the user object for true false and then change status "Completed", "Incomplete", etc
   }
 
+  addTestRequest() {
+        this.testingService.addTestRequest()
+      .subscribe(response => {
+        console.log(response)
+      })
+  }
+
 }

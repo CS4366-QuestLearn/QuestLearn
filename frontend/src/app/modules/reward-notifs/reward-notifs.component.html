@@ -3,10 +3,19 @@
     <div id="header" fxLayoutAlign="center">Manage Rewards</div>
     <div fxLayoutAlign="center">
       <div fxLayout="row" fxLayouAlign="space-between center" class="reward-box">
-        <app-redeem-notif></app-redeem-notif>
-        <app-redeem-notif></app-redeem-notif>
-        <app-redeem-notif></app-redeem-notif>
-        <app-redeem-notif></app-redeem-notif>
+        <ng-container *ngIf="!loading;else loadingTemplate">
+          <ng-container *ngIf="requests && requests.length > 0;else empty">
+            <ng-container *ngFor="let element of requests">
+              <app-redeem-notif [data]="element" (submitted)="submitted()" [classroom_id]="id"></app-redeem-notif>
+            </ng-container>
+          </ng-container>
+          <ng-template #empty>
+            No pending rewards 🙂
+          </ng-template>
+        </ng-container>
+        <ng-template #loadingTemplate>
+          Loading...
+        </ng-template>
       </div>
     </div>
   </div>

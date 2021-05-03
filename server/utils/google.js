@@ -111,7 +111,8 @@ async function getClassrooms(req, res) {
                 classroom_id: element.id,
                 teacher_id: element.ownerId,
                 quests: [],
-                rewards: []
+                rewards: [],
+                requests: []
               })
 
               await newEntry.save((err, result) => {

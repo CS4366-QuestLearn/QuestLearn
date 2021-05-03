@@ -1,6 +1,16 @@
+body{
+  height: 100%;
+}
+
 .page {
   background-color: #7C81EB;
-  height: 100%;
+  display: flex;
+  height: auto;
+  margin: 0;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 100%;
 }
 
 #header {
@@ -11,19 +21,24 @@
 }
 
 .reward-box {
+  display: flex;
+  justify-content: space-evenly;
   padding: 1%;
   padding-right: 3%;
   padding-left: 3%;
   background-color: #65EB91;
   flex-wrap: wrap;
+  flex-flow: row wrap;
 
   overflow-y: scroll;
 
-  max-width: 80%;
+  max-width: 90%;
   max-height: 50%;
+  min-width: 400px;
 
   outline-style: solid;
   outline-width: 4px;
+  max-height: 60vh;
 }
 
 #reward-wrapper {

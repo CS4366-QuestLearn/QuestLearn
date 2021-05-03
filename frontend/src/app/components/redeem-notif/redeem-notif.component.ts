@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { QuestService } from 'src/app/utils/quest.service';
 
 @Component({
   selector: 'app-redeem-notif',
@@ -6,10 +7,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./redeem-notif.component.scss']
 })
 export class RedeemNotifComponent implements OnInit {
-
-  constructor() { }
+  @Input() data;
+  @Input() classroom_id;
+  @Output() submitted = new EventEmitter();
+  constructor(
+    private questService: QuestService,
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  requestStatus(num) {
+    this.questService.requestStatus(this.classroom_id, this.data, num).subscribe(x => {
+      console.log(x);
+      this.submitted.emit()
+    });
   }
 
 }

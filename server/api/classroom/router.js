@@ -80,6 +80,38 @@ function deleteQuest() {
   
 }
 
+function submitRequest(req, res) {
+  // Ensure the user exists
+  classroom.findOne({ classroom_id: req.query.classroom_id }, async (err, classroom_doc) => {
+    if (err || !classroom_doc) {
+      console.log("No class found.")
+      res.json(JSON.stringify({ exists: false }))
+    }
+    else {
+      // Find the index of the class within the classes document. This is needed to dig into the nested document.
+      const user_doc = await user.findOne({google_id: req.query.id}).exec();
+      var index = user_doc.classes.findIndex(x => x.classroom_id == req.query.classroom_id)
+      // Mark the quest which matches the _id as true
+      // Status:
+      // 1: Approved
+      // 2: Declined
+      var classroom_index = classroom_doc.requests.findIndex(x => x._id == req.query._id)
+      classroom_doc.requests[classroom_index].status = req.query.status
+      if(req.query.status == '2')
+        // Reverse the charge on the student's balance if the transaction has been declined
+        user_doc.classes[index].balance += Number(req.query.amount)
+      
+
+      await user_doc.save()
+      await classroom_doc.save()
+      res.json(classroom_doc.requests)
+    }
+
+  })
+
+
+}
+
 function createReward(req, res) {
   // Find a classroom matching the classroom_id in the request
   classroom.findOne({classroom_id: req.body.classroom_id}, async (err, doc) => {
@@ -107,6 +139,28 @@ function getClassroomRewards(req, res) {
     }))
   })
 }
+
+function readAllRequests(req, res) {
+  console.log('getting requests')
+  // Find a classroom from the class_id in the requests
+  classroom.findOne({classroom_id: req.query.class_id}).sort({request_date: 1}).exec(async function(err, doc) {
+    // Return the quests subdocument
+    const users = await user.find({}).exec();
+    const data = doc.requests.map(request => {
+      const requester = users.find(x => x.google_id == request.requester_id);
+
+      return {
+        ...request._doc,
+        requester_name: requester.name,
+        avatar_url: requester.avatar_url
+      }
+
+    })
+    // console.log(data)
+    res.json(data)
+  })
+}
+
 
 /**
  * 
@@ -255,6 +309,30 @@ async function importQuestsToClass(req, res) {
   res.json({"b" : "bbbb"} )
 
 }
+
+
+/**
+ * Creating a request and adding it to the respective classroom document
+ */
+function addTestRequest(req, res) {
+  console.log('request adding')
+  // Find a classroom matching the classroom_id in the request
+  classroom.findOne({classroom_id: '311516886961'}, (err, doc) => {
+    // Add the request and it's details to the request subdocument
+    doc.requests.push({
+      reward_name: 'A reward',
+      reward_amount: 10,
+      requester_id: '107965676074857006502',
+      request_date: Date.now(),
+      status: -1
+    })
+    // Save the document
+    doc.save()
+  })
+  res.status(201).send()
+}
+
+
 router.get('/foobar', getFoo)
 router.get('/create', createClassrooms)
 router.get('/import', importQuestsToClass)
@@ -262,10 +340,14 @@ router.get('/quests', readAllQuests)
 router.get('/quest', readQuest)
 router.post('/quest', createQuest)
 
+router.get('/requests', readAllRequests)
+
+router.get('/submit-request', submitRequest)
 router.post('/add-reward', createReward)
 router.get('/get-rewards/', getClassroomRewards)
 
 
 // testing functions
 router.get('/test/classroom', getTestClassroom)
+router.get('/test/request', addTestRequest)
 module.exports = router;
