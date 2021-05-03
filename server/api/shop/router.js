@@ -61,7 +61,7 @@ function buyItem(req, res) {
         if (req.body.classroom_id) {
           var classroom = user.classes.find(x => x.classroom_id == req.body.classroom_id);
           var item = await shopItem.findOne({_id: req.body.item_id}).exec();
-          if (classroom.balance <= item.cost) {
+          if (classroom.balance < item.cost) {
             res.status(400).send("The specified user does not have enough balance to purchase this item.")
           } else {
             classroom.balance -= item.cost;
@@ -89,7 +89,7 @@ function buyReward(req, res) {
         mongo_classroom.findOne({ classroom_id: req.body.classroom_id }, async (err, classroom_doc) => {
           const classroom = user.classes.find(x => x.classroom_id == req.body.classroom_id);
           const reward = classroom_doc.rewards.find(x => x._id == req.body.reward_id);
-          if (classroom.balance <= reward.reward_amount) {
+          if (classroom.balance < reward.reward_amount) {
             res.status(400).send("The specified user does not have enough balance to purchase this item.")
           } else {
             classroom_doc.requests.push({
