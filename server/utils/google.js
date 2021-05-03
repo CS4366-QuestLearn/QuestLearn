@@ -314,13 +314,7 @@ async function pushTopic(req, res) {
  */
 async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
-  console.log('IVE BEEN PUSHALO')
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
-  console.log(info)
-  console.log('TYPEALOE')
-  console.log(info.eventType)
-  console.log('RESOUCRE')
-  console.log(info.resourceId)
 
   // A MODIFIED event.
   if(info.eventType == 'MODIFIED'){
@@ -345,8 +339,6 @@ async function pushMethod(req, res) {
                 class_doc.quests[coursework_index].name = coursework.data.title
               }
               else {
-                console.log(coursework.data)
-                console.log(coursework.data.dueDate)
                 class_doc.quests.push({
                   classroom_id: coursework.data.courseId,
                   coursework_id: coursework.data.id,
