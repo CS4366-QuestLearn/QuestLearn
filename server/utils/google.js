@@ -316,11 +316,11 @@ async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
   console.log('IVE BEEN PUSHALO')
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
-  // console.log(info)
-  // console.log('TYPEALOE')
-  // console.log(info.eventType)
-  // console.log('RESOUCRE')
-  // console.log(info.resourceId)
+  console.log(info)
+  console.log('TYPEALOE')
+  console.log(info.eventType)
+  console.log('RESOUCRE')
+  console.log(info.resourceId)
 
   // A MODIFIED event.
   if(info.eventType == 'MODIFIED'){
@@ -332,7 +332,6 @@ async function pushMethod(req, res) {
           console.log('err')
         }
         else {
-          console.log(class_doc)
           classroom.courses.courseWork.get({
             courseId: info.resourceId.courseId,
             id: info.resourceId.id
@@ -342,8 +341,6 @@ async function pushMethod(req, res) {
             }
             else{
               var coursework_index = class_doc.quests.findIndex(x => x.coursework_id == info.resourceId.id)
-              console.log('found ya some work')
-              console.log(coursework_index)
               if(class_doc.quests[coursework_index]) {
                 class_doc.quests[coursework_index].name = coursework.data.title
               }
@@ -354,7 +351,7 @@ async function pushMethod(req, res) {
                   due_date: coursework.dueDate ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
                   creation_date: Date.now(),
                   last_modified: Date.now(),
-                  name: coursework.data.tile,
+                  name: coursework.data.title,
                   reward_amount: 5,
                   type: 1
                 })
@@ -365,6 +362,10 @@ async function pushMethod(req, res) {
 
         }
       })
+    }
+    else if(info.collection == 'courses.courseWork.studentSubmissions') {
+      console.log('did something with a submission')
+
     }
   }
   // The code below needs to be fine-tuned for every type of change that can occur since we get so many notifications.
