@@ -316,7 +316,10 @@ async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
   console.log('IVE BEEN PUSHALO')
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
+  console.log(info)
+  console.log('TYPEALOE')
   console.log(info.eventType)
+  console.log('RESOUCRE')
   console.log(info.resourceId)
   // The code below needs to be fine-tuned for every type of change that can occur since we get so many notifications.
   // if(info.eventType == 'MODIFIED') {
