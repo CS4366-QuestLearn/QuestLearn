@@ -344,7 +344,21 @@ async function pushMethod(req, res) {
               var coursework_index = class_doc.quests.findIndex(x => x.coursework_id == info.resourceId.id)
               console.log('found ya some work')
               console.log(coursework_index)
-              class_doc.quests[coursework_index].name = coursework.data.title
+              if(class_doc.quests[coursework_index]) {
+                class_doc.quests[coursework_index].name = coursework.data.title
+              }
+              else {
+                class_doc.quests.push({
+                  classroom_id: coursework.data.courseId,
+                  coursework_id: coursework.data.id,
+                  due_date: coursework.dueDate ? new Date(element.due_date.year, element.due_date.month - 1, element.due_date.day) : null,
+                  creation_date: Date.now(),
+                  last_modified: Date.now(),
+                  name: coursework.data.tile,
+                  reward_amount: 5,
+                  type: 1
+                })
+              }
               class_doc.save();
             }
           })
