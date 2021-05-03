@@ -316,25 +316,37 @@ async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
   console.log('IVE BEEN PUSHALO')
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
-  console.log(info)
-  console.log('TYPEALOE')
-  console.log(info.eventType)
-  console.log('RESOUCRE')
-  console.log(info.resourceId)
+  // console.log(info)
+  // console.log('TYPEALOE')
+  // console.log(info.eventType)
+  // console.log('RESOUCRE')
+  // console.log(info.resourceId)
 
   // A MODIFIED event.
   if(info.eventType == 'MODIFIED'){
     if(info.collection == 'courses.courseWork') {
-      console.log('A course was modified.')
-      classroom.courses.courseWork.get({
-        courseId: info.resourceId.courseId,
-        id: info.resourceId.id
-      }, (err, coursework) => {
+      console.log('Coursework was modified.')
+
+      mongo_classroom.findOne({classroom_id: info.resourceId.courseId}, async (err, class_doc) => {
         if(err) {
-          console.log(err)
+          console.log('err')
         }
-        else{
-          console.log(coursework.data)
+        else {
+          console.log(class_doc)
+          classroom.courses.courseWork.get({
+            courseId: info.resourceId.courseId,
+            id: info.resourceId.id
+          }, (err, coursework) => {
+            if(err) {
+              console.log(err)
+            }
+            else{
+              var coursework_index = class_doc.requests.findIndex(x => x.courseworkd_id == info.resourceId.id)
+              console.log('found ya some work')
+              console.log(coursework_index)
+            }
+          })
+
         }
       })
     }
