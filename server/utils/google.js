@@ -377,7 +377,10 @@ async function pushMethod(req, res) {
           // console.log(assignment)
           if(assignment.data.state == 'RETURNED') {
             user.findOne({ google_id: assignment.data.userId }, async (err, user_doc) => {
-              console.log(user_doc.name)
+              const a_class = await mongo_classroom.findOne({classroom_id: info.resourceId.courseId}).exec()
+              const an_assignment = a_class.quests.find(x => x.coursework_id == info.resourceId.courseWorkId)
+              console.log(a_class)
+              console.log(an_assignment)
             })
           }
         }
