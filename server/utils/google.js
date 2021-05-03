@@ -348,7 +348,7 @@ async function pushMethod(req, res) {
                 class_doc.quests.push({
                   classroom_id: coursework.data.courseId,
                   coursework_id: coursework.data.id,
-                  due_date: coursework.dueDate ? new Date(coursework.dueDate.year, coursework.dueDate.month - 1, coursework.dueDate.day) : null,
+                  due_date: coursework.dueDate ? new Date(coursework.data.dueDate.year, coursework.data.dueDate.month - 1, coursework.data.dueDate.day) : null,
                   creation_date: Date.now(),
                   last_modified: Date.now(),
                   name: coursework.data.title,
