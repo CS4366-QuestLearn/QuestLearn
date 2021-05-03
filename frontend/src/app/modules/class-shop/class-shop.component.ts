@@ -19,7 +19,7 @@ export interface Avatar_Item {
   price: number;
   image: string;
   purchased: boolean;
-  sales: number;
+  times_purchased: number;
   type: string;
   _id: string;
 }
@@ -63,20 +63,20 @@ export class ClassShopComponent implements OnInit {
   selectedClass = 0;
 
   // class_rewards_ex_1: Avatar_Item[] = [
-  //   {name: "Bag of Lays", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  //   {name: "Take One from the Grab Bag", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  //   {name: "No-Homework Pass", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  //   {name: "Fruit Snacks", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  //   {name: "5 Homework Points", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  //   {name: "Lunch with the Teacher", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "Bag of Lays", price: 100, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
+  //   {name: "Take One from the Grab Bag", price: 200, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
+  //   {name: "No-Homework Pass", price: 700, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
+  //   {name: "Fruit Snacks", price: 100, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
+  //   {name: "5 Homework Points", price: 700, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
+  //   {name: "Lunch with the Teacher", price: 200, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
   // ];
 
   // class_rewards_ex_2: Avatar_Item[] = [
-  //   {name: "Amogus", price: 10000, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "Amogus", price: 10000, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
   // ];
 
   // class_rewards_ex_3: Avatar_Item[] = [
-  //   {name: "Travis Scott Meal", price: 5.99, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "Travis Scott Meal", price: 5.99, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
   // ];
   
   // all_class_rewards: Class_ID_Rewards[] = [
@@ -85,13 +85,9 @@ export class ClassShopComponent implements OnInit {
   //   {id: 2, name: 'Random Class 2', rewards: this.class_rewards_ex_3},
   // ];
 
-  empty_item: Avatar_Item = {name: "", price: 0, image: "", purchased: false, sales: 0, _id: "", type: ""};
+  empty_item: Avatar_Item = {name: "", price: 0, image: "", purchased: false, times_purchased: 0, _id: "", type: ""};
 
-  popular_items: Avatar_Item[] = [
-    this.empty_item,
-    this.empty_item,
-    this.empty_item
-  ]
+  popular_items: Avatar_Item[] = []
 
   empty_reward: Class_Reward = {name: '', price: 0, _id: ''};
 
@@ -104,7 +100,7 @@ export class ClassShopComponent implements OnInit {
   accessories: Avatar_Item[];
   
   inventory: Avatar_Item[][];
-  shopItems: any[];
+  shopItems: Avatar_Item[];
 
   user: gapi.auth2.GoogleUser;
   userType: any;
@@ -175,12 +171,25 @@ export class ClassShopComponent implements OnInit {
       ...this.questlearnUser.inventory.accessory_ids,
     ];
 
-    this.shopItems = await this.classShopService.getShopItems();
-    this.animals = this.getItemsOfType('animal', purchasedList);
-    this.hats = this.getItemsOfType('head', purchasedList);
-    this.shirts = this.getItemsOfType('shirt', purchasedList);
-    this.pants = this.getItemsOfType('pant', purchasedList);
-    this.accessories = this.getItemsOfType('accessory', purchasedList);
+    this.shopItems = (await this.classShopService.getShopItems())
+      .filter(x => x.cost !== 0)
+      .sort((a, b) => b.times_purchased - a.times_purchased)
+      .map(x => {
+        return {
+          name: x.name,
+          price: x.cost,
+          image: x.thumbnail_url,
+          purchased: purchasedList.includes(x._id),
+          times_purchased: x.times_purchased,
+          type: x.type,
+          _id: x._id
+        }
+      });
+    this.animals = this.shopItems.filter(x => x.type ==='animal');
+    this.hats = this.shopItems.filter(x => x.type ==='head');
+    this.shirts = this.shopItems.filter(x => x.type ==='shirt');
+    this.pants = this.shopItems.filter(x => x.type ==='pant');
+    this.accessories = this.shopItems.filter(x => x.type ==='accessory');
 
     this.inventory = [
       this.animals,
@@ -189,24 +198,6 @@ export class ClassShopComponent implements OnInit {
       this.pants,
       this.accessories,
     ];
-
-  }
-  
-  getItemsOfType(type: string, purchasedList: Array<string>): Avatar_Item[] {
-    return this.shopItems
-      .filter(x => x.type === type && x.cost !== 0)
-      .map(x => {
-        return {
-          name: x.name,
-          price: x.cost,
-          image: x.thumbnail_url,
-          purchased: purchasedList.includes(x._id),
-          sales: 0,
-          type: x.type,
-          _id: x._id
-        };
-      }
-    ); 
   }
 
   async updateSelectedClass(value) {
@@ -249,32 +240,32 @@ export class ClassShopComponent implements OnInit {
     // document.getElementById('display_one').style.display = 'flex';
   }
 
-  setPopular()
-  {
-    var s:string;
-    for(var i = 0; i < 3; i++)
-    {
-      for(var j = 0; j < this.inventory.length; j++)
-      {
-        for(var k = 0; k < this.inventory[j].length; k++)
-        {
-          if(this.inventory[j][k].sales >= this.popular_items[0].sales && !this.popular_items.includes(this.inventory[j][k]))
-            {
-              switch(i)
-              {
-                case 0: s = "popular_one"; break;
-                case 1: s = "popular_two"; break;
-                case 2: s = "popular_three"; break;
-              }
-              this.popular_items[i] = this.inventory[j][k];
-              const image_element = <HTMLImageElement> document.getElementById(s).firstChild.firstChild.lastChild;
-              image_element.src =  this.inventory[j][k].image;
-              document.getElementById(s).firstChild.lastChild.textContent= this.inventory[j][k].name + "  " + this.inventory[j][k].price + " QC";
-            }
-        }
-      }
-    }
-  }
+  // setPopular()
+  // {
+  //   var s:string;
+  //   for(var i = 0; i < 3; i++)
+  //   {
+  //     for(var j = 0; j < this.inventory.length; j++)
+  //     {
+  //       for(var k = 0; k < this.inventory[j].length; k++)
+  //       {
+  //         if(this.inventory[j][k].times_purchased >= this.popular_items[0].times_purchased && !this.popular_items.includes(this.inventory[j][k]))
+  //           {
+  //             switch(i)
+  //             {
+  //               case 0: s = "popular_one"; break;
+  //               case 1: s = "popular_two"; break;
+  //               case 2: s = "popular_three"; break;
+  //             }
+  //             this.popular_items[i] = this.inventory[j][k];
+  //             const image_element = <HTMLImageElement> document.getElementById(s).firstChild.firstChild.lastChild;
+  //             image_element.src =  this.inventory[j][k].image;
+  //             document.getElementById(s).firstChild.lastChild.textContent= this.inventory[j][k].name + "  " + this.inventory[j][k].price + " QC";
+  //           }
+  //       }
+  //     }
+  //   }
+  // }
 
   openTab(evt, tabName: string) {
     var i, tabcontent, tablinks;
@@ -335,9 +326,9 @@ export class ClassShopComponent implements OnInit {
         if(this.window == PurchaseConfirmationComponent && result?.purchased) {
           if (!Number.isNaN(result.price)) {
             this.balance -= result.price;
-            // this.current_purchase.sales++;
+            // this.current_purchase.times_purchased++;
           }
-          this.setPopular();
+          // this.setPopular();
         }
         else if(this.window == AddRewardDialogComponent) {
           if(result)

@@ -9,6 +9,7 @@ function createItem (req, res) {
     thumbnail_url: req.body.thumbnail_url,
     full_url: req.body.full_url,
     type: req.body.type,
+    times_purchased: 0,
   });
 
   newEntry.save((err, result) => {
@@ -36,6 +37,7 @@ function editItem (req, res) {
       item.thumbnail_url = req.body.thumbnail_url;
       item.full_url = req.body.full_url;
       item.type = req.body.type;
+      item.times_purchased = req.body.times_purchased;
       
       item.save();
       res.status(201).send();
@@ -61,11 +63,13 @@ function buyItem(req, res) {
           if (classroom.balance <= item.cost) {
             res.status(400).send("The specified user does not have enough balance to purchase this item.")
           } else {
-            classroom.balance -= item.cost
+            classroom.balance -= item.cost;
+            item.times_purchased += 1;
           }
         }
         itemTypeList.push(req.body.item_id)
         await user.save();
+        await item.save();
         res.json(user.inventory);
       }
 

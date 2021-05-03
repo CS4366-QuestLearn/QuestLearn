@@ -10,6 +10,7 @@ var ShopItem = new Schema({
   thumbnail_url: String,
   full_url: String,
   type: String,
+  times_purchased: Number,
 });
 
 // Compile model from schema
