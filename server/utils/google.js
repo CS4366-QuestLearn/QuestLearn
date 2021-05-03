@@ -65,7 +65,7 @@ async function getClassroom(req, res) {
  */
 async function getClassrooms(req, res) {
   console.log('Getting classrooms')
-  console.log(req.query)
+  // console.log(req.query)
   subscription = pubSubClient.subscription("my-topic-heroku-push");
 
   // Check user type
@@ -169,6 +169,13 @@ async function getClassrooms(req, res) {
           console.log('Problem finding courses')
           res.status(404).send('Error finding student course list.')
         }
+        result.data.courses.forEach(element => {
+          mongo_classroom.findOne({classroom_id: element.id}, (err, class_doc) => {
+            if(class_doc) {
+              updateUserAssignments(req, res, class_doc)
+            }
+          })
+        });
         res.json(result.data.courses)}
     )
       }  
@@ -193,7 +200,7 @@ function updateUserAssignments(req, res, class_doc) {
             quests: []
           })
         }
-        else if(req.query.user_type == "2") {
+        else {
           user_doc.classes.push({
             classroom_id: class_doc.classroom_id,
             balance: 0,
@@ -203,10 +210,10 @@ function updateUserAssignments(req, res, class_doc) {
 
       }
       await user_doc.save()
-      mongo_classroom.findOne({ classroom_id: class_doc.classroom_id }, async (err, class_doc) => {
-      var index = user_doc.classes.findIndex(x => x.classroom_id == class_doc.classroom_id)
+      mongo_classroom.findOne({ classroom_id: class_doc.classroom_id }, async (err, classroom_doc) => {
+      var index = user_doc.classes.findIndex(x => x.classroom_id == classroom_doc.classroom_id)
       console.log(index)
-      class_doc.quests.forEach(element => {
+      classroom_doc.quests.forEach(element => {
         if (user_doc.classes[index].quests.filter(e => e._id === element.id).length > 0) {
           // if it already exists
           console.log('quest already added')
