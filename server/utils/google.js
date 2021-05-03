@@ -374,7 +374,12 @@ async function pushMethod(req, res) {
           console.log(err)
         }
         else{
-          console.log(assignment)
+          // console.log(assignment)
+          if(assignment.data.state == 'RETURNED') {
+            user.findOne({ google_id: assignment.data.userId }, async (err, user_doc) => {
+              console.log(user_doc.name)
+            })
+          }
         }
       })
 
