@@ -30,9 +30,14 @@
     <div id="Classroom_Rewards" class="tabcontent">
         <h2>Most Popular Rewards</h2>
         <div class="tabcontent-container">
-          <app-shop-button-large id="popular_one" (click)="openWindow(popular_items[0], $event, true)"></app-shop-button-large>
-          <app-shop-button-large id="popular_two" (click)="openWindow(popular_items[1], $event, true)"></app-shop-button-large>
-          <app-shop-button-large id="popular_three" (click)="openWindow(popular_items[2], $event, true)"></app-shop-button-large>
+          <ng-container *ngIf="shopItems && shopItems.length > 0; else loadingPopular">
+            <app-shop-button-large [id]="shopItems[0].name" [item]="shopItems[0]" (click)="openWindow(shopItems[0], $event, true)"></app-shop-button-large>
+            <app-shop-button-large [id]="shopItems[1].name" [item]="shopItems[1]" (click)="openWindow(shopItems[1], $event, true)"></app-shop-button-large>
+            <app-shop-button-large [id]="shopItems[2].name" [item]="shopItems[2]" (click)="openWindow(shopItems[2], $event, true)"></app-shop-button-large>
+          </ng-container>
+          <ng-template #loadingPopular>
+            Loading...
+          </ng-template>
         </div>
         <h2>All Classroom Rewards</h2>
         <ng-container *ngIf="all_class_rewards; else loadingRewards">

@@ -44,6 +44,7 @@ export class TestingShopComponent implements OnInit {
       'thumbnail_url': [null, [Validators.required]],
       'full_url': [null, [Validators.required]],
       'type': [null, [Validators.required]],
+      'times_purchased': [null, [Validators.required]],
     });
   }
 
