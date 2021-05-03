@@ -10,6 +10,7 @@ import { ActivatedRoute } from '@angular/router';
 export class RewardNotifsComponent implements OnInit {
   public id
   public requests
+  public loading = true
   constructor(
     private questService: QuestService,
     private route: ActivatedRoute,
@@ -20,6 +21,7 @@ export class RewardNotifsComponent implements OnInit {
     this.questService.getAllRequests(this.id).subscribe((x: Array<any>) => {
       this.requests = x.filter(x => x.status == -1)
       console.log(this.requests)
+      this.loading = false
     });
   }
 
