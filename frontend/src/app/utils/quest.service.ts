@@ -23,6 +23,9 @@ export class QuestService {
   addReward(data) {
     return this.http.post(`${this.localUrl}api/classroom/add-reward`, data)
   }
+  async getClassroomRewards() {
+    return await this.http.get(`${this.localUrl}api/classroom/get-rewards/`).toPromise() as Array<any>;
+  }
   importGoogleAssignments(user, id){
     console.log(id)
     return this.http.get(`${this.localUrl}api/quests/import?access_token=${user.getAuthResponse().access_token}&class_id=${id}`)

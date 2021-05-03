@@ -2,7 +2,7 @@
   <div class="shop-table">
     <div class="top-container">
         <div class="search-box">
-          <button class="add-button" (click)="openWindow(empty_item, $event, false)">Add Classroom Reward</button>
+          <button *ngIf="questlearnUser.user_type == 1" class="add-button" (click)="openWindow(empty_item, $event, false)">Add Classroom Reward</button>
         </div>
         <div class="info-box">
           <h2 *ngIf="classrooms.length > 0">You have {{balance}} QC in </h2>
@@ -35,16 +35,44 @@
           <app-shop-button-large id="popular_three" (click)="openWindow(popular_items[2], $event, true)"></app-shop-button-large>
         </div>
         <h2>All Classroom Rewards</h2>
-        <div class="up-button" id="up" (click)="setClassItems(-6)"></div>
-        <div class="tabcontent-container">
-          <button class="shop-class-button" id="display_one" (click)="openWindow(displayed_class_items[0], $event, false)"><h3>{{displayed_class_items[0].name}}</h3><p>{{displayed_class_items[0].price}} QC</p></button>
-          <button class="shop-class-button" id="display_two" (click)="openWindow(displayed_class_items[1], $event, false)"><h3>{{displayed_class_items[1].name}}</h3><p>{{displayed_class_items[1].price}} QC</p></button>
-          <button class="shop-class-button" id="display_three" (click)="openWindow(displayed_class_items[2], $event, false)"><h3>{{displayed_class_items[2].name}}</h3><p>{{displayed_class_items[2].price}} QC</p></button>
-          <button class="shop-class-button" id="display_four" (click)="openWindow(displayed_class_items[3], $event, false)"><h3>{{displayed_class_items[3].name}}</h3><p>{{displayed_class_items[3].price}} QC</p></button>
-          <button class="shop-class-button" id="display_five" (click)="openWindow(displayed_class_items[4], $event, false)"><h3>{{displayed_class_items[4].name}}</h3><p>{{displayed_class_items[4].price}} QC</p></button>
-          <button class="shop-class-button" id="display_six" (click)="openWindow(displayed_class_items[5], $event, false)"><h3>{{displayed_class_items[5].name}}</h3><p>{{displayed_class_items[5].price}} QC</p></button>
-        </div>
-        <div class="down-button" id="down" (click)="setClassItems(6)"></div>  
+        <ng-container *ngIf="all_class_rewards; else loadingRewards">
+          <ng-container *ngIf="finish > 0;else noRewards">
+            <div class="up-button" id="up" (click)="setClassItems(-6)" [style.display]="(display_top == 0) ?  'none' :'flex'"></div>
+            <div class="tabcontent-container">
+              <button class="shop-class-button" id="display_one" [style.display]="'flex'" (click)="openWindow(displayed_class_items[0], $event, false)">
+                <h3>{{displayed_class_items[0].name}}</h3>
+                <p>{{displayed_class_items[0].price}} QC</p>
+              </button>
+              <button class="shop-class-button" id="display_two" [style.display]="(finish <= 1) ?  'none' : 'flex'" (click)="openWindow(displayed_class_items[1], $event, false)">
+                <h3>{{displayed_class_items[1].name}}</h3>
+                <p>{{displayed_class_items[1].price}} QC</p>
+              </button>
+              <button class="shop-class-button" id="display_three" [style.display]="(finish <= 2) ?  'none' : 'flex'" (click)="openWindow(displayed_class_items[2], $event, false)">
+                <h3>{{displayed_class_items[2].name}}</h3>
+                <p>{{displayed_class_items[2].price}} QC</p>
+              </button>
+              <button class="shop-class-button" id="display_four" [style.display]="(finish <= 3) ?  'none' : 'flex'" (click)="openWindow(displayed_class_items[3], $event, false)">
+                <h3>{{displayed_class_items[3].name}}</h3>
+                <p>{{displayed_class_items[3].price}} QC</p>
+              </button>
+              <button class="shop-class-button" id="display_five" [style.display]="(finish <= 4) ?  'none' : 'flex'" (click)="openWindow(displayed_class_items[4], $event, false)">
+                <h3>{{displayed_class_items[4].name}}</h3>
+                <p>{{displayed_class_items[4].price}} QC</p>
+              </button>
+              <button class="shop-class-button" id="display_six" [style.display]="(finish <= 5) ?  'none' : 'flex'" (click)="openWindow(displayed_class_items[5], $event, false)">
+                <h3>{{displayed_class_items[5].name}}</h3>
+                <p>{{displayed_class_items[5].price}} QC</p>
+              </button>
+            </div>
+            <div class="down-button" id="down" (click)="setClassItems(6)" [style.display]="class_rewards && (display_top+6 >= class_rewards.length) ?  'none' :'flex'"></div>  
+          </ng-container>
+          <ng-template #noRewards>
+            No Rewards :(
+          </ng-template>
+        </ng-container>
+        <ng-template #loadingRewards>
+          loading...
+        </ng-template>
       </div>
   
   <div id="Animals" class="tabcontent">
