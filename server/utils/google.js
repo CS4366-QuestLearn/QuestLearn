@@ -329,7 +329,7 @@ async function pushMethod(req, res) {
       classroom.courses.courseWork.get({
         courseId: info.resourceId.courseId,
         id: info.resourceId.id
-      }, (err, result) => {
+      }, (err, coursework) => {
         if(err) {
           console.log(err)
         }

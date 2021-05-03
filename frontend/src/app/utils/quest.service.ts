@@ -45,8 +45,4 @@ export class QuestService {
   turnInQuest(user: gapi.auth2.GoogleUser, id, value, classroom_id) {
     return this.http.get(`${this.localUrl}api/user/complete-quest?google_id=${user.getBasicProfile().getId()}&_id=${id}&value=${value}&classroom_id=${classroom_id}`)
   }
-  importGoogleAssignments(user, id){
-    console.log(id)
-    return this.http.get(`${this.localUrl}api/quests/import?access_token=${user.getAuthResponse().access_token}&class_id=${id}`)
-  }
 }
