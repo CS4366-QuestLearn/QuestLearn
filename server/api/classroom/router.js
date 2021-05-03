@@ -82,16 +82,30 @@ function deleteQuest() {
 
 function createReward(req, res) {
   // Find a classroom matching the classroom_id in the request
-  classroom.findOne({classroom_id: req.body.classroom_id}, (err, doc) => {
+  classroom.findOne({classroom_id: req.body.classroom_id}, async (err, doc) => {
     // Add the reward and it's deatils to the reward subdocument
     doc.rewards.push({
       reward_name: req.body.name,
       reward_amount: req.body.price
     })
     // Save the document
-    doc.save()
+    await doc.save()
+    console.log(doc.rewards[doc.rewards.length - 1])
+    res.json(doc.rewards[doc.rewards.length - 1])
   })
-  res.status(201).send()
+}
+
+
+function getClassroomRewards(req, res) {
+  classroom.find({}, (err, classes) => {
+    console.log(classes);
+    res.json(classes.map(x => {
+      return {
+        classroom_id: x.classroom_id,
+        rewards: x.rewards,
+      }
+    }))
+  })
 }
 
 /**
@@ -249,6 +263,7 @@ router.get('/quest', readQuest)
 router.post('/quest', createQuest)
 
 router.post('/add-reward', createReward)
+router.get('/get-rewards/', getClassroomRewards)
 
 
 // testing functions
