@@ -9,7 +9,6 @@
           <mat-form-field appearance="fill" color="accent">
             <mat-label>Class</mat-label>
             <mat-select [value]="selectedClass" (selectionChange)="updateSelectedClass($event.value)">
-            <!-- <mat-select (selectionChange)="setIdItems($event)"> -->
               <mat-option *ngFor="let classroom of classrooms" [value]="classroom.value">
                 {{classroom.viewValue}}
               </mat-option>

@@ -32,7 +32,7 @@ export class AddRewardDialogComponent implements OnInit {
 
 
   closeDialog() {
-      this.dialogRef.close({name: this.formGroup.controls['name'].value, price: Number(this.formGroup.controls['price'].value)});
+    this.dialogRef.close({name: this.formGroup.controls['name'].value, price: Number(this.formGroup.controls['price'].value)});
   }
 
   onSubmit(formData) {

@@ -16,11 +16,15 @@ export class DonateBankDialogComponent implements OnInit {
   formGroup: FormGroup;
 
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private formBuilder: FormBuilder) {
-    this.donation_max = Math.min(data.balance, (data.max - data.bank)); 
-  }
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit(): void {
+    console.log(this.data)
+    
+    this.donation_max = Math.min(this.data.balance, (this.data.max - this.data.bank)); 
     this.createForm();
   }
 

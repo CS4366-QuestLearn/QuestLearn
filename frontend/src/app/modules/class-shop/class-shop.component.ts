@@ -62,29 +62,6 @@ export class ClassShopComponent implements OnInit {
   classrooms: Classroom[] = [];
   selectedClass = 0;
 
-  // class_rewards_ex_1: Avatar_Item[] = [
-  //   {name: "Bag of Lays", price: 100, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  //   {name: "Take One from the Grab Bag", price: 200, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  //   {name: "No-Homework Pass", price: 700, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  //   {name: "Fruit Snacks", price: 100, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  //   {name: "5 Homework Points", price: 700, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  //   {name: "Lunch with the Teacher", price: 200, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  // ];
-
-  // class_rewards_ex_2: Avatar_Item[] = [
-  //   {name: "Amogus", price: 10000, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  // ];
-
-  // class_rewards_ex_3: Avatar_Item[] = [
-  //   {name: "Travis Scott Meal", price: 5.99, image: "", purchased: false, times_purchased: 0, _id: "", type: ""},
-  // ];
-  
-  // all_class_rewards: Class_ID_Rewards[] = [
-  //   {id: 0, name: 'Mrs. Johnson - 1st Period Social Studies', rewards: this.class_rewards_ex_1},
-  //   {id: 1, name: 'Random Class 1', rewards: this.class_rewards_ex_2},
-  //   {id: 2, name: 'Random Class 2', rewards: this.class_rewards_ex_3},
-  // ];
-
   empty_item: Avatar_Item = {name: "", price: 0, image: "", purchased: false, times_purchased: 0, _id: "", type: ""};
 
   popular_items: Avatar_Item[] = []
@@ -125,21 +102,10 @@ export class ClassShopComponent implements OnInit {
     this.questlearnUser = this.questlearnService.questlearnUserValue;
 
     await this.initShop();
-    // document.getElementById("Classroom_Rewards").style.display = "none";
-    // document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
 
     document.getElementById('First_Button').className += " active";
     this.display_top = 0;
   }
-
-  // setIdItems(evt: any)
-  // {
-  //   document.getElementById("Classroom_Rewards").style.display = "flex";
-  //   this.class_rewards=this.all_class_rewards[(evt.value)-1].rewards;
-  //   this.display_top = 0;
-  //   this.setPopular();
-  //   this.setClassItems(0);
-  // }
 
   async initShop() {
     // Init classroom rewards
@@ -230,42 +196,7 @@ export class ClassShopComponent implements OnInit {
         this.displayed_class_items[i] = this.class_rewards[this.display_top+i];
       }
     }
-    // document.getElementById('up').style.display = (this.display_top == 0) ?  'none' :'flex';
-    // document.getElementById('down').style.display = (this.display_top+6 >= this.class_rewards.length) ?  'none' :'flex';
-    // document.getElementById('display_six').style.display = (finish <= 5) ?  'none' : 'flex';
-    // document.getElementById('display_five').style.display = (finish <= 4) ?  'none' : 'flex';
-    // document.getElementById('display_four').style.display = (finish <= 3) ?  'none' : 'flex';
-    // document.getElementById('display_three').style.display = (finish <= 2) ?  'none' : 'flex';
-    // document.getElementById('display_two').style.display = (finish <= 1) ?  'none' : 'flex';
-    // document.getElementById('display_one').style.display = 'flex';
   }
-
-  // setPopular()
-  // {
-  //   var s:string;
-  //   for(var i = 0; i < 3; i++)
-  //   {
-  //     for(var j = 0; j < this.inventory.length; j++)
-  //     {
-  //       for(var k = 0; k < this.inventory[j].length; k++)
-  //       {
-  //         if(this.inventory[j][k].times_purchased >= this.popular_items[0].times_purchased && !this.popular_items.includes(this.inventory[j][k]))
-  //           {
-  //             switch(i)
-  //             {
-  //               case 0: s = "popular_one"; break;
-  //               case 1: s = "popular_two"; break;
-  //               case 2: s = "popular_three"; break;
-  //             }
-  //             this.popular_items[i] = this.inventory[j][k];
-  //             const image_element = <HTMLImageElement> document.getElementById(s).firstChild.firstChild.lastChild;
-  //             image_element.src =  this.inventory[j][k].image;
-  //             document.getElementById(s).firstChild.lastChild.textContent= this.inventory[j][k].name + "  " + this.inventory[j][k].price + " QC";
-  //           }
-  //       }
-  //     }
-  //   }
-  // }
 
   openTab(evt, tabName: string) {
     var i, tabcontent, tablinks;
@@ -296,13 +227,9 @@ export class ClassShopComponent implements OnInit {
         this.openDialog({
           bank: this.bank_balance,
           max: this.bank_max,
+          balance: this.balance,
         });
       } else {
-        // this.one_time_purchase = one_purchase;
-        // this.purchase_button = evt.currentTarget;
-        // this.current_purchase = selected_item;
-        // this.item_name=selected_item.name;
-        // this.item_price=selected_item.price;
         this.window = PurchaseConfirmationComponent;
         this.openDialog({
           item: selected_item,
@@ -318,7 +245,6 @@ export class ClassShopComponent implements OnInit {
   {
     let dialogRef = this.dialog.open(this.window, 
       {
-        // height: '40%',
         minWidth: '30%',
         data: dialogData
       });
@@ -326,9 +252,7 @@ export class ClassShopComponent implements OnInit {
         if(this.window == PurchaseConfirmationComponent && result?.purchased) {
           if (!Number.isNaN(result.price)) {
             this.balance -= result.price;
-            // this.current_purchase.times_purchased++;
           }
-          // this.setPopular();
         }
         else if(this.window == AddRewardDialogComponent) {
           if(result)
@@ -340,7 +264,6 @@ export class ClassShopComponent implements OnInit {
             this.bank_balance += Number(result);
             this.balance -= Number(result);
           }
-          // document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
         }
       })
   }
