@@ -36,7 +36,6 @@ export class TopNavigationBarComponent implements OnInit, OnDestroy {
 
   set classroom(classroom: any) {
     this.dataState = 'entering';
-    console.log(classroom, this.dataState)
     this._classroom = classroom;
   }
 
@@ -65,6 +64,7 @@ export class TopNavigationBarComponent implements OnInit, OnDestroy {
 
     if (this.topNavSubscription) {
       this.topNavSubscription.unsubscribe();
+      this.topNavigationBarService.avatarUrlSubject.next(null);
     }
   }
 

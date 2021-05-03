@@ -22,8 +22,6 @@ export class DonateBankDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
-    
     this.donation_max = Math.min(this.data.balance, (this.data.max - this.data.bank)); 
     this.createForm();
   }

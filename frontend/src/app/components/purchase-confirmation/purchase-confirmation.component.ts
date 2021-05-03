@@ -18,7 +18,6 @@ export class PurchaseConfirmationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data)
     this.remaining = this.data.balance - this.data.item.price;
   
     if(this.remaining < 0){

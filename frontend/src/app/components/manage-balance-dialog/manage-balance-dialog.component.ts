@@ -58,9 +58,8 @@ export class ManageBalanceDialogComponent implements OnInit {
       'number': [null, [Validators.required]],
       'type': [null, [Validators.required]]
     });
-
-    console.log(this.formGroup)
   }
+
   /** Whether the number of selected elements matches the total number of rows. */
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -86,8 +85,6 @@ export class ManageBalanceDialogComponent implements OnInit {
   onSubmit(formData) {
     formData.ids = this.selection.selected.map(x => x.userId)
     formData.class_id = this.data.id
-    // console.log(formData)
-
 
     this.manageBalanceService.updateBalance(formData).subscribe(x => {
       console.log(x);

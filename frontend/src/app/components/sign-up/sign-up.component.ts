@@ -23,7 +23,6 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.currentUserValue;
-    console.log(this.user);
   }
 
   signUp(type) {

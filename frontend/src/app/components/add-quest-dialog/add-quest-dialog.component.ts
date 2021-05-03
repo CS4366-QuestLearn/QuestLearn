@@ -35,11 +35,9 @@ export class AddQuestDialogComponent implements OnInit {
       'reward_amount': [null, [Validators.required, Validators.min(0)]],
       'type': [null, [Validators.required]],
     });
-    console.log(this.formGroup)
   }
 
   onSubmit(formData) {
-    console.log(formData);
     this.questService.addQuest(formData).subscribe(x => {
       console.log(x);
     });

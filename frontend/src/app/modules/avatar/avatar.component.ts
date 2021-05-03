@@ -56,8 +56,6 @@ export class AvatarComponent implements OnInit {
       'pant': [this.inventory.pant_items.findIndex(x => x._id == equipped.pant_id), [Validators.required]],
       'accessory': [this.inventory.accessory_items.findIndex(x => x._id == equipped.accessory_id), [Validators.required]],
     });
-
-    console.log(equipped)
   }
 
   async onSubmit(formData) {

@@ -27,8 +27,6 @@ export class LandingPageComponent implements OnInit {
     //     console.log('Subscribed to push endpoint.');
     //   });
 
-    console.log('Email:', this.user.getBasicProfile().getEmail());
-
     if (this.router.url === '/' || this.router.url === '') {
       // Navigate user if trying to access home
       this.authService.userMongoRead(this.user).subscribe((x: any) => {
