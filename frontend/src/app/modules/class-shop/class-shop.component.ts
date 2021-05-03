@@ -7,13 +7,14 @@ import { ClassShopService } from './class-shop.service';
 import { QuestlearnService } from 'src/app/utils/questlearn.service';
 import { GoogleService } from 'src/app/utils/google.service';
 import { AuthService } from 'src/app/utils/auth.service';
+import { QuestService } from 'src/app/utils/quest.service';
 
 export interface Classroom {
   value: number;
   viewValue: string;
 }
 
-export interface Class_Item { 
+export interface Avatar_Item { 
   name: string; 
   price: number;
   image: string;
@@ -23,10 +24,15 @@ export interface Class_Item {
   _id: string;
 }
 
-export interface Class_ID_Rewards{
-  id: number;
+export interface Class_Reward {
+  price: number;
   name: string;
-  rewards: Class_Item[];
+  _id: string;
+}
+
+export interface Class_ID_Rewards{
+  classroom_id: number;
+  rewards: any[];
 }
 
 @Component({
@@ -44,63 +50,60 @@ export class ClassShopComponent implements OnInit {
   bank_balance: number;
   bank_max: number;
   display_top: number;
+  finish: number;
   purchase_button: any;
   one_time_purchase: boolean;
-  current_purchase: Class_Item;
-  class_rewards: Class_Item[];
+  current_purchase: Avatar_Item;
+  class_rewards: Class_Reward[];
+  all_class_rewards: Class_ID_Rewards[];
   window: any;
 
   classroomsData: any[];
   classrooms: Classroom[] = [];
   selectedClass = 0;
 
-  class_rewards_ex_1: Class_Item[] = [
-    {name: "Bag of Lays", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
-    {name: "Take One from the Grab Bag", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
-    {name: "No-Homework Pass", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
-    {name: "Fruit Snacks", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
-    {name: "5 Homework Points", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
-    {name: "Lunch with the Teacher", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  ];
+  // class_rewards_ex_1: Avatar_Item[] = [
+  //   {name: "Bag of Lays", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "Take One from the Grab Bag", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "No-Homework Pass", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "Fruit Snacks", price: 100, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "5 Homework Points", price: 700, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  //   {name: "Lunch with the Teacher", price: 200, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  // ];
 
-  class_rewards_ex_2: Class_Item[] = [
-    {name: "Amogus", price: 10000, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  ];
+  // class_rewards_ex_2: Avatar_Item[] = [
+  //   {name: "Amogus", price: 10000, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  // ];
 
-  class_rewards_ex_3: Class_Item[] = [
-    {name: "Travis Scott Meal", price: 5.99, image: "", purchased: false, sales: 0, _id: "", type: ""},
-  ];
+  // class_rewards_ex_3: Avatar_Item[] = [
+  //   {name: "Travis Scott Meal", price: 5.99, image: "", purchased: false, sales: 0, _id: "", type: ""},
+  // ];
   
-  all_class_rewards: Class_ID_Rewards[] = [
-    {id: 0, name: 'Mrs. Johnson - 1st Period Social Studies', rewards: this.class_rewards_ex_1},
-    {id: 1, name: 'Random Class 1', rewards: this.class_rewards_ex_2},
-    {id: 2, name: 'Random Class 2', rewards: this.class_rewards_ex_3},
-  ];
+  // all_class_rewards: Class_ID_Rewards[] = [
+  //   {id: 0, name: 'Mrs. Johnson - 1st Period Social Studies', rewards: this.class_rewards_ex_1},
+  //   {id: 1, name: 'Random Class 1', rewards: this.class_rewards_ex_2},
+  //   {id: 2, name: 'Random Class 2', rewards: this.class_rewards_ex_3},
+  // ];
 
-  empty_item = {name: "", price: 0, image: "", purchased: false, sales: 0, _id: "", type: ""};
+  empty_item: Avatar_Item = {name: "", price: 0, image: "", purchased: false, sales: 0, _id: "", type: ""};
 
-  popular_items: Class_Item[] = [
+  popular_items: Avatar_Item[] = [
     this.empty_item,
     this.empty_item,
     this.empty_item
   ]
 
-  displayed_class_items: Class_Item[] = [
-    this.empty_item,
-    this.empty_item,
-    this.empty_item,
-    this.empty_item,
-    this.empty_item,
-    this.empty_item
-  ];
+  empty_reward: Class_Reward = {name: '', price: 0, _id: ''};
 
-  animals: Class_Item[];
-  hats: Class_Item[];
-  shirts: Class_Item[];
-  pants: Class_Item[];
-  accessories: Class_Item[];
+  displayed_class_items: Class_Reward[] = [];
+
+  animals: Avatar_Item[];
+  hats: Avatar_Item[];
+  shirts: Avatar_Item[];
+  pants: Avatar_Item[];
+  accessories: Avatar_Item[];
   
-  inventory: Class_Item[][];
+  inventory: Avatar_Item[][];
   shopItems: any[];
 
   user: gapi.auth2.GoogleUser;
@@ -111,12 +114,14 @@ export class ClassShopComponent implements OnInit {
     public dialog: MatDialog,
     private authService: AuthService,
     private googleService: GoogleService,
+    private questService: QuestService,
     private questlearnService: QuestlearnService,
     private classShopService: ClassShopService,
   ) { }
 
   async ngOnInit(): Promise<void> {
     // this.balance = 200;
+    this.openTab(null, 'Classroom_Rewards');
     this.bank_balance = 400;
     this.bank_max = 500;
 
@@ -124,8 +129,6 @@ export class ClassShopComponent implements OnInit {
     this.questlearnUser = this.questlearnService.questlearnUserValue;
 
     await this.initShop();
-
-    this.openTab(null, 'Classroom_Rewards');
     // document.getElementById("Classroom_Rewards").style.display = "none";
     // document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
 
@@ -133,19 +136,19 @@ export class ClassShopComponent implements OnInit {
     this.display_top = 0;
   }
 
-  setIdItems(evt: any)
-  {
-    document.getElementById("Classroom_Rewards").style.display = "flex";
-    this.class_rewards=this.all_class_rewards[(evt.value)-1].rewards;
-    this.display_top = 0;
-    this.setPopular();
-    this.setClassItems(0);
-  }
+  // setIdItems(evt: any)
+  // {
+  //   document.getElementById("Classroom_Rewards").style.display = "flex";
+  //   this.class_rewards=this.all_class_rewards[(evt.value)-1].rewards;
+  //   this.display_top = 0;
+  //   this.setPopular();
+  //   this.setClassItems(0);
+  // }
 
   async initShop() {
     // Init classroom rewards
     this.googleService.getClassrooms(this.user, this.questlearnUser.user_type)
-      .subscribe((response: Array<any>) => {
+      .subscribe(async (response: Array<any>) => {
         this.classroomsData = response;
         this.classrooms = response
         .sort((a, b) => {
@@ -156,7 +159,9 @@ export class ClassShopComponent implements OnInit {
         .map(x => {
           return { value: x.id, viewValue: x.name };
         });
-        this.updateSelectedClass(this.classrooms[0].value);
+        
+        this.all_class_rewards = (await this.questService.getClassroomRewards());
+        await this.updateSelectedClass(this.classrooms[0].value);
       })
     
     // Init global items
@@ -185,10 +190,9 @@ export class ClassShopComponent implements OnInit {
       this.accessories,
     ];
 
-    console.log(this.inventory);
   }
   
-  getItemsOfType(type: string, purchasedList: Array<string>): Class_Item[] {
+  getItemsOfType(type: string, purchasedList: Array<string>): Avatar_Item[] {
     return this.shopItems
       .filter(x => x.type === type && x.cost !== 0)
       .map(x => {
@@ -205,8 +209,16 @@ export class ClassShopComponent implements OnInit {
     ); 
   }
 
-  updateSelectedClass(value) {
+  async updateSelectedClass(value) {
     const classData = this.questlearnUser.classes.find(x => x.classroom_id == value);
+    this.class_rewards = this.all_class_rewards.find(x => x.classroom_id == value).rewards.map(x => {
+      return {
+        name: x.reward_name,
+        price: x.reward_amount,
+        _id: x._id,
+      }
+    });
+    this.setClassItems(0);
     
     this.selectedClass = value;
     this.balance = classData.balance;
@@ -214,27 +226,27 @@ export class ClassShopComponent implements OnInit {
 
   setClassItems(change: number) {
     this.display_top += change;
-    var finish = this.class_rewards.length-this.display_top;
+    this.finish = this.class_rewards.length-this.display_top;
     for(var i = 0; i < 6; i++)
     {
       
       if(this.display_top+i >= this.class_rewards.length)
       {
-        this.displayed_class_items[i] = this.empty_item;
+        this.displayed_class_items[i] = this.empty_reward;
       }
       else
       {
         this.displayed_class_items[i] = this.class_rewards[this.display_top+i];
       }
     }
-    document.getElementById("up").style.display = (this.display_top == 0) ?  "none" :"flex";
-    document.getElementById("down").style.display = (this.display_top+6 >= this.class_rewards.length) ?  "none" :"flex";
-    document.getElementById("display_six").style.display = (finish <= 5) ?  "none" : "flex";
-    document.getElementById("display_five").style.display = (finish <= 4) ?  "none" : "flex";
-    document.getElementById("display_four").style.display = (finish <= 3) ?  "none" : "flex";
-    document.getElementById("display_three").style.display = (finish <= 2) ?  "none" : "flex";
-    document.getElementById("display_two").style.display = (finish <= 1) ?  "none" : "flex";
-    document.getElementById("display_one").style.display = "flex";
+    // document.getElementById('up').style.display = (this.display_top == 0) ?  'none' :'flex';
+    // document.getElementById('down').style.display = (this.display_top+6 >= this.class_rewards.length) ?  'none' :'flex';
+    // document.getElementById('display_six').style.display = (finish <= 5) ?  'none' : 'flex';
+    // document.getElementById('display_five').style.display = (finish <= 4) ?  'none' : 'flex';
+    // document.getElementById('display_four').style.display = (finish <= 3) ?  'none' : 'flex';
+    // document.getElementById('display_three').style.display = (finish <= 2) ?  'none' : 'flex';
+    // document.getElementById('display_two').style.display = (finish <= 1) ?  'none' : 'flex';
+    // document.getElementById('display_one').style.display = 'flex';
   }
 
   setPopular()
@@ -281,14 +293,14 @@ export class ClassShopComponent implements OnInit {
       evt.currentTarget.className += " active";
   }
 
-  openWindow(selected_item:Class_Item, evt: any, one_purchase: boolean) {
+  openWindow(selected_item, evt: any, one_purchase: boolean) {
    if (!selected_item.purchased) {
-      if (evt.currentTarget.className == "add-button") {
+      if (evt.toElement.classList.contains('add-button')) {
         this.window = AddRewardDialogComponent;
         this.openDialog({
           classroom_id: this.selectedClass
         });
-      } else if(evt.currentTarget.className == "donate-button") {
+      } else if(evt.toElement.classList.contains('donate-button')) {
         this.window = DonateBankDialogComponent;
         this.openDialog({
           bank: this.bank_balance,
@@ -321,7 +333,6 @@ export class ClassShopComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if(this.window == PurchaseConfirmationComponent && result?.purchased) {
-          console.log(result);
           if (!Number.isNaN(result.price)) {
             this.balance -= result.price;
             // this.current_purchase.sales++;
@@ -329,14 +340,15 @@ export class ClassShopComponent implements OnInit {
           this.setPopular();
         }
         else if(this.window == AddRewardDialogComponent) {
-          if(result != '')
-              // this.class_rewards.push({name:result.name, price: result.price, image: "", purchased: false, sales: 0, _id: "", type: ""});
-            // this.setClassItems(0);
-            console.log(result)
+          if(result)
+              this.class_rewards.push(result)
+              this.setClassItems(0);
         }
         else if(this.window == DonateBankDialogComponent) {
-          this.bank_balance += Number(result);
-          this.balance -= Number(result);
+          if (result && !Number.isNaN(result)) {
+            this.bank_balance += Number(result);
+            this.balance -= Number(result);
+          }
           // document.getElementById("bar").style.width = (this.bank_balance/500 * 100) + '%';
         }
       })

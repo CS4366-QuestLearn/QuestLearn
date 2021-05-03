@@ -37,8 +37,12 @@ export class AddRewardDialogComponent implements OnInit {
 
   onSubmit(formData) {
     formData.classroom_id = this.data.classroom_id
-    this.dialogRef.close({name: this.formGroup.controls['name'].value, price: Number(this.formGroup.controls['price'].value)});
-    this.questService.addReward(formData).subscribe(x => {
+    this.questService.addReward(formData).subscribe((x: any) => {
+      this.dialogRef.close({
+        name: this.formGroup.controls['name'].value,
+        price: Number(this.formGroup.controls['price'].value),
+        _id: x._id
+      });
       console.log(x);
     });
   }
