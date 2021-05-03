@@ -314,6 +314,7 @@ async function pushTopic(req, res) {
  */
 async function pushMethod(req, res) {
   // console.log(Buffer.from(req.body.message.data, 'base64'));
+  console.log('IVE BEEN PUSHALO')
   var info = JSON.parse(Buffer.from(req.body.message.data, 'base64').toString())
   console.log(info.eventType)
   console.log(info.resourceId)
