@@ -345,6 +345,8 @@ async function pushMethod(req, res) {
                 class_doc.quests[coursework_index].name = coursework.data.title
               }
               else {
+                console.log(coursework.data)
+                console.log(coursework.data.dueDate)
                 class_doc.quests.push({
                   classroom_id: coursework.data.courseId,
                   coursework_id: coursework.data.id,
