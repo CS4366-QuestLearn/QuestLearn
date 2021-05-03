@@ -1,5 +1,6 @@
 var shopItem = require('./shop-item-model');
 var user = require('../user/user-model')
+var mongo_classroom = require('../classroom/classroom-model')
 var router = require('express').Router()
 
 function createItem (req, res) {
@@ -73,6 +74,38 @@ function buyItem(req, res) {
   });
 }
 
+function buyReward(req, res) {
+  user.findOne({ google_id: req.body.google_id }, async (err, user) => {
+    if (err || !user) {
+      console.log("No user found with buyReward.");
+      res.status(404).send();
+    }
+    else {
+      if (req.body.classroom_id) {
+        mongo_classroom.findOne({ classroom_id: req.body.classroom_id }, async (err, classroom_doc) => {
+          const classroom = user.classes.find(x => x.classroom_id == req.body.classroom_id);
+          const reward = classroom_doc.rewards.find(x => x._id == req.body.reward_id);
+          if (classroom.balance <= reward.reward_amount) {
+            res.status(400).send("The specified user does not have enough balance to purchase this item.")
+          } else {
+            classroom_doc.requests.push({
+              reward_name: reward.reward_name,
+              reward_amount: reward.reward_amount,
+              requester_id: req.body.google_id,
+              request_date: Date.now(),
+              status: -1
+            });
+            classroom.balance -= reward.reward_amount;
+            await classroom_doc.save();
+            await user.save();
+          }
+        })
+      }
+      res.json(user.inventory);
+    }
+  });
+}
+
 function getItems(req, res) {
   shopItem.find({}, (err, shopItems) => {
     res.json(shopItems);
@@ -88,6 +121,7 @@ function getItemsByType(req, res) {
 router.post('/create-item', createItem);
 router.post('/edit-item', editItem);
 router.post('/buy-item', buyItem);
+router.post('/buy-reward', buyReward);
 router.get('/get-items', getItems);
 router.get('/get-items/:type', getItemsByType);
 

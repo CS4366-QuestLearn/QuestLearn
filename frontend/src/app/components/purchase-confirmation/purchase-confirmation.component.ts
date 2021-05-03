@@ -33,22 +33,42 @@ export class PurchaseConfirmationComponent implements OnInit {
   onAccept() {
     const user = this.data.user as gapi.auth2.GoogleUser;
 
-    this.classShopService.buyShopItem({
-      google_id: user.getBasicProfile().getId(),
-      item_type: this.data.item.type,
-      item_id: this.data.item._id,
-      classroom_id: this.data.classroom_id,
-    }).subscribe(res => {
-      this.data.item.purchased = true;
-      this.dialogRef.close({
-        purchased: true,
-        price: this.data.item.price
-      });
-    }, error => {
-      if (error) {
-        this.dialogRef.close();    
-      }
-    })
+    if (this.data.item.hasOwnProperty('type')) {
+      // Buying a shop item
+      this.classShopService.buyShopItem({
+        google_id: user.getBasicProfile().getId(),
+        item_type: this.data.item.type,
+        item_id: this.data.item._id,
+        classroom_id: this.data.classroom_id,
+      }).subscribe(res => {
+        this.data.item.purchased = true;
+        this.dialogRef.close({
+          purchased: true,
+          price: this.data.item.price
+        });
+      }, error => {
+        if (error) {
+          this.dialogRef.close();    
+        }
+      })
+    } else {
+      // Buying a custom reward
+      this.classShopService.buyShopreward({
+        google_id: user.getBasicProfile().getId(),
+        reward_id: this.data.item._id,
+        classroom_id: this.data.classroom_id,
+      }).subscribe(res => {
+        this.data.item.purchased = false;
+        this.dialogRef.close({
+          purchased: true,
+          price: this.data.item.price
+        });
+      }, error => {
+        if (error) {
+          this.dialogRef.close();    
+        }
+      })
+    }
   }
 
   onDecline() {

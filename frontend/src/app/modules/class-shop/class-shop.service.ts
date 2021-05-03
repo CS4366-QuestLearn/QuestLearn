@@ -18,6 +18,10 @@ export class ClassShopService {
     return this.http.post(`${this.localUrl}api/shop/buy-item`, formData);
   }
 
+  buyShopreward(formData: any) {
+    return this.http.post(`${this.localUrl}api/shop/buy-reward`, formData);
+  }
+
   async getShopItems() {
     return await this.http.get(`${this.localUrl}api/shop/get-items`).toPromise() as Array<any>;
   }
