@@ -341,7 +341,7 @@ async function pushMethod(req, res) {
               console.log(err)
             }
             else{
-              var coursework_index = class_doc.requests.findIndex(x => x.coursework_id == info.resourceId.id)
+              var coursework_index = class_doc.quests.findIndex(x => x.coursework_id == info.resourceId.id)
               console.log('found ya some work')
               console.log(coursework_index)
             }
