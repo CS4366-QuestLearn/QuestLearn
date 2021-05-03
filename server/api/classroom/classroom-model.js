@@ -20,11 +20,20 @@ var Rewards = new Schema({
   reward_amount: Number
 })
 
+var Requests = new Schema({
+  reward_name: String,
+  reward_amount: Number,
+  requester_id: String,
+  status: Number,
+  request_date: Date
+})
+
 var Classroom = new Schema({
   teacher_id: String,
   classroom_id: String,
   quests: [Quests],
-  rewards: [Rewards]
+  rewards: [Rewards],
+  requests: [Requests]
 });
 
 // Compile model from schema

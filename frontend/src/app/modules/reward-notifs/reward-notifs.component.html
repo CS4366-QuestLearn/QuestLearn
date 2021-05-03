@@ -3,10 +3,9 @@
     <div id="header" fxLayoutAlign="center">Manage Rewards</div>
     <div fxLayoutAlign="center">
       <div fxLayout="row" fxLayouAlign="space-between center" class="reward-box">
-        <app-redeem-notif></app-redeem-notif>
-        <app-redeem-notif></app-redeem-notif>
-        <app-redeem-notif></app-redeem-notif>
-        <app-redeem-notif></app-redeem-notif>
+        <ng-container *ngFor="let element of requests">
+          <app-redeem-notif [data]="element" (submitted)="submitted()" [classroom_id]="id"></app-redeem-notif>
+        </ng-container>  
       </div>
     </div>
   </div>

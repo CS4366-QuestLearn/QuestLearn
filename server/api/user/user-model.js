@@ -36,6 +36,7 @@ var Inventory = new Schema({
 
 var UserSchema = new Schema({
   google_id: String,
+  name: String,
   user_type: Number,
   balance: Number,
   avatar_url: String,

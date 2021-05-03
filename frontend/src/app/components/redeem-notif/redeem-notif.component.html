@@ -1,17 +1,17 @@
 <div class="outer-box">
   <div class="header-row">
-    <img src="https://cdn.discordapp.com/attachments/801895826883739679/837775132310503465/Dog.PNG">
+    <img class="profile-img"[src]=data.avatar_url>
     <div class="header-columns">
       <div class="row-text">
-        <div id="student-name">Timmy</div>
-        <div id="request-date">Requested: DATE</div>
+        <div id="student-name">{{data.requester_name}}</div>
+        <div id="request-date">Requested: {{data.request_date | date: 'MM/dd/yyyy'}}</div>
       </div>
-      <div id="reward-value">- Candy: 20 QC -</div>
+      <div id="reward-value">{{data.reward_name}}: {{data.reward_amount}} QC</div>
       
     </div>
   </div>
   <div class="action-row">
-    <button class="decline" mat-stroked-button color="warn">Decline</button>
-    <button class="approve" color="warn" mat-raised-button>Approve</button>
+    <button class="decline" mat-stroked-button color="warn" (click)=requestStatus(2)>Decline</button>
+    <button class="approve" color="warn" mat-raised-button (click)=requestStatus(1)>Approve</button>
   </div>
 </div>

@@ -43,4 +43,8 @@ export class TestingService {
   getTestClassroom(user: gapi.auth2.GoogleUser) {
     return this.http.get(`${this.localUrl}api/classroom/test/classroom?access_token=${user.getAuthResponse().access_token}&google_id=${user.getBasicProfile().getId()}`)
   }
+
+  addTestRequest() {
+    return this.http.get(`${this.localUrl}api/classroom/test/request`)
+  }
 }

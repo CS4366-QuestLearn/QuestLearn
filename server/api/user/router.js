@@ -28,6 +28,7 @@ function createUser(req, res) {
         console.log('No user found associated with this account: saving to database')
         let newEntry = new user({
           google_id: req.body.user,
+          name: req.body.name,
           user_type: parseInt(req.body.user_type),
           balance: 0,
           avatar_url: 'https://i.imgur.com/HeYNMAq.png',
