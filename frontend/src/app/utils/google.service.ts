@@ -6,8 +6,8 @@ import { AuthService } from 'src/app/utils/auth.service';
   providedIn: 'root'
 })
 export class GoogleService {
-  //serverUrl = "https://questlearn-server.herokuapp.com/"
-  localUrl = "https://questlearn-server.herokuapp.com/"
+  serverUrl = "https://questlearn-server.herokuapp.com/"
+  localUrl = "http://localhost:3000/"
   constructor(
     private http: HttpClient,
     public auth: AuthService,
