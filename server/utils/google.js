@@ -365,6 +365,18 @@ async function pushMethod(req, res) {
     }
     else if(info.collection == 'courses.courseWork.studentSubmissions') {
       console.log('did something with a submission')
+      courses.courseWork.studentSubmissions.get({
+        courseId: info.resourceId.courseId,
+        courseWorkId: info.resourseId.courseWorkId,
+        id: info.resourceId.id
+      }, (err, assignment) => {
+        if(err) {
+          console.log(err)
+        }
+        else{
+          console.log(assignment)
+        }
+      })
 
     }
   }
